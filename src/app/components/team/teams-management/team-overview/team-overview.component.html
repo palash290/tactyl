@@ -1,0 +1,1126 @@
+<div class="ct_inner_header_bg ct_mt_30 ct_px_30 ct_d_align_center justify-content-between gap-3 mb-4">
+    <div class="d-flex align-items-center justify-content-between gap-3">
+        <h4 class="ct_fs_35 mb-0 ct_ff_Matter_Medium d-flex align-items-center gap-2">
+            <a class="ct_back_icon me-1" (click)="backClicked()"><i class="fa-solid fa-chevron-left"></i></a>Creative Studio
+            Team
+        </h4>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        <div class="ct_icon_53 ct_border_radius_10" style="background-color: #fff0f0" data-bs-target="#ct_delete_modal"
+            data-bs-toggle="modal">
+            <img src="/img/Delete_icon.svg" alt="" />
+        </div>
+        <div class="ct_icon_53 ct_border_radius_10" style="background-color: #e8ecff"
+            data-bs-target="#ct_edit_team_modal" data-bs-toggle="modal">
+            <img src="/img/Edit _icon.svg" alt="" />
+        </div>
+    </div>
+</div>
+<div class="ct_mt_30 ct_px_30 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-pills mb-3 ct_custom_tabs w-100" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-Overview-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-Overview" type="button" role="tab" aria-controls="pills-Overview"
+                            aria-selected="true">
+                            Overview
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-Board-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-Board" type="button" role="tab" aria-controls="pills-Board"
+                            aria-selected="false" tabindex="-1">
+                            Board
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-Settings-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-Settings" type="button" role="tab" aria-controls="pills-Settings"
+                            aria-selected="false" tabindex="-1">
+                            Settings
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content ct_mt_40" id="pills-tabContent">
+                    <div class="tab-pane fade active show" id="pills-Overview" role="tabpanel"
+                        aria-labelledby="pills-Overview-tab">
+                        <div class="row">
+                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
+                                <div class="ct_dash_card">
+                                    <div class="ct_dash_card_title">
+                                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">50</h5>
+                                        <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
+                                            Total Tasks
+                                        </p>
+                                    </div>
+                                    <div class="ct_icon_43" style="background-color: #7f4eec12">
+                                        <img src="/img/Total_Tasks_icon.png" class="ct_icon_w_26" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
+                                <div class="ct_dash_card">
+                                    <div class="ct_dash_card_title">
+                                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">43</h5>
+                                        <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
+                                            Completed Tasks
+                                        </p>
+                                    </div>
+                                    <div class="ct_icon_43" style="background-color: #7f4eec12">
+                                        <img src="/img/Completed_Tasks_icon.png" class="ct_icon_w_26" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
+                                <div class="ct_dash_card">
+                                    <div class="ct_dash_card_title">
+                                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">7</h5>
+                                        <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
+                                            Overdue Tasks
+                                        </p>
+                                    </div>
+                                    <div class="ct_icon_43" style="background-color: #7f4eec12">
+                                        <img src="/img/Overdue_Tasks_icon.png" class="ct_icon_w_26" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
+                                <div class="ct_dash_card">
+                                    <div class="ct_dash_card_title">
+                                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">
+                                            4.2d
+                                        </h5>
+                                        <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
+                                            Avg. Cycle Time
+                                        </p>
+                                    </div>
+                                    <div class="ct_icon_43" style="background-color: #7f4eec12">
+                                        <img src="/img/Avg_Cycle_Time_icon.png" class="ct_icon_w_26" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-lg-8 mb-4">
+                                <div class="ct_white_bg pe-0">
+                                    <h4 class="ct_fs_22 ct_ff_Matter_Medium mb-4 ct_pe_36">
+                                        Recent Activity
+                                    </h4>
+                                    <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
+                                        <li>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/img/user_2.png" class="ct_img_40" />
+                                                <p class="mb-0">
+                                                    <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
+                                                            Banner'</span></i>
+                                                </p>
+                                            </div>
+                                            <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
+                                                3h ago
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/img/user_2.png" class="ct_img_40" />
+                                                <p class="mb-0">
+                                                    <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
+                                                            Banner'</span></i>
+                                                </p>
+                                            </div>
+                                            <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
+                                                3h ago
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/img/user_2.png" class="ct_img_40" />
+                                                <p class="mb-0">
+                                                    <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
+                                                            Banner'</span></i>
+                                                </p>
+                                            </div>
+                                            <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
+                                                3h ago
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/img/user_2.png" class="ct_img_40" />
+                                                <p class="mb-0">
+                                                    <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
+                                                            Banner'</span></i>
+                                                </p>
+                                            </div>
+                                            <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
+                                                3h ago
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/img/user_2.png" class="ct_img_40" />
+                                                <p class="mb-0">
+                                                    <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
+                                                            Banner'</span></i>
+                                                </p>
+                                            </div>
+                                            <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
+                                                3h ago
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <div class="ct_white_bg h-auto ct_27_40_38">
+                                    <h4 class="ct_fs_18 mb-3">Team Manager</h4>
+                                    <div class="ct_Members_info_sort gap-3 ct_d_align_center">
+                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0" />
+                                        <div>
+                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
+                                                style="max-width: 100px">
+                                                Sarah Johnson
+                                            </h5>
+                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
+                                                style="max-width: 120px">
+                                                sarahcompany.com
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ct_white_bg h-auto ct_27_40_38 ct_mt_15">
+                                    <h4 class="ct_fs_18 mb-3 ct_ff_Matter_Medium">
+                                        Quick Stats
+                                    </h4>
+                                    <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
+                                        <li>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p class="mb-0 ct_text_787885">Members</p>
+                                            </div>
+                                            <p class="mb-0 ct_text_787885 ct_white_nowrap">
+                                                12
+                                            </p>
+                                        </li>
+                                        <li class="ct_mt_15">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p class="mb-0 ct_text_787885">Active Boards</p>
+                                            </div>
+                                            <p class="mb-0 ct_text_787885 ct_white_nowrap">
+                                                5
+                                            </p>
+                                        </li>
+                                        <li class="ct_mt_15">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p class="mb-0 ct_text_787885">
+                                                    Important Tasks
+                                                </p>
+                                            </div>
+                                            <p class="mb-0 ct_text_787885 ct_white_nowrap">
+                                                23
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-Board" role="tabpanel" aria-labelledby="pills-Board-tab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center gap-3 justify-content-between ct_flex_col_767">
+                                    <div class="ct_search_box_bg ct_flex_1 ct_w_100_767 ct_flex_col_575">
+                                        <div
+                                            class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
+                                            <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
+                                                placeholder="Search members" />
+                                            <img src="/img/search_icon.svg" class="ct_input_icon_left" />
+                                        </div>
+                                        <div class="ct_w_100_575">
+                                            <select class="form-control ct_input ct_grey_select ct_w_100_575">
+                                                <option value="">All Teams</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="ct_w_100_767">
+                                        <button class="ct_purple_btn ct_h_60 ct_w_100_767"
+                                            data-bs-target="#ct_add_board_modal" data-bs-toggle="modal">
+                                            <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Board
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive ct_mt_20">
+                                    <table class="table ct_custom_table">
+                                        <thead>
+                                            <th>S.No</th>
+                                            <th>Board Name</th>
+                                            <th>Created By</th>
+                                            <th>Created On</th>
+                                            <th>Total Tasks</th>
+                                            <th>Team</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <div>
+                                                        <h5 class="ct_fs_16 mb-1 ct_fw_500">
+                                                            Website Redesign
+                                                        </h5>
+                                                        <p class="mb-0 ct_fs_14 ct_text_787885 ct_overlay_text">
+                                                            UI/UX improvements and new features
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>Sarah Chen</td>
+                                                <td>24 Feb, 2025</td>
+                                                <td>45</td>
+                                                <td>
+                                                    <span class="ct_custom_badge px-3 py-2 ct_border_radius_10"
+                                                        style="border: 1px solid #787885">Design</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <a href="view-board-design.html">
+                                                            <img src="/img/eye_purple_icon.png" class="ct_icon_24"
+                                                                alt="" />
+                                                        </a>
+                                                        <a href="javascript:void(0)"
+                                                            data-bs-target="#ct_edit_board_modal"
+                                                            data-bs-toggle="modal">
+                                                            <img src="/img/edit_green_icon.png" class="ct_icon_24"
+                                                                alt="" />
+                                                        </a>
+                                                        <a href="javascript:void(0)" data-bs-target="#ct_delete_modal"
+                                                            data-bs-toggle="modal">
+                                                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2</td>
+                                                <td>
+                                                    <div>
+                                                        <h5 class="ct_fs_16 mb-1 ct_fw_500">
+                                                            Website Redesign
+                                                        </h5>
+                                                        <p class="mb-0 ct_fs_14 ct_text_787885 ct_overlay_text">
+                                                            UI/UX improvements and new features
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>Sarah Chen</td>
+                                                <td>24 Feb, 2025</td>
+                                                <td>45</td>
+                                                <td>
+                                                    <span class="ct_custom_badge px-3 py-2 ct_border_radius_10"
+                                                        style="border: 1px solid #787885">Development</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <a >
+                                                            <img src="/img/eye_purple_icon.png" class="ct_icon_24"
+                                                                alt="" />
+                                                        </a>
+                                                        <a href="javascript:void(0)"
+                                                            data-bs-target="#ct_edit_board_modal"
+                                                            data-bs-toggle="modal">
+                                                            <img src="/img/edit_green_icon.png" class="ct_icon_24"
+                                                                alt="" />
+                                                        </a>
+                                                        <a href="javascript:void(0)" data-bs-target="#ct_delete_modal"
+                                                            data-bs-toggle="modal">
+                                                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-Settings" role="tabpanel" aria-labelledby="pills-Settings-tab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-pills mb-3 ct_custom_tabs ct_custom_tabs_2 w-100" id="pills-tab"
+                                    role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="pills-Users-tab" data-bs-toggle="pill"
+                                            data-bs-target="#pills-Users" type="button" role="tab"
+                                            aria-controls="pills-Users" aria-selected="true">
+                                            Users
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-Permissions-tab" data-bs-toggle="pill"
+                                            data-bs-target="#pills-Permissions" type="button" role="tab"
+                                            aria-controls="pills-Permissions" aria-selected="false" tabindex="-1">
+                                            Permissions
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-Phases-tab" data-bs-toggle="pill"
+                                            data-bs-target="#pills-Phases" type="button" role="tab"
+                                            aria-controls="pills-Phases" aria-selected="false" tabindex="-1">
+                                            Phases
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content ct_mt_30" id="pills-tabContent">
+                                    <div class="tab-pane fade active show" id="pills-Users" role="tabpanel"
+                                        aria-labelledby="pills-Users-tab">
+                                        <div
+                                            class="d-flex align-items-center gap-3 justify-content-between ct_flex_col_767">
+                                            <div class="ct_search_box_bg ct_flex_1 ct_w_100_767 ct_flex_col_575">
+                                                <div
+                                                    class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
+                                                    <input type="text"
+                                                        class="form-control ct_input ct_input_ps_50 ct_h_48"
+                                                        placeholder="Search members" />
+                                                    <img src="/img/search_icon.svg" class="ct_input_icon_left" />
+                                                </div>
+                                                <div class="ct_w_100_575">
+                                                    <select class="form-control ct_input ct_grey_select ct_w_100_575">
+                                                        <option value="">Designation</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="ct_w_100_767">
+                                                <button class="ct_purple_btn ct_h_60 ct_w_100_767"
+                                                    data-bs-target="#ct_add_user_modal" data-bs-toggle="modal">
+                                                    <img src="/img/plus-circle.svg" alt="" class="me-2" />Add
+                                                    User
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive ct_mt_20">
+                                            <table class="table ct_custom_table">
+                                                <thead>
+                                                    <th>S.No</th>
+                                                    <th>Profile</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Designation</th>
+                                                    <th>Action</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>
+                                                            <img src="/img/user_3.png" class="ct_img_40" />
+                                                        </td>
+                                                        <td>Robin James</td>
+                                                        <td>robinjamesgmail.com</td>
+                                                        <td>UI/UX Designer</td>
+
+                                                        <td>
+                                                            <div class="d-flex align-items-center gap-3">
+                                                                <a routerLink="/team/view-team-member">
+                                                                    <img src="/img/eye_purple_icon.png"
+                                                                        class="ct_icon_24" alt="" />
+                                                                </a>
+
+                                                                <a href="javascript:void(0)"
+                                                                    data-bs-target="#ct_delete_modal"
+                                                                    data-bs-toggle="modal">
+                                                                    <img src="/img/Delete_icon.svg" class="ct_icon_24"
+                                                                        alt="" />
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>
+                                                            <img src="/img/user_3.png" class="ct_img_40" />
+                                                        </td>
+                                                        <td>Robin James</td>
+                                                        <td>robinjamesgmail.com</td>
+                                                        <td>UI/UX Designer</td>
+
+                                                        <td>
+                                                            <div class="d-flex align-items-center gap-3">
+                                                                <a href="view-team-member-detail.html">
+                                                                    <img src="/img/eye_purple_icon.png"
+                                                                        class="ct_icon_24" alt="" />
+                                                                </a>
+
+                                                                <a href="javascript:void(0)"
+                                                                    data-bs-target="#ct_delete_modal"
+                                                                    data-bs-toggle="modal">
+                                                                    <img src="/img/Delete_icon.svg" class="ct_icon_24"
+                                                                        alt="" />
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Permissions" role="tabpanel"
+                                        aria-labelledby="pills-Permissions-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table ct_custom_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>S.No</th>
+                                                                <th>Permission</th>
+                                                                <th>Team Manager</th>
+                                                                <th>Team Member</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>View all tasks</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td>Create tasks</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>3</td>
+                                                                <td>Edit tasks</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>4</td>
+                                                                <td>Delete tasks</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>5</td>
+                                                                <td>Assign Tasks To Members</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>6</td>
+                                                                <td>Task- Mark as complete</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>7</td>
+                                                                <td>Create Boards</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>8</td>
+                                                                <td>Edit Boards</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>9</td>
+                                                                <td>Delete Boards</td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="toggle-switch">
+                                                                        <input type="checkbox" />
+                                                                        <div class="toggle-switch-background">
+                                                                            <div class="toggle-switch-handle"></div>
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Phases" role="tabpanel"
+                                        aria-labelledby="pills-Phases-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="text-end">
+                                                    <button class="ct_purple_btn  ct_w_100_767 ms-auto"
+                                                        data-bs-target="#ct_add_phase_modal" data-bs-toggle="modal">
+                                                        <img src="/img/plus-circle.svg" alt="" class="me-2">Create Phase
+                                                    </button>
+                                                </div>
+                                                <div class="table-responsive ct_mt_20">
+                                                    <table class="table ct_custom_table">
+                                                        <thead>
+                                                            <th>S.No</th>
+                                                            <th>Phase Name</th>
+                                                            <th>Description</th>
+                                                            <th>Actions</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>
+                                                                    <span class="ct_overlay_text d-inline-block">Design
+                                                                        Review </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="ct_overlay_text d-inline-block">UI/UX
+                                                                        review pending or in progress
+                                                                    </span>
+                                                                </td>
+
+
+                                                                <td>
+                                                                    <div class="d-flex align-items-center gap-3">
+                                                                        <a href="javascript:void(0)"
+                                                                            data-bs-target="#ct_edit_phase_modal"
+                                                                            data-bs-toggle="modal">
+                                                                            <img src="/img/edit_green_icon.png"
+                                                                                class="ct_icon_24" alt="" />
+                                                                        </a>
+
+                                                                        <a href="javascript:void(0)"
+                                                                            data-bs-target="#ct_delete_modal"
+                                                                            data-bs-toggle="modal">
+                                                                            <img src="/img/Delete_icon.svg"
+                                                                                class="ct_icon_24" alt="" />
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td>
+                                                                    <span class="ct_overlay_text d-inline-block">Design
+                                                                        Review </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="ct_overlay_text d-inline-block">UI/UX
+                                                                        review pending or in progress
+                                                                    </span>
+                                                                </td>
+
+
+                                                                <td>
+                                                                    <div class="d-flex align-items-center gap-3">
+                                                                        <a href="javascript:void(0)"
+                                                                            data-bs-target="#ct_edit_phase_modal"
+                                                                            data-bs-toggle="modal">
+                                                                            <img src="/img/edit_green_icon.png"
+                                                                                class="ct_icon_24" alt="" />
+                                                                        </a>
+
+                                                                        <a href="javascript:void(0)"
+                                                                            data-bs-target="#ct_delete_modal"
+                                                                            data-bs-toggle="modal">
+                                                                            <img src="/img/Delete_icon.svg"
+                                                                                class="ct_icon_24" alt="" />
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Add user  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_user_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Invite Member
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Send an invitation to join your workspace
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <div class="ct_add_member_border" data-bs-target="#ct_invite_team_modal" data-bs-toggle="modal">
+                            <p class="text-center ct_text_787885 mb-0">
+                                <img src="/img/add_member_icon.svg" alt="" class="me-2" />Add Members from Directory
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group ct_mb_22">
+                        <div class="ct_para_scroll ct_custom_scroll">
+                            <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0" />
+                                <div>
+                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
+                                        style="max-width: 100px">
+                                        John Smith
+                                    </h5>
+                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px">
+                                        Johnsmithexample.com
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0" />
+                                <div>
+                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
+                                        style="max-width: 100px">
+                                        Wade Warren
+                                    </h5>
+                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px">
+                                        wadewarrenexample.com
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <div class="position-relative">
+                            <input type="email" class="form-control ct_input ct_input_ps_50 ct_input_pe_100"
+                                placeholder="Invite new member via email" />
+                            <img src="/img/email_icon.svg" class="ct_input_icon_left" style="left: 16px" />
+                            <button class="ct_show_eye ct_purple_btn ct_h_40 px-3" style="right: 16px">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_44">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Send Invitation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Add user Modal E -->
+<!-- Edit  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_board_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Create Board
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Set up a new board to organize your team's tasks
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Name</label>
+                        <input type="text" class="form-control ct_input" placeholder="Website Redesign" va />
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description</label>
+                        <textarea type="text" class="form-control ct_input"
+                            placeholder="UI/UX improvements and new features"></textarea>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Associated Team</label>
+                        <select class="form-control ct_input">
+                            <option>Marketing</option>
+                        </select>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Colour</label>
+                        <input type="color" class="form-control ct_input p-1" style="height: 53px" />
+                    </div>
+
+                    <div class="modal-footer border-0 p-0 ct_mt_44">
+                        <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                            Create Board
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Edit board Modal E -->
+
+
+<!-- Edit  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_edit_board_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Edit Board
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Update board to organize your team's tasks
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Name</label>
+                        <input type="text" class="form-control ct_input" placeholder="Website Redesign" />
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description</label>
+                        <textarea type="text" class="form-control ct_input"
+                            placeholder="UI/UX improvements and new features"></textarea>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Associated Team</label>
+                        <select class="form-control ct_input">
+                            <option>Marketing</option>
+                        </select>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Colour</label>
+                        <input type="color" class="form-control ct_input p-1" style="height: 53px" />
+                    </div>
+
+                    <div class="modal-footer border-0 p-0 ct_mt_44">
+                        <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Edit board Modal E -->
+
+
+<!-- Add phase  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_phase_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Create Phase
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Build custom phases to streamline your operations.
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase Name </label>
+                        <input type="text" class="form-control ct_input" placeholder="Enter phase name here" />
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Board </label>
+                        <select class="form-control ct_input">
+                            <option value="">Bug Fixing</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description (optional)</label>
+                        <textarea class="form-control ct_input h-auto" rows="4"
+                            placeholder="Enter Description"></textarea>
+
+                    </div>
+
+
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_44">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Create Phase
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Add phase Modal E -->
+
+<!-- Add phase  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_edit_phase_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Edit Phase
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Update the details of your workflow stage.
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase Name </label>
+                        <input type="text" class="form-control ct_input" placeholder="Enter phase name here"
+                            value="Design Review " />
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Board </label>
+                        <select class="form-control ct_input">
+                            <option value="">Bug Fixing</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description (optional)</label>
+                        <textarea class="form-control ct_input h-auto" rows="4"
+                            placeholder="Enter Description">UI/UX review pending or in progress</textarea>
+
+                    </div>
+
+
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_44">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Add phase Modal E -->
+
+<!-- Delete  Modal S -->
+<div class="modal fade ct_custom_modal" id="ct_delete_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div>
+                    <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
+                        Delete Team
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        Are you sure you want to delete this team.
+                    </p>
+                </div>
+                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        No
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Yes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

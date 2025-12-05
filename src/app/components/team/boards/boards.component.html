@@ -1,0 +1,509 @@
+<div class="ct_inner_header_bg ct_mt_30 ct_px_30 ct_d_align_center justify-content-between gap-3 ct_flex_col_575">
+    <div>
+        <h4 class="ct_fs_35 mb-2 ct_ff_Matter_Medium">Board</h4>
+        <p class="mb-0 ct_text_929292 ct_fs_18">
+            Managed by Sarah Johnson
+
+        </p>
+    </div>
+    <div class="ct_d_align_center gap-2">
+        <div class="ct_d_align_center gap-2">
+            <p class="ct_fs_20 ct_ff_Matter_Medium ct_text_clr_4B5563 mb-0 ct_white_nowrap">Show Private Task</p><label
+                class="toggle-switch"><input type="checkbox">
+                <div class="toggle-switch-background">
+                    <div class="toggle-switch-handle"></div>
+                </div>
+            </label>
+        </div>
+        <div class="dropdown ct_right_dropdown"><i id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false" class="fa-solid fa-ellipsis-vertical"></i>
+            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                <li><a  class="dropdown-item">Export As CSV</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="ct_px_30 ct_mt_30 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="d-flex align-items-center gap-3 justify-content-between ct_flex_col_767">
+                    <div class="ct_search_box_bg ct_flex_1 ct_w_100_767 ct_flex_col_575">
+                        <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
+                            <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
+                                placeholder="Search members" />
+                            <img src="img/search_icon.svg" class="ct_input_icon_left" />
+                        </div>
+                        <div class="ct_w_100_575">
+                            <select class="form-control ct_input ct_grey_select ct_w_100_575">
+                                <option value="">All Teams</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="ct_w_100_767">
+                        <button class="ct_purple_btn ct_h_60 ct_w_100_767" data-bs-target="#ct_add_board_modal"
+                            data-bs-toggle="modal">
+                            <img src="img/plus-circle.svg" alt="" class="me-2" />Create Board
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive ct_mt_20">
+                    <table class="table ct_custom_table">
+                        <thead>
+                            <th>S.No</th>
+                            <th>Board Name</th>
+                            <th>Created By</th>
+                            <th>Created On</th>
+                            <th>Total Tasks</th>
+                            <th>Team</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div>
+                                        <h5 class="ct_fs_16 mb-1 ct_fw_500">
+                                            Website Redesign
+                                        </h5>
+                                        <p class="mb-0 ct_fs_14 ct_text_787885 ct_overlay_text">
+                                            UI/UX improvements and new features
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>Sarah Chen</td>
+                                <td>24 Feb, 2025</td>
+                                <td>45</td>
+                                <td>
+                                    <span class="ct_custom_badge px-3 py-2 ct_border_radius_10"
+                                        style="border: 1px solid #787885">Design</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        @if(userType == 'individual'){
+                                        <a routerLink="/individual/view-board">
+                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+                                        }
+                                        @if(userType == 'team'){
+                                        <a routerLink="/team/view-board">
+                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+                                        }
+
+                                        <a href="javascript:void(0)" data-bs-target="#ct_edit_board_modal"
+                                            data-bs-toggle="modal">
+                                            <img src="img/edit_green_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+                                        <a href="javascript:void(0)" data-bs-target="#ct_delete_modal"
+                                            data-bs-toggle="modal">
+                                            <img src="img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <div>
+                                        <h5 class="ct_fs_16 mb-1 ct_fw_500">
+                                            Website Redesign
+                                        </h5>
+                                        <p class="mb-0 ct_fs_14 ct_text_787885 ct_overlay_text">
+                                            UI/UX improvements and new features
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>Sarah Chen</td>
+                                <td>24 Feb, 2025</td>
+                                <td>45</td>
+                                <td>
+                                    <span class="ct_custom_badge px-3 py-2 ct_border_radius_10"
+                                        style="border: 1px solid #787885">Development</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        @if(userType == 'individual'){
+                                        <a routerLink="/individual/view-board">
+                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+                                        }
+                                        @if(userType == 'team'){
+                                        <a routerLink="/team/view-board">
+                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+                                        }
+                                        <a href="javascript:void(0)" data-bs-target="#ct_edit_board_modal"
+                                            data-bs-toggle="modal">
+                                            <img src="img/edit_green_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+                                        <a href="javascript:void(0)" data-bs-target="#ct_delete_modal"
+                                            data-bs-toggle="modal">
+                                            <img src="img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add user  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_user_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Invite Member
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Send an invitation to join your workspace
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <div class="ct_add_member_border" data-bs-target="#ct_invite_team_modal" data-bs-toggle="modal">
+                            <p class="text-center ct_text_787885 mb-0">
+                                <img src="/img/add_member_icon.svg" alt="" class="me-2" />Add Members from
+                                Directory
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group ct_mb_22">
+                        <div class="ct_para_scroll ct_custom_scroll">
+                            <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0" />
+                                <div>
+                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
+                                        style="max-width: 100px">
+                                        John Smith
+                                    </h5>
+                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px">
+                                        Johnsmithexample.com
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0" />
+                                <div>
+                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
+                                        style="max-width: 100px">
+                                        Wade Warren
+                                    </h5>
+                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px">
+                                        wadewarrenexample.com
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <div class="position-relative">
+                            <input type="email" class="form-control ct_input ct_input_ps_50 ct_input_pe_100"
+                                placeholder="Invite new member via email" />
+                            <img src="/img/email_icon.svg" class="ct_input_icon_left" style="left: 16px" />
+                            <button class="ct_show_eye ct_purple_btn ct_h_40 px-3" style="right: 16px">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_44">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Send Invitation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Add user Modal E -->
+<!-- Edit  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_board_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Create Board
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Set up a new board to organize your team's tasks
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Name</label>
+                        <input type="text" class="form-control ct_input" placeholder="Website Redesign" va />
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description</label>
+                        <textarea type="text" class="form-control ct_input"
+                            placeholder="UI/UX improvements and new features"></textarea>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Associated Team</label>
+                        <select class="form-control ct_input">
+                            <option>Marketing</option>
+                        </select>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Colour</label>
+                        <input type="color" class="form-control ct_input p-1" style="height: 53px" />
+                    </div>
+
+                    <div class="modal-footer border-0 p-0 ct_mt_44">
+                        <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                            Create Board
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Edit board Modal E -->
+
+
+<!-- Edit  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_edit_board_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Edit Board
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Update board to organize your team's tasks
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Name</label>
+                        <input type="text" class="form-control ct_input" placeholder="Website Redesign" />
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description</label>
+                        <textarea type="text" class="form-control ct_input"
+                            placeholder="UI/UX improvements and new features"></textarea>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Associated Team</label>
+                        <select class="form-control ct_input">
+                            <option>Marketing</option>
+                        </select>
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Colour</label>
+                        <input type="color" class="form-control ct_input p-1" style="height: 53px" />
+                    </div>
+
+                    <div class="modal-footer border-0 p-0 ct_mt_44">
+                        <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Edit board Modal E -->
+
+
+<!-- Add phase  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_phase_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Create Phase
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Build custom phases to streamline your operations.
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase Name </label>
+                        <input type="text" class="form-control ct_input" placeholder="Enter phase name here" />
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Board </label>
+                        <select class="form-control ct_input">
+                            <option value="">Bug Fixing</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description (optional)</label>
+                        <textarea class="form-control ct_input h-auto" rows="4"
+                            placeholder="Enter Description"></textarea>
+
+                    </div>
+
+
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_44">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Create Phase
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Add phase Modal E -->
+
+<!-- Add phase  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_edit_phase_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Edit Phase
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Update the details of your workflow stage.
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form action="">
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase Name </label>
+                        <input type="text" class="form-control ct_input" placeholder="Enter phase name here"
+                            value="Design Review " />
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Board </label>
+                        <select class="form-control ct_input">
+                            <option value="">Bug Fixing</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group ct_mb_22">
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description (optional)</label>
+                        <textarea class="form-control ct_input h-auto" rows="4"
+                            placeholder="Enter Description">UI/UX review pending or in progress</textarea>
+
+                    </div>
+
+
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_44">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Add phase Modal E -->
+
+<!-- Delete  Modal S -->
+<div class="modal fade ct_custom_modal" id="ct_delete_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div>
+                    <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
+                        Delete Team
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        Are you sure you want to delete this team.
+                    </p>
+                </div>
+                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        No
+                    </button>
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Yes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  ct_delete_modal Modal E -->

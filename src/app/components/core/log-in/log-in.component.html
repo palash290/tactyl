@@ -1,0 +1,169 @@
+<!-- <section class="ct_login_main">
+      <div class="ct_login_left position-relative">
+            <img src="img/login-left.png" alt="">
+            <div class="ct_login_btm_logo">
+                  <img src="img/logo.svg" alt="">
+            </div>
+      </div>
+      <div class="ct_login_right">
+            <h4 class="ct_fs_44  ct_fw_600 mb-5">Welcome to ZYNQ</h4>
+            <form [formGroup]="Form">
+                  <div class="form-group mb-4">
+                        <div class="position-relative">
+                              <div class="ct_input_icon_left">
+                                    <img src="img/icons/user.svg" alt="">
+                              </div>
+                              <input type="text" placeholder="Name" class="form-control ct_input  ct_input_pe_40"
+                                    formControlName="name">
+                        </div>
+                        <span
+                              class="ct_text_red mt-2">{{validationErrorService.getErrorMessage('Name', Form.get('name'))}}</span>
+                  </div>
+                  <div class="form-group mb-4">
+                        <nz-select formControlName="gender" nzPlaceHolder="Select Gender" class="form-control ct_input">
+                              <nz-option nzValue="Male" nzLabel="Male"></nz-option>
+                              <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+                              <nz-option nzValue="Other" nzLabel="Other"></nz-option>
+                        </nz-select>
+                        <span
+                              class="ct_text_red mt-2">{{validationErrorService.getErrorMessage('Gender', Form.get('gender'))}}</span>
+                  </div>
+                  <div class="form-group mb-4">
+                        <div class="position-relative">
+                              <input type="email" placeholder="Email address"
+                                    class="form-control ct_input  ct_input_pe_40" formControlName="email">
+                        </div>
+                        <span
+                              class="ct_text_red mt-2">{{validationErrorService.getErrorMessage('Email', Form.get('email'))}}</span>
+                  </div>
+                  <div class="form-group mb-4">
+                        <div class="position-relative">
+                              <input type="password" placeholder="Current Password"
+                                    class="form-control ct_input  ct_input_pe_40" formControlName="password">
+                              <i class="fa-solid fa-eye-slash ct_show_eye"></i>
+                        </div>
+                        <span
+                              class="ct_text_red mt-2">{{validationErrorService.getErrorMessage('Password', Form.get('password'))}}</span>
+                  </div>
+                  <div class="form-group mb-4">
+                        <div class="position-relative">
+                              <input type="password" placeholder="New Password"
+                                    class="form-control ct_input  ct_input_pe_40" formControlName="newPassword">
+                              <i class="fa-solid fa-eye-slash ct_show_eye"></i>
+                        </div>
+                        <span
+                              class="ct_text_red mt-2">{{validationErrorService.getErrorMessage('New Password', Form.get('newPassword'))}}</span>
+                        <span *ngIf="Form.errors?.['sameAsCurrent'] && !validationErrorService.getErrorMessage('New Password', Form.get('newPassword'))"
+                              class="ct_text_red mt-2">
+                              New password cannot be same as current password.</span>
+                  </div>
+                  <div class="form-group mb-4">
+                        <div class="position-relative">
+                              <input type="password" placeholder="Confirm Password"
+                                    class="form-control ct_input  ct_input_pe_40" formControlName="confirmPassword">
+                              <i class="fa-solid fa-eye-slash ct_show_eye"></i>
+                        </div>
+                        <span class="ct_text_red mt-2"
+                              class="ct_text_red mt-2">{{validationErrorService.getErrorMessage('Confirm Password', Form.get('confirmPassword'))}}</span>
+                        <span
+                              *ngIf="Form.errors?.['passwordMismatch'] && !validationErrorService.getErrorMessage('Confirm Password', Form.get('confirmPassword'))">
+                              Passwords do not match.</span>
+                  </div>
+                  <a class="ct_text_black">Forgot Password?</a>
+
+                  <div class="mt-5">
+                        <a class="ct_black_btn w-100">Log in</a>
+                  </div>
+            </form>
+      </div>
+</section> -->
+
+<section class="ct_login_main">
+      <div class="ct_login_left_content">
+            <div>
+                  <div class="ct_login_logo ct_mb_35 ct_cursor_pointer">
+                        <img routerLink="/" src="img/logo.svg" alt="">
+                  </div>
+                  <div class="text-center mx-auto ct_login_title" style="max-width: 373px;">
+                        <h4 class="ct_fs_44 ct_text_clr_f9f9f9 ct_mb_20 ct_ff_Matter_Light">One Login, Countless Spaces
+                        </h4>
+                        <p class="ct_text_clr_f9f9f9 ct_fs_18 mb-0">Manage every workspace, project, and team all from
+                              one account.</p>
+                  </div>
+            </div>
+            <div class="ct_login_bottom_img mt-auto">
+                  <img src="img/login_bottom_img.png" alt="">
+            </div>
+      </div>
+      <div class="ct_login_right_content">
+            <div class="text-center ct_mb_30 ct_pe_90  ">
+                  <h2 class="ct_fs_35 ct_mb_10 ct_ff_Matter_Medium">Welcome back to Tactyl</h2>
+                  <p class="ct_text_clr_5E6168 mb-0 ct_fs_20 mx-auto">Log in to manage your projects and stay on track.
+                  </p>
+            </div>
+            <form [formGroup]="Form" class="  w-100 ">
+
+                  <div class="ct_login_scroll ct_pe_90 ct_custom_scroll">
+                        <div class="form-group ct_mb_15">
+                              <label for="" class="ct_fs_18 ct_mb_10">Email Id</label>
+                              <div class="position-relative">
+                                    <img src="img/user_icon.svg" alt="" class="ct_input_icon_left">
+                                    <input type="text" class="form-control  ct_input ct_input_ps_50 ct_input_pe_40"
+                                          placeholder="Enter email address" formControlName="email">
+                              </div>
+                              <div *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['email'].errors?.['required']" class="ct_fs_14 mt-1">
+                                          Email is required.
+                                    </div>
+                                    <div *ngIf="Form.controls['email'].errors?.['email'] && !Form.controls['email'].errors?.['required']"
+                                          class="ct_fs_14 mt-1">
+                                          Invalid email format.</div>
+                              </div>
+                        </div>
+
+
+                        <div class="form-group ct_mb_15">
+                              <label for="" class="ct_fs_18 ct_mb_10">Password</label>
+                              <div class="position-relative">
+                                    <img src="img/circum_lock.svg" alt="" class="ct_input_icon_left">
+                                    <input type="{{ isPasswordVisible ? 'text' : 'password' }}"
+                                          class="form-control  ct_input ct_input_ps_50 ct_input_pe_50 "
+                                          placeholder="Enter password" formControlName="password">
+                                    <i class="fa-regular ct_show_eye"
+                                          [ngClass]="isPasswordVisible ? 'fa-eye' : 'fa-eye-slash' "
+                                          (click)="togglePasswordVisibility()"></i>
+                              </div>
+                              <div *ngIf="Form.controls['password'].invalid && Form.controls['password'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['password'].errors?.['required']" class="ct_fs_14 mt-1">
+                                          Password is
+                                          required.</div>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="text-end ct_pe_90">
+                        <a routerLink="/forgot-password" class="ct_text_purple ct_fw_600">Forgot Password?</a>
+                  </div>
+
+                  <div class="ct_mt_35 ct_pe_90" (click)="login()">
+                        <a class="ct_2d_purple_btn w-100">Sign In</a>
+                  </div>
+                  <p class="mb-0 text-center ct_fs_14 ct_mt_15 ct_pe_90">Don’t have an account? <a
+                              routerLink="/choose-login" class="ct_text_purple ct_fw_600">Sign Up</a></p>
+
+            </form>
+      </div>
+
+</section>
+
+<div class="ct_loader_main" *ngIf="loading">
+      <div class="loader-con">
+            <div style="--i: 0;" class="pfile"></div>
+            <div style="--i: 1;" class="pfile"></div>
+            <div class="pfile" style="--i: 2;"></div>
+            <div class="pfile" style="--i: 3;"></div>
+            <div class="pfile" style="--i: 4;"></div>
+            <div class="pfile" style="--i: 5;"></div>
+      </div>
+</div>
