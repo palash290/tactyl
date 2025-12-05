@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -21,7 +21,8 @@ export class ForgotPasswordComponent {
 
   constructor(
     private apiSrevice: CommonService,
-    private toastr: NzMessageService
+    private toastr: NzMessageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -41,11 +42,12 @@ export class ForgotPasswordComponent {
       const formURlData = new URLSearchParams()
       formURlData.set('email', this.Form.value.email)
       this.apiSrevice
-        .postAPI('user/forgot-password', formURlData.toString())
+        .postAPI('user/forgotPassword', formURlData.toString())
         .subscribe({
           next: (resp: any) => {
             if (resp.success == true) {
               this.loading = false;
+              this.router.navigateByUrl('/choose-login');
               this.toastr.success(resp.message);
               this.Form.reset();
               this.closeModal.nativeElement.click();
@@ -53,15 +55,15 @@ export class ForgotPasswordComponent {
               this.loading = false;
               this.toastr.warning(resp.message);
             }
-            // console.log(resp)
           },
           error: (error: any) => {
             this.loading = false;
-            if (error.error.message) {
-              this.toastr.error(error.error.message);
-            } else {
-              this.toastr.error('Something went wrong!');
-            }
+            const msg =
+              error.error?.message ||
+              error.error?.error ||
+              error.message ||
+              "Something went wrong!";
+            this.toastr.error(msg);
           }
         })
     }
