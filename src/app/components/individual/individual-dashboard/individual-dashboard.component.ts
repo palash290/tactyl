@@ -21,7 +21,6 @@ export class IndividualDashboardComponent {
           show: false
         }
       },
-
       series: [
         {
           name: 'Performance',

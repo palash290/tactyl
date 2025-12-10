@@ -51,6 +51,9 @@ export class LogInComponent {
       if (this.type == 'individual') {
         formURlData.set('role', '1');
       }
+      if (this.type == 'invited') {
+        formURlData.set('role', '1');
+      }
       if (this.type == 'team') {
         formURlData.set('role', '2');
       }
@@ -58,15 +61,20 @@ export class LogInComponent {
         next: (resp: any) => {
           if (resp.success == true) {
             this.service.setToken(resp.data);
-            this.toastr.success(resp.message);
+            
             this.loading = false;
 
             if (this.type == 'team') {
               this.router.navigate(['/team/dashboard']);
+              this.toastr.success(resp.message);
             } else if (this.type === 'individual') {
               this.router.navigate(['/individual/dashboard']);
+              this.toastr.success(resp.message);
+            } else if (this.type == 'invited') {
+              this.router.navigate(['/set-password'], {
+                queryParams: { oldPassword: this.Form.value.password, email: this.Form.value.email }
+              });
             }
-
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;

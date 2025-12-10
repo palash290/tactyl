@@ -5,7 +5,7 @@
             View and organize all teams under your workspace.
         </p>
     </div>
-    <button class="ct_purple_btn ct_w_100_575" data-bs-target="#ct_create_team_modal" data-bs-toggle="modal">
+    <button class="ct_purple_btn ct_w_100_575" (click)="openModal()">
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button>
 </div>
@@ -16,34 +16,38 @@
                 <div class="ct_search_box_bg ct_flex_col_575">
                     <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
                         <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                            placeholder="Search teams by name or manager…" />
+                            placeholder="Search teams by name or manager…" [(ngModel)]="searchTeamText"
+                            (input)="filterTeamList()" [ngModelOptions]="{standalone: true}" />
                         <img src="/img/search_icon.svg" class="ct_input_icon_left" />
                     </div>
                     <div class="ct_w_100_575">
-                        <select class="form-control ct_input ct_grey_select">
-                            <option value="">Latest</option>
-                            <option value="">Oldest</option>
+                        <select class="form-control ct_input ct_grey_select" [(ngModel)]="sortOrder"
+                            (change)="filterTeamList()" [ngModelOptions]="{standalone: true}">
+                            <option value="latest">Latest</option>
+                            <option value="oldest">Oldest</option>
                         </select>
                     </div>
+
                 </div>
             </div>
         </div>
 
         <div class="row ct_mt_10">
-            <div class="col-xl-6 ct_mb_20">
+            <div class="col-xl-6 ct_mb_20"
+                *ngFor="let item of filteredTeamData | paginate: { itemsPerPage: 10, currentPage: p }">
                 <div class="ct_team_card">
                     <div class="ct_team_header_bg">
                         <h4 class="ct_fs_20 ct_text_clr_f9f9f9 ct_mb_10 ct_ff_Matter_SemiBold">
-                            Process Excellence Team
+                            {{item.team_name}}
                         </h4>
                         <p class="ct_fs_14 ct_text_clr_f9f9f9 ct_ff_Matter_Medium mb-0">
-                            24 Members
+                            {{ item.members }} {{ item.members > 1 ? 'Members' : 'Member' }}
                         </p>
                     </div>
                     <div class="ct_team_card_body">
                         <div class="d-flex align-items-center justify-content-between gap-xxl-5 gap-4 ct_flex_col_1199">
                             <div class="ct_flex_1 ct_w_100_1199">
-                                <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">76%</h5>
+                                <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">{{item.progress}}%</h5>
                                 <div class="progress ct_progress_bar">
                                     <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
                                         aria-valuemin="0" aria-valuemax="100"></div>
@@ -54,12 +58,12 @@
                                 class="d-flex align-items-center gap-xxl-5 gap-4 ct_w_100_1199 justify-content-between">
                                 <div class="text-center">
                                     <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #F1F2FF;">186</span>
+                                        style="background-color: #F1F2FF;">{{item.totalTasks}}</span>
                                     <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Total Tasks</p>
                                 </div>
                                 <div class="text-center">
                                     <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #7EFFA1;">136</span>
+                                        style="background-color: #7EFFA1;">{{item.completedTasks}}</span>
                                     <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
                                 </div>
 
@@ -67,430 +71,45 @@
                         </div>
                         <div class="ct_mt_20">
                             <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
-                            <ul class="ct_d_align_center gap-3 flex-wrap  justify-content-between ct_grid_3_1199">
-                                <li class="mb-2">
+
+                            <ul class="ct_d_align_center gap-3 flex-wrap justify-content-between ct_grid_3_1199"
+                                *ngIf="item.limitedMembers?.length > 0; else noMembers">
+                                <li class="mb-2" *ngFor="let member of item.limitedMembers">
                                     <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
+                                        <img [src]="member.profile_images ? member.profile_images : '/img/no_pro.png'"
+                                            alt="" class="ct_img_42 ct_flex_shrink_0">
                                         <div>
                                             <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
+                                                style="max-width: 100px;">{{member?.name}}
+                                            </h5>
                                             <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
+                                                style="max-width: 120px;">{{member?.Designation}}</p>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
 
-                            <div class="pt-5 text-center">
-                                <a routerLink="/team/team-overview" class="ct_purple_link ct_ff_Matter_Medium">View
-                                    Details</a>
+                            <ng-template #noMembers>
+                                <p class="text-center ct_text_787885 ct_fs_14 mb-0">No members</p>
+                            </ng-template>
 
+                            <div class="pt-5 text-center">
+                                <a [routerLink]="['/team/team-overview']"
+                                    [queryParams]="{ teamId: item.id, teamName: item.team_name }"
+                                    class="ct_purple_link ct_ff_Matter_Medium">View
+                                    Details</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 ct_mb_20">
-                <div class="ct_team_card">
-                    <div class="ct_team_header_bg">
-                        <h4 class="ct_fs_20 ct_text_clr_f9f9f9 ct_mb_10 ct_ff_Matter_SemiBold">
-                            Process Excellence Team
-                        </h4>
-                        <p class="ct_fs_14 ct_text_clr_f9f9f9 ct_ff_Matter_Medium mb-0">
-                            24 Members
-                        </p>
-                    </div>
-                    <div class="ct_team_card_body">
-                        <div class="d-flex align-items-center justify-content-between gap-xxl-5 gap-4 ct_flex_col_1199">
-                            <div class="ct_flex_1 ct_w_100_1199">
-                                <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">76%</h5>
-                                <div class="progress ct_progress_bar">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <p class="mb-0 ct_fs_14 ct_text_clr_787885 mt-1">Progress</p>
-                            </div>
-                            <div
-                                class="d-flex align-items-center gap-xxl-5 gap-4 ct_w_100_1199 justify-content-between">
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #F1F2FF;">186</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Total Tasks</p>
-                                </div>
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #7EFFA1;">136</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="ct_mt_20">
-                            <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
-                            <ul class="ct_d_align_center gap-3 flex-wrap  justify-content-between ct_grid_3_1199">
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div class="pt-5 text-center">
-                                <a routerLink="/team/team-overview" class="ct_purple_link ct_ff_Matter_Medium">View
-                                    Details</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-6 ct_mb_20">
-                <div class="ct_team_card">
-                    <div class="ct_team_header_bg">
-                        <h4 class="ct_fs_20 ct_text_clr_f9f9f9 ct_mb_10 ct_ff_Matter_SemiBold">
-                            Process Excellence Team
-                        </h4>
-                        <p class="ct_fs_14 ct_text_clr_f9f9f9 ct_ff_Matter_Medium mb-0">
-                            24 Members
-                        </p>
-                    </div>
-                    <div class="ct_team_card_body">
-                        <div class="d-flex align-items-center justify-content-between gap-xxl-5 gap-4 ct_flex_col_1199">
-                            <div class="ct_flex_1 ct_w_100_1199">
-                                <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">76%</h5>
-                                <div class="progress ct_progress_bar">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <p class="mb-0 ct_fs_14 ct_text_clr_787885 mt-1">Progress</p>
-                            </div>
-                            <div
-                                class="d-flex align-items-center gap-xxl-5 gap-4 ct_w_100_1199 justify-content-between">
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #F1F2FF;">186</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Total Tasks</p>
-                                </div>
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #7EFFA1;">136</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="ct_mt_20">
-                            <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
-                            <ul class="ct_d_align_center gap-3 flex-wrap  justify-content-between ct_grid_3_1199">
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div class="pt-5 text-center">
-                                <a routerLink="/team/team-overview" class="ct_purple_link ct_ff_Matter_Medium">View
-                                    Details</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-6 ct_mb_20">
-                <div class="ct_team_card">
-                    <div class="ct_team_header_bg">
-                        <h4 class="ct_fs_20 ct_text_clr_f9f9f9 ct_mb_10 ct_ff_Matter_SemiBold">
-                            Process Excellence Team
-                        </h4>
-                        <p class="ct_fs_14 ct_text_clr_f9f9f9 ct_ff_Matter_Medium mb-0">
-                            24 Members
-                        </p>
-                    </div>
-                    <div class="ct_team_card_body">
-                        <div class="d-flex align-items-center justify-content-between gap-xxl-5 gap-4 ct_flex_col_1199">
-                            <div class="ct_flex_1 ct_w_100_1199">
-                                <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">76%</h5>
-                                <div class="progress ct_progress_bar">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <p class="mb-0 ct_fs_14 ct_text_clr_787885 mt-1">Progress</p>
-                            </div>
-                            <div
-                                class="d-flex align-items-center gap-xxl-5 gap-4 ct_w_100_1199 justify-content-between">
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #F1F2FF;">186</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Total Tasks</p>
-                                </div>
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #7EFFA1;">136</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="ct_mt_20">
-                            <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
-                            <ul class="ct_d_align_center gap-3 flex-wrap  justify-content-between ct_grid_3_1199">
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">Allesa Gomez</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">Design Manager</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div class="pt-5 text-center">
-                                <a routerLink="/team/team-overview" class="ct_purple_link ct_ff_Matter_Medium">View
-                                    Details</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <tr *ngIf="filteredTeamData.length == 0">
+                <td colspan="8" class="text-center">No team found</td>
+            </tr>
         </div>
+        <!-- (pageChange)="onPageChange($event)" -->
+        <pagination-controls class="ct_pagination_div" *ngIf="!(filteredTeamData?.length == 0)"
+            (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
 
@@ -520,71 +139,93 @@
                 <form action="" class=" ">
                     <div class="form-group ct_mb_22">
                         <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Team Name</label>
-                        <input type="text" class="form-control ct_input" placeholder="Team name" />
+                        <input type="text" class="form-control ct_input" placeholder="Team name" [(ngModel)]="teamName"
+                            name="teamName" />
+
                     </div>
+
                     <div class="form-group ct_mb_22">
                         <div>
                             <label class="ct_fs_18 ct_ff_Matter_Medium mb-1">Members</label>
                             <p class="ct_fs_16 ct_text_787885">Invite and manage team members and their roles.</p>
                         </div>
-                        <div class="ct_add_member_border" data-bs-target="#ct_invite_team_modal" data-bs-toggle="modal">
+                        <!-- <div class="ct_add_member_border" data-bs-target="#ct_invite_team_modal" data-bs-toggle="modal">
                             <p class="text-center ct_text_787885 mb-0"><img src="/img/add_member_icon.svg" alt=""
                                     class="me-2">Add Members from Directory</p>
-                        </div>
+                        </div> -->
                     </div>
 
-                    <div class="form-group ct_mb_22">
-                        <div class="ct_para_scroll ct_custom_scroll">
-                            <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
-                                <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                <div>
-                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                        style="max-width: 100px;">John Smith</h5>
-                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px;">
-                                        Johnsmithexample.com</p>
-                                </div>
-                                <div class="ms-auto">
-                                    <select class="form-control ct_input ct_h_40 ct_white_nowrap py-0 px-3">
-                                        <option>Member</option>
-                                        <option>Member</option>
-                                    </select>
+                    <div class="modal-body p-0 ct_mt_20">
+                        <form action="">
+                            <div class="form-group ct_mb_22">
+                                <div class="position-relative">
+                                    <input type="search" class="form-control ct_input  ct_input_pe_100"
+                                        placeholder="Search here..." [(ngModel)]="searchText" (input)="filterTable()"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <button class="ct_show_eye ct_purple_btn ct_h_40 px-3" style="right: 16px;">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
-                                <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0">
-                                <div>
-                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                        style="max-width: 100px;">Wade Warren</h5>
-                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px;">
-                                        wadewarrenexample.com</p>
-                                </div>
-                                <div class="ms-auto">
-                                    <select class="form-control ct_input ct_h_40 ct_white_nowrap py-0 px-3">
-                                        <option>Member</option>
-                                        <option>Member</option>
-                                    </select>
+                            <div class="form-group ct_mb_22">
+                                <div class="ct_para_scroll ct_custom_scroll" style="max-height: 400px;">
+                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg"
+                                        *ngFor="let item of filteredData">
+
+                                        <input type="checkbox" (change)="toggleMember(item.email, $event)">
+
+                                        <img [src]="item.profile_image ? item.profile_image : '/img/no_pro.png'" alt=""
+                                            class="ct_img_42 ct_flex_shrink_0">
+                                        <div>
+                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
+                                                style="max-width: 100px;">{{item.name}}</h5>
+                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
+                                                style="max-width: 120px;">
+                                                {{item.email}}</p>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="filteredData.length == 0">
+                                        <span class="text-center">No mamber found</span>
+                                    </div>
                                 </div>
                             </div>
-
-                        </div>
-
+                        </form>
                     </div>
-                    <div class="form-group ct_mb_22">
-                        <div class="position-relative">
-                            <input type="email" class="form-control ct_input ct_input_ps_50 ct_input_pe_100"
-                                placeholder="Invite new member via email">
-                            <img src="/img/email_icon.svg" class="ct_input_icon_left" style="left: 16px;">
-                            <button class="ct_show_eye ct_purple_btn ct_h_40 px-3" style="right: 16px;">
-                                Send
-                            </button>
-                        </div>
 
+
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                        <div>
+                            <ul
+                                class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                @for (item of selectedDrEmail; track
+                                $index) {
+                                <li>
+                                    <button type="button" class="ct_select_badge">{{item}}
+                                        <span (click)="removeDrEmail($index)"><i
+                                                class="fa-solid fa-xmark"></i></span></button>
+                                </li>
+                                }
+                            </ul>
+
+                            <div class="form-group ct_mb_22">
+                                <div class="position-relative">
+                                    <input type="email" class="form-control ct_input ct_input_ps_50 ct_input_pe_100"
+                                        placeholder="Invite new member via email" #drEmail>
+                                    <img src="/img/email_icon.svg" class="ct_input_icon_left" style="left: 16px;">
+                                    <button type="button" class="ct_show_eye ct_purple_btn ct_h_40 px-3"
+                                        style="right: 16px;" (click)="addDrEmail(drEmail.value)">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </form>
                 <div class="modal-footer border-0 p-0 ct_mt_44">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">Create
+                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal"
+                        #closeBtn>Close</button>
+                    <button (click)="submitForm()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">Create
                         Team</button>
                 </div>
             </div>
@@ -608,7 +249,8 @@
                         </h1>
                     </div>
                 </div>
-                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="openModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -704,7 +346,21 @@
 
                 </form>
             </div>
-
         </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loader-con">
+        <div style="--i: 0;" class="pfile"></div>
+        <div style="--i: 1;" class="pfile"></div>
+        <div class="pfile" style="--i: 2;"></div>
+        <div class="pfile" style="--i: 3;"></div>
+        <div class="pfile" style="--i: 4;"></div>
+        <div class="pfile" style="--i: 5;"></div>
     </div>
 </div>

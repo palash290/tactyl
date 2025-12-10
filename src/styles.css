@@ -174,3 +174,19 @@ pagination-controls.ct_pagination_div {
 .ct_cursor_pointer {
       cursor: pointer;
 }
+
+pagination-controls.ct_pagination_div {
+      text-align: end;
+}
+
+.ct_pagination_div ul.ngx-pagination {
+      margin-top: 10px;
+}
+
+.ct_pagination_div .ngx-pagination .current {
+      background-color: #8050e9;
+}
+
+.cdk-overlay-container {
+      z-index: 9999999999999 !important;
+}

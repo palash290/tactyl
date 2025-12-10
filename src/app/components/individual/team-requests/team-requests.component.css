@@ -1,0 +1,9 @@
+.ct_status_accepted {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.ct_status_rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}

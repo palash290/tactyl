@@ -34,7 +34,7 @@ export const teamRoutes: Routes = [
                   {
                         path: 'view-team-member',
                         loadComponent: () =>
-                              import('./teams-management/team-overview/view-team-member/view-team-member.component').then(m => m.ViewTeamMemberComponent),
+                              import('./teams-management/team-overview/settings/view-team-member/view-team-member.component').then(m => m.ViewTeamMemberComponent),
                   },
                   {
                         path: 'users',

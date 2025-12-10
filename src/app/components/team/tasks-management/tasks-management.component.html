@@ -21,9 +21,8 @@
                 data-bs-toggle="dropdown" aria-expanded="false"></i>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li>
-                    <a class="dropdown-item" >Export As CSV</a>
+                    <a class="dropdown-item">Export As CSV</a>
                 </li>
-
             </ul>
         </div>
 
@@ -214,9 +213,7 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
@@ -243,37 +240,79 @@
                 </button>
             </div>
             <div class="modal-body p-0 ct_mt_20">
-                <form action="">
+                <form [formGroup]="Form">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Task Title </label>
-                                <input type="text" class="form-control ct_input" placeholder="Enter task title" />
+                                <input type="text" class="form-control ct_input" placeholder="Enter task title"
+                                    formControlName="title" />
+                                <div *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['title'].errors?.['required']">Please enter
+                                        task title.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description </label>
-                                <textarea class="form-control ct_input h-auto" rows="2"
-                                    placeholder="Enter Description"></textarea>
+                                <textarea class="form-control ct_input h-auto" rows="2" placeholder="Enter Description"
+                                    formControlName="description"></textarea>
+                                <div *ngIf="Form.controls['description'].invalid && Form.controls['description'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['description'].errors?.['required']">Please enter
+                                        description.</div>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Team</label>
+                                <select class="form-control ct_input" formControlName="selectedTeamId"
+                                    (change)="onTeamChange($event)">
+                                    <option value="" disabled>Select Team</option>
+                                    <option *ngFor="let agent of teamList" [value]="agent.id">
+                                        {{ agent.team_name }}
+                                    </option>
+                                </select>
+
+                                <div *ngIf="Form.controls['selectedTeamId'].invalid && Form.controls['selectedTeamId'].touched"
+                                    class="err_msg">
+                                    Please select a team.
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Assign Member -->
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Member</label>
-                                <select class="form-control ct_input">
-                                    <option value="">Select Member</option>
+                                <select class="form-control ct_input" formControlName="memberId">
+                                    <option value="" disabled>Select Member</option>
+                                    <option *ngFor="let member of membersList" [value]="member.id">
+                                        {{ member.name }}
+                                    </option>
                                 </select>
+
+                                <div *ngIf="Form.controls['memberId'].invalid && Form.controls['memberId'].touched"
+                                    class="err_msg">
+                                    Please select a member.
+                                </div>
+
                             </div>
                         </div>
-
-
 
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</label>
                                 <select class="form-control ct_input">
-                                    <option value="">Medium Priority</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                    <option value="P3">P3</option>
+                                    <option value="P4">P4</option>
                                 </select>
                             </div>
                         </div>

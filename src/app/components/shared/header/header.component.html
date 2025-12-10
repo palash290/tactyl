@@ -94,7 +94,7 @@
                 <i class="fa-solid fa-angle-down ms-auto"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                @if(userType == 'individual'){
+                @if(userType == 'individual' || userType == 'invited'){
                 <li><a class="dropdown-item" routerLink="/individual/edit-profile">Edit Profile</a></li>
                 <li><a class="dropdown-item" routerLink="/individual/change-password">Change Password</a></li>
                 }

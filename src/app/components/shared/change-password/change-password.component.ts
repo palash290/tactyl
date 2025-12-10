@@ -69,7 +69,7 @@ export class ChangePasswordComponent {
         },
         error: (error) => {
           this.loading = false;
-          this.toastr.warning('Old password is incorrect.');
+          this.toastr.warning( error.message);
           console.error('Login error:', error.message);
         }
       });

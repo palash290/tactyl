@@ -47,6 +47,7 @@ export class JoinTeamComponent {
       const formURlData = new URLSearchParams();
       formURlData.set('email', this.Form.value.email);
       formURlData.set('password', this.Form.value.password);
+      formURlData.set('role', '1');
       // if (this.type == 'individual') {
       //   formURlData.set('role', '1');
       // }

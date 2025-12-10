@@ -23,10 +23,8 @@
                 <li>
                     <a class="dropdown-item">Export As CSV</a>
                 </li>
-
             </ul>
         </div>
-
     </div>
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
@@ -282,60 +280,106 @@
                 </button>
             </div>
             <div class="modal-body p-0 ct_mt_20">
-                <form action="">
+                <form [formGroup]="Form">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Task Title </label>
-                                <input type="text" class="form-control ct_input" placeholder="Enter task title" />
+                                <input type="text" class="form-control ct_input" placeholder="Enter task title"
+                                    formControlName="title" />
+                                <div *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['title'].errors?.['required']">Please enter
+                                        task title.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description </label>
-                                <textarea class="form-control ct_input h-auto" rows="2"
-                                    placeholder="Enter Description"></textarea>
+                                <textarea class="form-control ct_input h-auto" rows="2" placeholder="Enter Description"
+                                    formControlName="description"></textarea>
+                                <div *ngIf="Form.controls['description'].invalid && Form.controls['description'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['description'].errors?.['required']">Please enter
+                                        description.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Member</label>
-                                <select class="form-control ct_input">
+                                <select class="form-control ct_input" formControlName="assignedTo">
                                     <option value="">Select Member</option>
                                 </select>
+
+                                <div *ngIf="Form.controls['assignedTo'].invalid && Form.controls['assignedTo'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['assignedTo'].errors?.['required']">Please select
+                                        member.</div>
+                                </div>
+
                             </div>
                         </div>
-
-
 
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</label>
-                                <select class="form-control ct_input">
+                                <select class="form-control ct_input" formControlName="priority">
                                     <option value="">Medium Priority</option>
                                 </select>
+
+                                <div *ngIf="Form.controls['priority'].invalid && Form.controls['priority'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['priority'].errors?.['required']">Please select
+                                        priority.</div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</label>
                             <div class="form-group ct_mb_22">
-                                <select class="form-control ct_input">
+                                <select class="form-control ct_input" formControlName="phase">
                                     <option value="">Design Review</option>
                                 </select>
+
+                                <div *ngIf="Form.controls['phase'].invalid && Form.controls['phase'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['phase'].errors?.['required']">Please select
+                                        phase.</div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Start Date</label>
-                                <input type="date" class="form-control ct_input" />
+                                <input type="date" class="form-control ct_input" formControlName="startDate"
+                                    [min]="minDate" />
+
+                                <div *ngIf="Form.get('startDate')?.touched && Form.get('startDate')?.hasError('required')"
+                                    class="err_msg">
+                                    From date is required.
+                                </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</label>
-                                <input type="date" class="form-control ct_input" />
+                                <input type="date" class="form-control ct_input" formControlName="endDate"
+                                    [min]="Form.get('startDate')?.value || minDate" />
+
+                                <div *ngIf="Form.get('endDate')?.touched && Form.get('endDate')?.errors"
+                                    class="err_msg">
+                                    <div *ngIf="Form.get('endDate')?.errors?.['required']">Please select Due Date.</div>
+                                    <div *ngIf="Form.get('endDate')?.errors?.['dateInvalid']">Due date cannot be before
+                                        start date.</div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="col-md-12">
                             <div class="ct_para_scroll ct_custom_scroll">
                                 <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
@@ -361,7 +405,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div
+                                <!-- <div
                                     class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
                                     <div class="ct_d_align_center gap-3">
                                         <img src="../assets/img/octicon_goal-24.svg" alt="" class=" ct_flex_shrink_0">
@@ -384,8 +428,7 @@
                                             </div>
                                         </label>
                                     </div>
-                                </div>
-
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -405,181 +448,16 @@
 <!--  Add user Modal E -->
 
 
-<!-- Edit user  board Modal S -->
-<div class="modal fade ct_custom_modal modal-lg" id="ct_edit_create_modal" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header p-0 border-0">
-                <div class="d-flex align-items-center gap-2">
-                    <img src="../assets/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
-                    <div>
-                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
-                            Edit Task
-                        </h1>
-                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
-                            Update task details to keep your workflow accurate.
-                        </p>
-                    </div>
-                </div>
-                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="modal-body p-0 ct_mt_20">
-                <form action="">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Task Title </label>
-                                <input type="text" class="form-control ct_input" placeholder="Enter task title" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description </label>
-                                <textarea class="form-control ct_input h-auto" rows="2"
-                                    placeholder="Enter Description"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Member</label>
-                                <select class="form-control ct_input">
-                                    <option value="">Select Member</option>
-                                </select>
-                            </div>
-                        </div>
 
 
 
-                        <div class="col-md-6">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</label>
-                                <select class="form-control ct_input">
-                                    <option value="">Medium Priority</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</label>
-                            <div class="form-group ct_mb_22">
-                                <select class="form-control ct_input">
-                                    <option value="">Design Review</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Start Date</label>
-                                <input type="date" class="form-control ct_input" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</label>
-                                <input type="date" class="form-control ct_input" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ct_para_scroll ct_custom_scroll">
-                                <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
-                                    <div class="ct_d_align_center gap-3">
-                                        <img src="../assets/img/lucide_lock.svg" alt="" class=" ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px">
-                                                Private Task
-                                            </h5>
-                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px">
-                                                Only visible to you
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <label class="toggle-switch">
-                                            <input type="checkbox">
-                                            <div class="toggle-switch-background">
-                                                <div class="toggle-switch-handle"></div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div
-                                    class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
-                                    <div class="ct_d_align_center gap-3">
-                                        <img src="../assets/img/octicon_goal-24.svg" alt="" class=" ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px">
-                                                Goal Relevant
-                                            </h5>
-                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px">
-                                                Related to goal
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <label class="toggle-switch">
-                                            <input type="checkbox">
-                                            <div class="toggle-switch-background">
-                                                <div class="toggle-switch-handle"></div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="modal-footer border-0 p-0 ct_mt_44">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
-                        Create Task
-                    </button>
-                </div>
-            </div>
-        </div>
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loader-con">
+        <div style="--i: 0;" class="pfile"></div>
+        <div style="--i: 1;" class="pfile"></div>
+        <div class="pfile" style="--i: 2;"></div>
+        <div class="pfile" style="--i: 3;"></div>
+        <div class="pfile" style="--i: 4;"></div>
+        <div class="pfile" style="--i: 5;"></div>
     </div>
 </div>
-<!--  Edit user Modal E -->
-
-
-
-<!-- Delete  Modal S -->
-<div class="modal fade ct_custom_modal" id="ct_delete_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header p-0 border-0">
-                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="modal-body p-0">
-                <div>
-                    <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
-                        Delete Task
-                    </h1>
-                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you delete the task ‘Create a Design System for Food Website ?
-                    </p>
-                </div>
-                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
-                        No
-                    </button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
-                        Yes
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--  ct_delete_modal Modal E -->

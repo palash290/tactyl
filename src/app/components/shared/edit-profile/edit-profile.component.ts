@@ -49,7 +49,6 @@ export class EditProfileComponent {
           designation: this.designation,
           email: this.userEmail
         });
-
       },
       error: (error) => {
         console.log(error.message);

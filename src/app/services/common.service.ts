@@ -8,8 +8,8 @@ import { environment } from '../../environments/environment';
 
 export class CommonService {
 
-  //baseUrl = 'https://13.61.168.187:4000/api/';;
-  baseUrl = 'http://192.168.1.44:4009/api/';
+  baseUrl = 'http://52.63.192.184:4000/api/';;
+  //baseUrl = 'http://192.168.1.51:4009/api/';
   //baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }

@@ -61,6 +61,16 @@ export const individualRoutes: Routes = [
                         loadComponent: () =>
                               import('../team/notes/view-notes/view-notes.component').then(m => m.ViewNotesComponent),
                   },
+                  {
+                        path: 'notifications',
+                        loadComponent: () =>
+                              import('../shared/notifications/notifications.component').then(m => m.NotificationsComponent),
+                  },
+                    {
+                        path: 'team-requests',
+                        loadComponent: () =>
+                              import('../individual/team-requests/team-requests.component').then(m => m.TeamRequestsComponent),
+                  },
             ],
       },
 ];
