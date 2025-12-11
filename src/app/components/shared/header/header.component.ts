@@ -36,6 +36,7 @@ export class HeaderComponent {
     this.apiService.get('user/getUserProfile').subscribe({
       next: (resp: any) => {
         this.userData = resp.data;
+        localStorage.setItem('teamEmail', resp.data.email);
       },
       error: (error) => {
         console.log(error.message);

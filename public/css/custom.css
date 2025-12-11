@@ -7,6 +7,11 @@
         font-family: Matter-Regular;
     }
 
+    html,
+    body {
+        height: auto !important;
+    }
+
     @font-face {
         font-family: Matter-Medium;
         src: url(../fonts/Matter-Medium.ttf);

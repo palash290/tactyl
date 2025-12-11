@@ -27,6 +27,7 @@ export class TeamsManagementComponent {
   filteredData: any[] = [];
   filteredTeamData: any[] = [];
   p: any = 1;
+  userEmail: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
 
@@ -35,6 +36,7 @@ export class TeamsManagementComponent {
 
 
   ngOnInit() {
+    this.userEmail = localStorage.getItem('teamEmail');
     this.getUsers();
     this.getAllTeams();
   }
@@ -52,7 +54,7 @@ export class TeamsManagementComponent {
   }
 
   getAllTeams() {
-    this.service.get('user/fetchTeamsByTeamAdminId').subscribe({
+    this.service.get('user/fetchTeamsByTeamAdminId?isTeamListShowed=0').subscribe({
       next: (resp: any) => {
         this.allTeamsList = resp.data.map((team: any) => ({
           ...team,
@@ -120,6 +122,12 @@ export class TeamsManagementComponent {
     // Check valid email
     if (!emailRegex.test(trimmedEmail)) {
       this.toastr.error('Please enter a valid email address');
+      return;
+    }
+
+    //
+    if (trimmedEmail === this.userEmail) {
+      this.toastr.error('Your own email cannot be added.');
       return;
     }
 

@@ -30,7 +30,10 @@ export class TeamOverviewComponent {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
-    this.teamName = this.route.snapshot.queryParamMap.get('teamName');
+    this.route.queryParams.subscribe(params => {
+      this.teamName = params['teamName'];
+    });
+
     this.initForm();
   }
 

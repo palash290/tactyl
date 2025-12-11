@@ -50,9 +50,11 @@ export class LogInComponent {
       formURlData.set('password', this.Form.value.password);
       if (this.type == 'individual') {
         formURlData.set('role', '1');
+        formURlData.set('isIndividualLogin', '1');
       }
       if (this.type == 'invited') {
         formURlData.set('role', '1');
+        formURlData.set('isIndividualLogin', '2');
       }
       if (this.type == 'team') {
         formURlData.set('role', '2');

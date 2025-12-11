@@ -190,3 +190,30 @@ pagination-controls.ct_pagination_div {
 .cdk-overlay-container {
       z-index: 9999999999999 !important;
 }
+
+.ct_no_recod_found_bg {
+      background-color: #fff;
+      padding: 50px;
+      border-radius: 4px;
+}
+
+
+
+
+
+.ct_custom_check2 .form-check-input {
+  width: 18px;
+  height: 18px;
+  border-color: var(--purple);
+}
+
+.ct_custom_check2 .form-check-input:checked {
+  background-color: var(--purple);
+  border-color: var(--purple);
+}
+
+.ct_custom_check2 .form-check-input:focus {
+  box-shadow: unset;
+  border-color: var(--purple);
+  vertical-align: middle;
+}

@@ -28,6 +28,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Designation</th>
+            <th>Status</th>
             <th>Action</th>
         </thead>
         <tbody>
@@ -38,11 +39,22 @@
                 </td>
                 <td>{{item.name}}</td>
                 <td>{{item.email}}</td>
-                <td>{{item.Designation}}</td>
-
+                <td>{{item.Designation ? item.Designation : '-'}}</td>
+                <!-- <td>{{item.is_team_member}}</td> -->
+                <td>
+                    @if(item.is_team_member == 0){
+                    <span class="ct_orange_text">Pending</span>
+                    }
+                    @if(item.is_team_member == 1){
+                    <span class="ct_green_text">Accepted</span>
+                    }
+                    @if(item.is_team_member == 2){
+                    <span class="ct_red_text">Rejected</span>
+                    }
+                </td>
                 <td>
                     <div class="d-flex align-items-center gap-3">
-                        <a routerLink="/team/view-team-member">
+                        <a [routerLink]="['/team/view-team-member']" [queryParams]="{ memberId: item.user_id }">
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
 
@@ -83,6 +95,18 @@
             </div>
             <div class="modal-body p-0 ct_mt_20">
                 <form action="">
+
+                    <div class="form-group ct_mb_22">
+                        <div class="position-relative">
+                            <input type="search" class="form-control ct_input  ct_input_pe_100"
+                                placeholder="Search here..." [(ngModel)]="searchAllText" (input)="filterAllTable()"
+                                [ngModelOptions]="{standalone: true}">
+                            <button class="ct_show_eye ct_purple_btn ct_h_40 px-3" style="right: 16px;">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="form-group ct_mb_22">
                         <div class="position-relative">
                             <!-- <input type="search" class="form-control ct_input ct_input_pe_100"
@@ -96,21 +120,25 @@
                     <div class="form-group ct_mb_22">
                         <div class="ct_para_scroll ct_custom_scroll" style="max-height: 400px;">
                             <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg"
-                                *ngFor="let item of individualMembers">
+                                *ngFor="let item of filteredAllData">
 
-                                <input type="checkbox" (change)="toggleMember(item.email, $event)">
+                                <!-- <input type="checkbox" (change)="toggleMember(item.email, $event)"> -->
+                                <div class="form-check ct_custom_check2">
+                                    <input type="checkbox" (change)="toggleMember(item.email, $event)"
+                                        class="form-check-input" id="flexCheckDefault">
+                                </div>
 
                                 <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'" alt=""
                                     class="ct_img_42 ct_flex_shrink_0">
                                 <div>
                                     <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                        style="max-width: 100px;">{{item.name}}</h5>
-                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px;">
+                                        >{{item.name}}</h5>
+                                    <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
                                         {{item.email}}</p>
                                 </div>
                             </div>
-                            <div *ngIf="individualMembers?.length == 0">
-                                <span class="text-center">No mamber found</span>
+                            <div *ngIf="filteredAllData?.length == 0">
+                                <span class="text-center">No member found</span>
                             </div>
                         </div>
                     </div>

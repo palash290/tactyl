@@ -10,13 +10,14 @@
             <div class="col-md-12">
                 <div class="ct_team_detail_white">
                     <div class="d-flex align-items-center gap-3 ct_flex_col_575">
-                        <img src="/img/user_3.png" class="ct_img_w_88" />
+                        <img [src]="allMembers.profile_images ? allMembers.profile_images : '/img/user_3.png'"
+                            class="ct_img_w_88" />
                         <div>
-                            <h5 class="ct_fs_24 ct_ff_Matter_SemiBold">John Anderson</h5>
+                            <h5 class="ct_fs_24 ct_ff_Matter_SemiBold">{{allMembers.name}}</h5>
                             <ul>
                                 <li>Team Member</li>
-                                <li>UI UX Designer</li>
-                                <li>johncompany.com</li>
+                                <li>{{allMembers.Designation}}</li>
+                                <li>{{allMembers.email}}</li>
                             </ul>
                         </div>
                     </div>

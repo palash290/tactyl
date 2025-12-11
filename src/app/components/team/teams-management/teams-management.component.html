@@ -35,77 +35,85 @@
         <div class="row ct_mt_10">
             <div class="col-xl-6 ct_mb_20"
                 *ngFor="let item of filteredTeamData | paginate: { itemsPerPage: 10, currentPage: p }">
-                <div class="ct_team_card">
-                    <div class="ct_team_header_bg">
-                        <h4 class="ct_fs_20 ct_text_clr_f9f9f9 ct_mb_10 ct_ff_Matter_SemiBold">
-                            {{item.team_name}}
-                        </h4>
-                        <p class="ct_fs_14 ct_text_clr_f9f9f9 ct_ff_Matter_Medium mb-0">
-                            {{ item.members }} {{ item.members > 1 ? 'Members' : 'Member' }}
-                        </p>
-                    </div>
-                    <div class="ct_team_card_body">
-                        <div class="d-flex align-items-center justify-content-between gap-xxl-5 gap-4 ct_flex_col_1199">
-                            <div class="ct_flex_1 ct_w_100_1199">
-                                <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">{{item.progress}}%</h5>
-                                <div class="progress ct_progress_bar">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <p class="mb-0 ct_fs_14 ct_text_clr_787885 mt-1">Progress</p>
-                            </div>
+                <div class="ct_team_card d-grid pb-5    ">
+                    <div>
+                        <div class="ct_team_header_bg">
+                            <h4 class="ct_fs_20 ct_text_clr_f9f9f9 ct_mb_10 ct_ff_Matter_SemiBold">
+                                {{item.team_name}}
+                            </h4>
+                            <p class="ct_fs_14 ct_text_clr_f9f9f9 ct_ff_Matter_Medium mb-0">
+                                {{ item.members }} {{ item.members > 1 ? 'Members' : 'Member' }}
+                            </p>
+                        </div>
+                        <div class="ct_team_card_body">
                             <div
-                                class="d-flex align-items-center gap-xxl-5 gap-4 ct_w_100_1199 justify-content-between">
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #F1F2FF;">{{item.totalTasks}}</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Total Tasks</p>
-                                </div>
-                                <div class="text-center">
-                                    <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                        style="background-color: #7EFFA1;">{{item.completedTasks}}</span>
-                                    <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="ct_mt_20">
-                            <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
-
-                            <ul class="ct_d_align_center gap-3 flex-wrap justify-content-between ct_grid_3_1199"
-                                *ngIf="item.limitedMembers?.length > 0; else noMembers">
-                                <li class="mb-2" *ngFor="let member of item.limitedMembers">
-                                    <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                        <img [src]="member.profile_images ? member.profile_images : '/img/no_pro.png'"
-                                            alt="" class="ct_img_42 ct_flex_shrink_0">
-                                        <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">{{member?.name}}
-                                            </h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">{{member?.Designation}}</p>
-                                        </div>
+                                class="d-flex align-items-center justify-content-between gap-xxl-5 gap-4 ct_flex_col_1199">
+                                <div class="ct_flex_1 ct_w_100_1199">
+                                    <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">{{item.progress}}%</h5>
+                                    <div class="progress ct_progress_bar">
+                                        <div class="progress-bar" role="progressbar" style="width: 0%"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                </li>
-                            </ul>
+                                    <p class="mb-0 ct_fs_14 ct_text_clr_787885 mt-1">Progress</p>
+                                </div>
+                                <div
+                                    class="d-flex align-items-center gap-xxl-5 gap-4 ct_w_100_1199 justify-content-between">
+                                    <div class="text-center">
+                                        <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
+                                            style="background-color: #F1F2FF;">{{item.totalTasks}}</span>
+                                        <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Total Tasks</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
+                                            style="background-color: #7EFFA1;">{{item.completedTasks}}</span>
+                                        <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
+                                    </div>
 
-                            <ng-template #noMembers>
-                                <p class="text-center ct_text_787885 ct_fs_14 mb-0">No members</p>
-                            </ng-template>
-
-                            <div class="pt-5 text-center">
-                                <a [routerLink]="['/team/team-overview']"
-                                    [queryParams]="{ teamId: item.id, teamName: item.team_name }"
-                                    class="ct_purple_link ct_ff_Matter_Medium">View
-                                    Details</a>
+                                </div>
                             </div>
+                            <div class="ct_mt_20">
+                                <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
+
+                                <ul class="ct_d_align_center gap-3 flex-wrap justify-content-between ct_grid_3_1199"
+                                    *ngIf="item.limitedMembers?.length > 0; else noMembers">
+                                    <li class="mb-2" *ngFor="let member of item.limitedMembers">
+                                        <div class="ct_Members_info_sort gap-2 ct_d_align_center">
+                                            <img [src]="member.profile_images ? member.profile_images : '/img/no_pro.png'"
+                                                alt="" class="ct_img_42 ct_flex_shrink_0">
+                                            <div>
+                                                <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
+                                                    >{{member?.name}}
+                                                </h5>
+                                                <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
+                                                    {{member?.Designation}}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <ng-template #noMembers>
+                                    <p class="text-center ct_text_787885 ct_fs_14 mb-0">No members</p>
+                                </ng-template>
+
+
+                            </div>
+
                         </div>
+                    </div>
+                    <div class=" text-center mt-auto">
+                        <a [routerLink]="['/team/team-overview']"
+                            [queryParams]="{ teamId: item.id, teamName: item.team_name }"
+                            class="ct_purple_link ct_ff_Matter_Medium">View
+                            Details</a>
                     </div>
                 </div>
             </div>
-            <tr *ngIf="filteredTeamData.length == 0">
-                <td colspan="8" class="text-center">No team found</td>
-            </tr>
+            <div class="col-md-12">
+                <div class="ct_no_recod_found_bg" *ngIf="filteredTeamData.length == 0">
+                    <p class="text-center mb-0 ct_fs_20">No team found</p>
+                </div>
+
+            </div>
         </div>
         <!-- (pageChange)="onPageChange($event)" -->
         <pagination-controls class="ct_pagination_div" *ngIf="!(filteredTeamData?.length == 0)"
@@ -172,20 +180,23 @@
                                     <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg"
                                         *ngFor="let item of filteredData">
 
-                                        <input type="checkbox" (change)="toggleMember(item.email, $event)">
+                                        <div class="form-check ct_custom_check2">
+                                            <input type="checkbox" (change)="toggleMember(item.email, $event)"
+                                                class="form-check-input" id="flexCheckDefault">
+                                        </div>
+
 
                                         <img [src]="item.profile_image ? item.profile_image : '/img/no_pro.png'" alt=""
                                             class="ct_img_42 ct_flex_shrink_0">
                                         <div>
                                             <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px;">{{item.name}}</h5>
-                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px;">
+                                                >{{item.name}}</h5>
+                                            <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
                                                 {{item.email}}</p>
                                         </div>
                                     </div>
                                     <div *ngIf="filteredData.length == 0">
-                                        <span class="text-center">No mamber found</span>
+                                        <span class="text-center">No member found</span>
                                     </div>
                                 </div>
                             </div>

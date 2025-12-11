@@ -142,15 +142,20 @@
                               </div>
                         </div>
                   </div>
+
+                  @if(type !== 'invited'){
                   <div class="text-end ct_pe_90">
                         <a routerLink="/forgot-password" class="ct_text_purple ct_fw_600">Forgot Password?</a>
                   </div>
+                  }
 
                   <div class="ct_mt_35 ct_pe_90" (click)="login()">
                         <a class="ct_2d_purple_btn w-100">Sign In</a>
                   </div>
+                  @if(type !== 'invited'){
                   <p class="mb-0 text-center ct_fs_14 ct_mt_15 ct_pe_90">Don’t have an account? <a
                               routerLink="/choose-signup" class="ct_text_purple ct_fw_600">Sign Up</a></p>
+                  }
 
             </form>
       </div>

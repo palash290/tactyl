@@ -16,12 +16,15 @@ export class MembersComponent {
   teamMembers: any;
   searchText: string = '';
   filteredData: any[] = [];
+  searchAllText: string = '';
+  filteredAllData: any[] = [];
   teamId: any;
   selectedMembers: any[] = [];
   individualMembers: any;
   selectedDrEmail: string[] = [];
   loading: boolean = false;
   memberId: any;
+  userEmail: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
@@ -31,6 +34,7 @@ export class MembersComponent {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
+    this.userEmail = localStorage.getItem('teamEmail');
     this.getTeamMembers();
     // this.getAllMembers();
   }
@@ -51,6 +55,7 @@ export class MembersComponent {
     this.service.get(`user/fetchTeamMembersByTeamId?teamId=${this.teamId}&isTeamMembers=0`).subscribe({
       next: (resp: any) => {
         this.individualMembers = resp.data;
+        this.filterAllTable();
       },
       error: (error) => {
         console.log(error.message);
@@ -69,6 +74,19 @@ export class MembersComponent {
       );
     }
     this.filteredData = filtered;
+  }
+
+  filterAllTable() {
+    let filtered = this.individualMembers;
+
+    if (this.searchAllText.trim()) {
+      const keyword = this.searchAllText.trim().toLowerCase();
+      filtered = filtered.filter((item: { name: any; email: any; }) =>
+      (item.name?.toLowerCase().includes(keyword) ||
+        item.email?.toLowerCase().includes(keyword))
+      );
+    }
+    this.filteredAllData = filtered;
   }
 
   // Capture checkbox selection
@@ -97,6 +115,12 @@ export class MembersComponent {
     // Check valid email
     if (!emailRegex.test(trimmedEmail)) {
       this.toastr.error('Please enter a valid email address');
+      return;
+    }
+
+    //
+    if (trimmedEmail === this.userEmail) {
+      this.toastr.error('Your own email cannot be added.');
       return;
     }
 

@@ -11,7 +11,7 @@
 }
 
 .ct_select_badge:hover {
-  background-color: var(--black);
-  color: #fff;
-  border-color: var(--black);
+  background-color: transparent;
+  color: #8050e9;
+  border-color: var(--purple);
 }

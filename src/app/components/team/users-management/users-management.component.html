@@ -16,7 +16,8 @@
                 <div class="ct_search_box_bg  ct_flex_col_575">
                     <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
                         <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                            placeholder="Search users by name or email id…" />
+                            placeholder="Search users by name or email id…" [(ngModel)]="searchText"
+                            (input)="filterTable()" [ngModelOptions]="{standalone: true}" />
                         <img src="img/search_icon.svg" class="ct_input_icon_left" />
                     </div>
                     <div class="ct_w_100_575">
@@ -30,7 +31,6 @@
 
         <div class="row">
             <div class="col-md-12">
-
                 <div class="table-responsive ">
                     <table class="table ct_custom_table">
                         <thead>
@@ -43,62 +43,31 @@
                             <th>Action</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
+                            <tr
+                                *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                                <td>{{(p - 1) * 10 + i + 1}}</td>
                                 <td>
-                                    <img src="img/user_3.png" class="ct_img_40" />
+                                    <img [src]="item.profile_image ? item.profile_image : 'img/no_pro.png'"
+                                        class="ct_img_40" />
                                 </td>
-                                <td>Robin James</td>
-                                <td>robinjamesgmail.com</td>
-                                <td>UI/UX Designer</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.Designation ? item.Designation : '-'}}</td>
                                 <td>
-                                    <span class="ct_green_text">Active</span>
-                                </td>
-
-                                <td>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <a routerLink="/team/user-details">
-                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" />
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <img src="img/user_3.png" class="ct_img_40" />
-                                </td>
-                                <td>Robin James</td>
-                                <td>robinjamesgmail.com</td>
-                                <td>UI/UX Designer</td>
-                                <td>
+                                    <span>-</span>
+                                    <!-- @if(item.status == 0){
                                     <span class="ct_orange_text">Pending</span>
-                                </td>
-
-                                <td>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <a href="user-details.html">
-                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" />
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <img src="img/user_3.png" class="ct_img_40" />
-                                </td>
-                                <td>Robin James</td>
-                                <td>robinjamesgmail.com</td>
-                                <td>UI/UX Designer</td>
-                                <td>
+                                    }
+                                    @if(item.status == 1){
+                                    <span class="ct_green_text">Active</span>
+                                    }
+                                    @if(item.status == 2){
                                     <span class="ct_red_text">Cancel</span>
+                                    } -->
                                 </td>
-
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
-                                        <a href="user-details.html">
+                                        <a [routerLink]="['/team/user-details']" [queryParams]="{ userId: item.id }">
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                                         </a>
                                     </div>
@@ -107,9 +76,9 @@
                         </tbody>
                     </table>
                 </div>
-
+                <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+                    (pageChange)="p = $event"></pagination-controls>
             </div>
-
         </div>
     </div>
 </div>
