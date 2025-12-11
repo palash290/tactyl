@@ -202,6 +202,7 @@ export class TeamsManagementComponent {
           this.selectedDrEmail = [];
           this.teamName = '';
           this.closeBtn.nativeElement.click();
+          this.getAllTeams();
         } else {
           this.toastr.warning(resp.message || 'Failed to send invitation!');
         }

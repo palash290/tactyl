@@ -40,7 +40,7 @@ export class MembersComponent {
   }
 
   getTeamMembers() {
-    this.service.get(`user/fetchTeamMembersByTeamId?teamId=${this.teamId}`).subscribe({
+    this.service.get(`user/fetchTeamsMembersByTeamIdForIndividual?teamId=${this.teamId}`).subscribe({
       next: (resp: any) => {
         this.teamMembers = resp.data;
         this.filterTable();
@@ -165,6 +165,7 @@ export class MembersComponent {
           this.selectedMembers = [];
           this.selectedDrEmail = [];
           this.closeBtn.nativeElement.click();
+          this.getTeamMembers();
         } else {
           this.toastr.warning(resp.message || 'Failed to send invitation!');
         }
