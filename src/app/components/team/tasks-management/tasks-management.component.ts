@@ -269,60 +269,60 @@ export class TasksManagementComponent {
   }
 
   exportToCSV() {
-  if (!this.taskList || this.taskList.length === 0) {
-    return;
+    if (!this.taskList || this.taskList.length === 0) {
+      return;
+    }
+
+    // CSV Header
+    const headers = [
+      'S.No',
+      'Task Title',
+      'Team',
+      'Assignee',
+      'Priority',
+      'Phase',
+      'Created At'
+    ];
+
+    const rows = this.taskList.map((item: any, index: number) => [
+      index + 1,
+      `"${item.title || ''}"`,
+      `"${item.team_name || ''}"`,
+      `"${item.name || ''}"`,
+      item.priority || '',
+      `"${item.phase_name || ''}"`,
+      this.formatDate(item.created_at)
+    ]);
+
+    const csvContent =
+      headers.join(',') + '\n' +
+      rows.map((row: any) => row.join(',')).join('\n');
+
+    this.downloadCSV(csvContent, 'task-list.csv');
   }
 
-  // CSV Header
-  const headers = [
-    'S.No',
-    'Task Title',
-    'Team',
-    'Assignee',
-    'Priority',
-    'Phase',
-    'Created At'
-  ];
+  formatDate(date: string): string {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
 
-  const rows = this.taskList.map((item: any, index: number) => [
-    index + 1,
-    `"${item.title || ''}"`,
-    `"${item.team_name || ''}"`,
-    `"${item.name || ''}"`,
-    item.priority || '',
-    `"${item.phase_name || ''}"`,
-    this.formatDate(item.created_at)
-  ]);
+  downloadCSV(csv: string, fileName: string) {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
 
-  const csvContent =
-    headers.join(',') + '\n' +
-    rows.map((row: any) => row.join(',')).join('\n');
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
 
-  this.downloadCSV(csvContent, 'task-list.csv');
-}
-
-formatDate(date: string): string {
-  if (!date) return '';
-  const d = new Date(date);
-  return d.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  });
-}
-
-downloadCSV(csv: string, fileName: string) {
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = window.URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', fileName);
-  document.body.appendChild(link);
-  link.click();
-
-  document.body.removeChild(link);
-}
+    document.body.removeChild(link);
+  }
 
 
 }

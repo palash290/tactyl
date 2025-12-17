@@ -38,7 +38,6 @@ export class BoardComponent {
     this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getBoards();
-    this.getBoards();
     // this.service.refresh$
     //   .pipe(
     //     startWith(null),

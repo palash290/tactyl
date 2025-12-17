@@ -40,7 +40,7 @@
                     <div class="ct_search_box_bg ct_flex_1 ct_w_100_1199 ct_flex_col_767">
                         <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_767">
                             <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                                placeholder="Search members" [(ngModel)]="searchText" (input)="getAllTasks()" />
+                                placeholder="Search..." [(ngModel)]="searchText" (input)="getAllTasks()" />
                             <img src="img/search_icon.svg" class="ct_input_icon_left" />
                         </div>
                         <div class="ct_w_100_767">
@@ -51,7 +51,7 @@
                                 <option value="P1">P1</option>
                                 <option value="P2">P2</option>
                                 <option value="P3">P3</option>
-                                <option value="P4">NP</option>
+                                <option value="P4">P4</option>
                             </select>
                         </div>
 
@@ -126,7 +126,7 @@
 
                                     @if(item.priority == 'P4'){
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
-                                        style="background-color: #2222220A; color: #222222;">NP</span>
+                                        style="background-color: #2222220A; color: #222222;">P4</span>
                                     }
                                 </td>
                                 <td>
@@ -303,7 +303,8 @@
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</label>
-                                <input type="date" class="form-control ct_input" formControlName="endDate" />
+                                <input type="date" class="form-control ct_input" formControlName="endDate"
+                                    [min]="Form.get('startDate')?.value" />
 
                                 <div class="err_msg"
                                     *ngIf="Form.errors?.['dateInvalid'] && (Form.get('endDate')?.touched || Form.get('startDate')?.touched)">
