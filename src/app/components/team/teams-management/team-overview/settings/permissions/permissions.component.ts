@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-permissions',
@@ -8,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class PermissionsComponent {
 
+  constructor(private location: Location) { }
+
+
+  backClicked() {
+    this.location.back();
+  }
+  
 }

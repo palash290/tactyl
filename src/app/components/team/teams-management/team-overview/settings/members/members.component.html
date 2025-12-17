@@ -12,7 +12,7 @@
         </div> -->
     </div>
 
-    <div class="ct_w_100_767">
+    <div class="ct_w_100_767" *ngIf="userType == 'team'">
         <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="getAllMembers()" data-bs-target="#ct_add_user_modal"
             data-bs-toggle="modal">
             <img src="/img/plus-circle.svg" alt="" class="me-2" />Invite Members
@@ -32,7 +32,7 @@
             <th>Action</th>
         </thead>
         <tbody>
-            <tr *ngFor="let item of filteredData; let i = index">
+            <tr *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                 <td>{{i+1}}</td>
                 <td>
                     <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'" class="ct_img_40" />
@@ -59,8 +59,12 @@
                         </a>
 
                         <a href="javascript:void(0)" (click)="getId(item.user_id)" data-bs-target="#ct_delete_member"
-                            data-bs-toggle="modal">
+                            data-bs-toggle="modal" *ngIf="userType == 'team'">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                        </a>
+
+                        <a href="javascript:void(0)" routerLink="/team/user-permissions" *ngIf="userType == 'team'">
+                            <img src="/img/permission.svg" class="ct_icon_24" alt="" />
                         </a>
                     </div>
                 </td>
@@ -71,6 +75,8 @@
 <div *ngIf="filteredData?.length == 0" class="text-center">
     <p class="ct_fs_15 mt-5">No members found</p>
 </div>
+<pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+            (pageChange)="p = $event"></pagination-controls>
 
 <!-- Add user board Modal S -->
 <div class="modal fade ct_custom_modal modal-lg" id="ct_add_user_modal" tabindex="-1"
@@ -131,8 +137,7 @@
                                 <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'" alt=""
                                     class="ct_img_42 ct_flex_shrink_0">
                                 <div>
-                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                        >{{item.name}}</h5>
+                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate">{{item.name}}</h5>
                                     <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
                                         {{item.email}}</p>
                                 </div>

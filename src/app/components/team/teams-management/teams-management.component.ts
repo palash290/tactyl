@@ -28,6 +28,7 @@ export class TeamsManagementComponent {
   filteredTeamData: any[] = [];
   p: any = 1;
   userEmail: any;
+  userType: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
 
@@ -37,6 +38,7 @@ export class TeamsManagementComponent {
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('teamEmail');
+    this.userType = localStorage.getItem('userType');
     this.getUsers();
     this.getAllTeams();
   }
@@ -54,7 +56,7 @@ export class TeamsManagementComponent {
   }
 
   getAllTeams() {
-    this.service.get('user/fetchTeamsByTeamAdminId?isTeamListShowed=0').subscribe({
+    this.service.get(this.userType == 'individual' ? 'user/fetchTeamsByUsersIds' : 'user/fetchTeamsByTeamAdminId?isTeamListShowed=0').subscribe({
       next: (resp: any) => {
         this.allTeamsList = resp.data.map((team: any) => ({
           ...team,
@@ -143,6 +145,7 @@ export class TeamsManagementComponent {
   }
 
   filterTable() {
+    this.p = 1;
     let filtered = this.individualMembers;
 
     if (this.searchText.trim()) {

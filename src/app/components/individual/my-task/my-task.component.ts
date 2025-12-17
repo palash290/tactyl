@@ -77,7 +77,7 @@ export class MyTaskComponent {
           if (resp.success == true) {
             this.toastr.success(resp.message);
             this.loading = false;
-            this.service.triggerRefresh();
+            this.service.triggerHeaderRefresh();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;

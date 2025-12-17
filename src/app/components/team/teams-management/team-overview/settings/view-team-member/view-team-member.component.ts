@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { CommonService } from '../../../../../../services/common.service';
 import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-view-team-member',
   imports: [],

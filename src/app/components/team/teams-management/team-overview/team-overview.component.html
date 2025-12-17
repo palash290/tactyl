@@ -22,21 +22,24 @@
             <div class="col-md-12">
                 <ul class="nav nav-pills mb-3 ct_custom_tabs w-100" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pills-Overview-tab" data-bs-toggle="pill"
+                        <button class="nav-link" [class.active]="activeMainTab == 'overview'"
+                            (click)="activeMainTab = 'overview'" id="pills-Overview-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-Overview" type="button" role="tab" aria-controls="pills-Overview"
                             aria-selected="true">
                             Overview
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-Board-tab" data-bs-toggle="pill"
+                        <button class="nav-link" (click)="activeMainTab = 'board'"
+                            [class.active]="activeMainTab == 'board'" id="pills-Board-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-Board" type="button" role="tab" aria-controls="pills-Board"
                             aria-selected="false" tabindex="-1">
                             Board
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-Settings-tab" data-bs-toggle="pill"
+                        <button class="nav-link" (click)="set()"
+                            [class.active]="activeMainTab == 'settings'" id="pills-Settings-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-Settings" type="button" role="tab" aria-controls="pills-Settings"
                             aria-selected="false" tabindex="-1">
                             Settings
@@ -46,35 +49,43 @@
 
                 <div class="tab-content ct_mt_40" id="pills-tabContent">
                     <div class="tab-pane fade active show" id="pills-Overview" role="tabpanel"
-                        aria-labelledby="pills-Overview-tab">
+                        aria-labelledby="pills-Overview-tab" *ngIf="activeMainTab === 'overview'">
                         <app-overview></app-overview>
                     </div>
                     <div class="tab-pane fade" id="pills-Board" role="tabpanel" aria-labelledby="pills-Board-tab">
-                        <app-board></app-board>
+                        <div *ngIf="activeMainTab === 'board'">
+                            <app-board></app-board>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="pills-Settings" role="tabpanel" aria-labelledby="pills-Settings-tab">
-                        <div class="row">
+                        <div class="row" *ngIf="activeMainTab === 'settings'">
                             <div class="col-md-12">
                                 <ul class="nav nav-pills mb-3 ct_custom_tabs ct_custom_tabs_2 w-100" id="pills-tab"
                                     role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="pills-Users-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-Users" type="button" role="tab"
-                                            aria-controls="pills-Users" aria-selected="true">
+                                            aria-controls="pills-Users" aria-selected="true"
+                                            [class.active]="activeSettingsTab === 'users'"
+                                            (click)="activeSettingsTab = 'users'">
                                             Members
                                         </button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
+                                    <!-- <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="pills-Permissions-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-Permissions" type="button" role="tab"
-                                            aria-controls="pills-Permissions" aria-selected="false" tabindex="-1">
+                                            aria-controls="pills-Permissions" aria-selected="false" tabindex="-1"
+                                            [class.active]="activeSettingsTab === 'permissions'"
+                                            (click)="activeSettingsTab = 'permissions'">
                                             Permissions
                                         </button>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="pills-Phases-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-Phases" type="button" role="tab"
-                                            aria-controls="pills-Phases" aria-selected="false" tabindex="-1">
+                                            aria-controls="pills-Phases" aria-selected="false" tabindex="-1"
+                                            [class.active]="activeSettingsTab === 'phases'"
+                                            (click)="activeSettingsTab = 'phases'">
                                             Phases
                                         </button>
                                     </li>
@@ -83,15 +94,21 @@
                                 <div class="tab-content ct_mt_30" id="pills-tabContent">
                                     <div class="tab-pane fade active show" id="pills-Users" role="tabpanel"
                                         aria-labelledby="pills-Users-tab">
-                                        <app-members></app-members>
+                                        <div *ngIf="activeSettingsTab === 'users'">
+                                            <app-members></app-members>
+                                        </div>
                                     </div>
-                                    <div class="tab-pane fade" id="pills-Permissions" role="tabpanel"
+                                    <!-- <div class="tab-pane fade" id="pills-Permissions" role="tabpanel"
                                         aria-labelledby="pills-Permissions-tab">
-                                        <app-permissions></app-permissions>
-                                    </div>
+                                        <div *ngIf="activeSettingsTab === 'permissions'">
+                                            <app-permissions></app-permissions>
+                                        </div>
+                                    </div> -->
                                     <div class="tab-pane fade" id="pills-Phases" role="tabpanel"
                                         aria-labelledby="pills-Phases-tab">
-                                        <app-phases></app-phases>
+                                        <div *ngIf="activeSettingsTab === 'phases'">
+                                            <app-phases></app-phases>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -127,8 +144,8 @@
                 <form [formGroup]="Form" class=" ">
                     <div class="form-group ct_mb_22">
                         <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Team Name</label>
-                        <input type="text" class="form-control ct_input" placeholder="Team name"
-                            name="teamName" formControlName="name" />
+                        <input type="text" class="form-control ct_input" placeholder="Team name" name="teamName"
+                            formControlName="name" />
                         <div *ngIf="Form.controls['name'].invalid && Form.controls['name'].touched" class="err_msg">
                             <div *ngIf="Form.controls['name'].errors?.['required']">Please enter
                                 team name.</div>

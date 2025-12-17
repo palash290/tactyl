@@ -81,7 +81,7 @@ export class EditProfileComponent {
           if (resp.success == true) {
             this.toastr.success(resp.message);
             this.loading = false;
-            this.service.triggerRefresh();
+            this.service.triggerHeaderRefresh();
             this.loadUserProfile();
           } else {
             this.toastr.warning(resp.message);

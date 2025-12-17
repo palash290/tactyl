@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class CommonService {
 
   baseUrl = 'http://52.63.192.184:4000/api/';;
-  //baseUrl = 'http://192.168.1.51:4009/api/';
+  //baseUrl = 'http://192.168.1.42:4009/api/';
   //baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
@@ -27,7 +27,7 @@ export class CommonService {
     return this.http.post<T>(this.baseUrl + url, data)
   };
 
-    postAPI(url: any, data: any): Observable<any> {
+  postAPI(url: any, data: any): Observable<any> {
     const authToken = localStorage.getItem('austriaAdminToken')
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -51,9 +51,16 @@ export class CommonService {
   private refreshSidebarSource = new BehaviorSubject<void | null>(null);
   refreshSidebar$ = this.refreshSidebarSource.asObservable();
 
-  triggerRefresh() {
+  triggerHeaderRefresh() {
     this.refreshSidebarSource.next(null);
   }
+
+  // private refreshSubject = new Subject<void>();
+  // refresh$ = this.refreshSubject.asObservable();
+
+  // triggerRefresh() {
+  //   this.refreshSubject.next();
+  // }
 
 
 }

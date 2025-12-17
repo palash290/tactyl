@@ -4,10 +4,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-members',
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './members.component.html',
   styleUrl: './members.component.css'
 })
@@ -25,15 +26,18 @@ export class MembersComponent {
   loading: boolean = false;
   memberId: any;
   userEmail: any;
+  userType: any;
+  p: any = 1;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
 
-  constructor(private service: CommonService, private router: Router, private fb: FormBuilder, private toastr: NzMessageService, private route: ActivatedRoute) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private route: ActivatedRoute) { }
 
 
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
+    this.userType = localStorage.getItem('userType');
     this.userEmail = localStorage.getItem('teamEmail');
     this.getTeamMembers();
     // this.getAllMembers();
@@ -64,6 +68,7 @@ export class MembersComponent {
   }
 
   filterTable() {
+    this.p = 1;
     let filtered = this.teamMembers;
 
     if (this.searchText.trim()) {

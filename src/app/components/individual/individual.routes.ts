@@ -31,6 +31,13 @@ export const individualRoutes: Routes = [
                         loadComponent: () =>
                               import('./my-task/task-details/task-details.component').then(m => m.TaskDetailsComponent),
                   },
+
+                  {
+                        path: 'my-teams',
+                        loadComponent: () =>
+                              import('../team/teams-management/teams-management.component').then(m => m.TeamsManagementComponent),
+                  },
+
                   {
                         path: 'my-performance',
                         loadComponent: () =>
@@ -66,7 +73,7 @@ export const individualRoutes: Routes = [
                         loadComponent: () =>
                               import('../shared/notifications/notifications.component').then(m => m.NotificationsComponent),
                   },
-                    {
+                  {
                         path: 'team-requests',
                         loadComponent: () =>
                               import('../individual/team-requests/team-requests.component').then(m => m.TeamRequestsComponent),

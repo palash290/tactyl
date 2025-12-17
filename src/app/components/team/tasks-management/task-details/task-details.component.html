@@ -21,41 +21,61 @@
             <div class="col-md-12">
                 <div class="ct_white_bg_2">
                     <span class="ct_custom_badge ct_py_8_px_12"
-                        style="color: #22C55E;background-color: #22C55E1F;">Marketing Team</span>
+                        style="color: #22C55E;background-color: #22C55E1F;">{{taskDetails?.team_name}}</span>
                     <div class="ct_d_align_center justify-content-between gap-2 ct_mt_20 mb-3 ct_flex_col_767">
-                        <h4 class="ct_fs_26 ct_ff_Matter_SemiBold">Design new dashboard layout</h4>
+                        <h4 class="ct_fs_26 ct_ff_Matter_SemiBold">{{taskDetails?.title}}</h4>
                         <div class="ct_d_align_center gap-2 ">
                             <img src="/img/calander_icon.svg">
-                            <p class="mb-0 ct_text_clr_6E6F76 ct_white_nowrap">Created on 30 June 2025</p>
-
+                            <p class="mb-0 ct_text_clr_6E6F76 ct_white_nowrap">Created on {{taskDetails?.created_at |
+                                date:'dd-MMM-yyyy'}}</p>
                         </div>
                     </div>
 
                     <div>
                         <h4 class="ct_fs_22 mb-2">Description</h4>
-                        <p class="mb-0 ct_text_clr_808080 ct_para_scroll ct_custom_scroll">Follow the video tutorial
-                            above. Understand how to use each tool in the Figma application. Also learn how to make a
-                            good and correct design. Starting from spacing, typography, content, and many other design
-                            hierarchies. Then try to make it yourself with your imagination and inspiration.</p>
+                        <p class="mb-0 ct_text_clr_808080 ct_para_scroll ct_custom_scroll">{{taskDetails?.description}}
+                        </p>
                     </div>
                     <div class="row ct_mt_30">
                         <div class="col-lg-12">
                             <div class="ct_d_align_center ct_gap_70 flex-wrap">
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</p>
-                                    <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #FEF2F2; color: #EF4444;">P1</span>
+                                    @if(taskDetails?.priority == 'P1'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #FEE2E2; color: #991B1B;">P1</span>
+                                    }
+
+
+                                    @if(taskDetails?.priority == 'P2'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #FFEDD5; color: #9A3412;">P2</span>
+                                    }
+
+
+                                    @if(taskDetails?.priority == 'P3'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #DCFCE7; color: #166534;">P3</span>
+                                    }
+
+                                    @if(taskDetails?.priority == 'P4'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #2222220A; color: #222222;">NP</span>
+                                    }
+
+                                    <!-- <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
+                                        style="background-color: #FEF2F2; color: #EF4444;">P1</span> -->
                                 </div>
                                 <div>
-                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Status</p>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #EFF6FF; color: #1D4ED8;">Planning</span>
+                                        style="background-color: #EFF6FF; color: #1D4ED8;">{{taskDetails?.phase_name}}</span>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Urgency</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
                                         style="background-color: #0080001A; color: #008000;">High</span>
-                                </div>
+                                </div> -->
 
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</p>
@@ -69,7 +89,8 @@
                                                 stroke-linecap="round" />
                                         </svg>
 
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">15th August 2025</p>
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date |
+                                            date:'dd-MMM-yyyy'}}</p>
                                     </div>
                                 </div>
                                 <div>
@@ -89,7 +110,7 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">Guy Hawkins</p>
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedBy.name}}</p>
                                     </div>
                                 </div>
 
@@ -103,8 +124,9 @@
                         <p class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">Assigned To</p>
                         <div class="ct_d_align_center justify-content-between gap-3 flex-wrap">
                             <div class="ct_d_align_center gap-2">
-                                <img src="/img/user_2.png" class="ct_img_w_24" />
-                                <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">Jane Cooper</p>
+                                <img [src]="taskDetails?.profile_image ? taskDetails?.profile_image : '/img/no_pro.png'"
+                                    class="ct_img_w_24" />
+                                <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedTo.name}}</p>
                             </div>
                             <div>
                                 <h6 class="ct_fs_18 ct_text_purple ct_ff_Matter_Medium mb-0">Action Score: 82</h6>
@@ -132,7 +154,7 @@
                                         implementing dark mode and improving navigation structure for better UX. </p>
                                 </div>
                                 <div>
-                                    <a href="notes.html" class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
+                                    <a routerLink="/team/view-notes" class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>
                                 </div>
 
@@ -146,18 +168,15 @@
                                         implementing dark mode and improving navigation structure for better UX. </p>
                                 </div>
                                 <div>
-                                    <a href="notes.html" class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
+                                    <a routerLink="/team/view-notes" class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>
                                 </div>
 
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
@@ -269,7 +288,7 @@
                                         <img src="/img/octicon_goal-24.svg" alt="" class=" ct_flex_shrink_0">
                                         <div>
                                             <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
-                                                style="max-width: 100px">
+                                                style="max-width: 150px">
                                                 Goal Relevant
                                             </h5>
                                             <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"

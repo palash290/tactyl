@@ -23,6 +23,9 @@ export class TeamOverviewComponent {
   teamId: any;
   loading: boolean = false;
   userEmail: any;
+  activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
+  activeSettingsTab: 'users' | 'permissions' | 'phases' = 'users';
+
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
@@ -103,6 +106,11 @@ export class TeamOverviewComponent {
         console.log(error.message);
       }
     });
+  }
+
+  set(){
+    this.activeMainTab = 'settings';
+    this.activeSettingsTab = 'users';
   }
 
 }

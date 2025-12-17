@@ -39,6 +39,7 @@ export class UsersManagementComponent {
   }
 
   filterTable() {
+    this.p = 1;
     let filtered = this.allMembers;
 
     if (this.searchText.trim()) {

@@ -90,7 +90,12 @@ export const teamRoutes: Routes = [
                         path: 'reports',
                         loadComponent: () =>
                               import('./reports/reports.component').then(m => m.ReportsComponent),
-                  }
+                  },
+                   {
+                        path: 'user-permissions',
+                        loadComponent: () =>
+                              import('./teams-management/team-overview/settings/permissions/permissions.component').then(m => m.PermissionsComponent),
+                  },
             ],
       },
 ];

@@ -440,6 +440,14 @@ a.ct_notification_icon {
   background-color: var(--purple);
 }
 
+.ct_dot_10 {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  background-color: var(--purple);
+}
+
 /* Dashboard css E */
 
 
