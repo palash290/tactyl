@@ -108,7 +108,7 @@
                                                 on:
                                             </p>
                                         </div>
-                                        <p class="mb-0 ct_ff_Matter_Medium ct_fs_14 ct_white_nowrap ">{{ task.due_date |
+                                        <p class="mb-0 ct_ff_Matter_Medium ct_fs_14 ct_white_nowrap ">{{ task.created_at |
                                             date:'dd MMM yyyy'}} </p>
 
                                     </div>
@@ -249,7 +249,7 @@
                             <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</label>
                             <div class="form-group ct_mb_22">
                                 <select class="form-control ct_input" formControlName="phaseId">
-                                    <option value="" disabled>Select Task</option>
+                                    <option value="" disabled>Select Phase</option>
                                     <option *ngFor="let member of phaseList" [value]="member.id">
                                         {{ member.phase_name }}
                                     </option>

@@ -187,7 +187,7 @@
                 </div>
 
                 @if(isPhaseExists){
-                <div class="ct_w_100_767">
+                <div class="ct_w_100_767 mt-4">
                     <select class="form-control ct_input" [(ngModel)]="selectedBoardId">
                         <option value="" disabled>Select Board</option>
                         <option *ngFor="let agent of reassignBoardList" [value]="agent.id">

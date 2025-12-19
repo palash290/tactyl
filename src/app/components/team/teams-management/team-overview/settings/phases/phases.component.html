@@ -134,13 +134,22 @@
                     <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
                         Delete Phase
                     </h1>
+                    <!-- <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        Are you sure you want to delete this phase.
+                    </p> -->
+                    @if(isTaskExists){
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        Before deleting this phase please assign another phase to the task related to this.
+                    </p>
+                    } @else {
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
                         Are you sure you want to delete this phase.
                     </p>
+                    }
                 </div>
 
                 @if(isTaskExists){
-                <div class="ct_w_100_767">
+                <div class="ct_w_100_767 mt-4">
                     <select class="form-control ct_input" [(ngModel)]="selectedPhaseId">
                         <option value="" disabled>Select Phase</option>
                         <option *ngFor="let agent of reassignPhasedList" [value]="agent.id">
