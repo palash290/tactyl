@@ -1,28 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonService } from '../../../services/common.service';
 
 @Component({
-  selector: 'app-boards',
+  selector: 'app-individual-phases',
   imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
-  templateUrl: './boards.component.html',
-  styleUrl: './boards.component.css'
+  templateUrl: './individual-phases.component.html',
+  styleUrl: './individual-phases.component.css'
 })
-export class BoardsComponent {
+export class IndividualPhasesComponent {
 
   Form!: FormGroup;
   boardList: any;
+  phaseList: any;
   loading: boolean = false;
   // teamId: any;
   filteredData: any[] = [];
   searchText: string = '';
   p: any = 1;
-  boardId: any;
-  selectedBoardId: any = '';
+  selectedPhaseId: any = '';
+  phaseId: any;
   userType: any;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
@@ -33,46 +34,40 @@ export class BoardsComponent {
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
     this.initForm();
+    this.getPhaes();
     this.getBoards();
   }
 
   initForm() {
     this.Form = new FormGroup({
       title: new FormControl('', Validators.required),
-      colour: new FormControl(''),
+      boardId: new FormControl('', Validators.required),
       description: new FormControl(''),
     });
   }
 
-  fetchBoardDetails(id: any) {
-    this.service.get(`user/fetchBoardDeailsByBoardId?id=${id}`).subscribe({
-      next: (resp: any) => {
-        this.boardId = id;
-        this.Form.patchValue({
-          title: resp.data.board_name,
-          description: resp.data.description || '',
-          colour: resp.data.board_color
-        });
-      },
-      error: (error) => {
-        console.log(error.message);
-      }
+  fetchBoardDetails(item: any) {
+    this.phaseId = item.id;
+    this.Form.patchValue({
+      title: item.phase_name,
+      description: item.description || '',
+      boardId: item.board_id
     });
   }
 
   reset() {
-    this.boardId = '';
+    this.phaseId = '';
     this.Form.patchValue({
       title: '',
       description: '',
-      colour: ''
+      boardId: ''
     });
   }
 
-  getBoards() {
-    this.service.get(`user/fetchBoardsByIndividualUserId`).subscribe({
+  getPhaes() {
+    this.service.get(`user/fetchIndividualUserPhasesByUserId`).subscribe({
       next: (resp: any) => {
-        this.boardList = resp.data;
+        this.phaseList = resp.data;
         this.filterTable();
       },
       error: (error) => {
@@ -83,15 +78,26 @@ export class BoardsComponent {
 
   filterTable() {
     this.p = 1;
-    let filtered = this.boardList;
+    let filtered = this.phaseList;
 
     if (this.searchText.trim()) {
       const keyword = this.searchText.trim().toLowerCase();
-      filtered = filtered.filter((item: { board_name: any; }) =>
-        (item.board_name?.toLowerCase().includes(keyword))
+      filtered = filtered.filter((item: { phase_name: any; }) =>
+        (item.phase_name?.toLowerCase().includes(keyword))
       );
     }
     this.filteredData = filtered;
+  }
+
+  getBoards() {
+    this.service.get(`user/fetchBoardsByIndividualUserId`).subscribe({
+      next: (resp: any) => {
+        this.boardList = resp.data;
+      },
+      error: (error) => {
+        console.log(error.message);
+      }
+    });
   }
 
   onSubmit() {
@@ -106,24 +112,24 @@ export class BoardsComponent {
     if (this.Form.valid) {
       this.loading = true;
       const formURlData: any = new URLSearchParams();
-      formURlData.append('board_name', title);
+      formURlData.append('phase_name', title);
       formURlData.append('description', this.Form.value.description);
-      formURlData.append('board_color', this.Form.value.colour || '#000000');
+      formURlData.append('board_id', this.Form.value.boardId);
       formURlData.append('team_id', 0);
 
-      this.service.post(this.boardId ? `user/editBoardById?id=${this.boardId}` : 'user/createBoard', formURlData.toString()).subscribe({
+      this.service.post(this.phaseId ? `user/editPhaseById?id=${this.phaseId}` : 'user/createPhases', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
             this.loading = false;
             this.closeModalAdd.nativeElement.click();
-            this.getBoards();
-            this.boardId = null;
+            this.getPhaes();
+            this.phaseId = null;
             // this.service.triggerRefresh();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;
-            this.getBoards();
+            this.getPhaes();
           }
         },
         error: (error) => {
@@ -139,17 +145,17 @@ export class BoardsComponent {
   }
 
   id: any;
-  reassignBoardList: any;
-  isPhaseExists: boolean = false;
+  isTaskExists: boolean = false;
+  reassignPhasedList: any;
 
   getId(item: any) {
     this.id = item.id;
-    this.isPhaseExists = item.isPhaseExists;
+    this.isTaskExists = item.isTaskExists;
 
-    this.service.get(`user/fetchBoardsByIndividualUserId`).subscribe({
+    this.service.get(`user/fetchIndividualUserPhasesByUserId`).subscribe({
       next: (resp: any) => {
 
-        this.reassignBoardList = resp.data.filter(
+        this.reassignPhasedList = resp.data.filter(
           (board: any) => board.id !== this.id
         );
 
@@ -161,17 +167,16 @@ export class BoardsComponent {
     });
   }
 
-
-  deleteBoard() {
-    if (!this.selectedBoardId && this.isPhaseExists) {
-      this.toastr.warning('Please select board first.');
+  deleteTeam() {
+    if (!this.selectedPhaseId && this.isTaskExists) {
+      this.toastr.warning('Please select phase first.');
       return
     }
-    this.service.get(`user/deleteBoardByBoardId?id=${this.id}&team_id=${0}&aasignBoardId=${this.selectedBoardId}&isPhaseExists=${this.isPhaseExists ? 1 : 0}`).subscribe({
+    this.service.get(`user/deletePhaseByThereId?id=${this.id}&team_id=${0}&aasignPhaseId=${this.selectedPhaseId}&isTaskExists=${this.isTaskExists ? 1 : 0}`).subscribe({
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
-        this.getBoards();
+        this.getPhaes();
         // this.service.triggerRefresh();
       },
       error: error => {

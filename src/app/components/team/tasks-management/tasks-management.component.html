@@ -6,7 +6,7 @@
         </p>
     </div>
     <div class="ct_d_align_center gap-2">
-        <div class="ct_d_align_center gap-2">
+        <!-- <div class="ct_d_align_center gap-2">
             <p class="ct_fs_20 ct_ff_Matter_Medium ct_text_clr_4B5563 mb-0 ct_white_nowrap">
                 Show Private Task
             </p>
@@ -17,7 +17,46 @@
                     <div class="toggle-switch-handle"></div>
                 </div>
             </label>
+        </div> -->
+
+        <div class="ct_d_align_center gap-3">
+            <p class="ct_fs_20 ct_ff_Matter_Medium ct_text_clr_4B5563 mb-0 ct_white_nowrap">
+                Tasks
+            </p>
+
+            <!-- <label class="ct_radio">
+                <input type="radio" name="taskVisibility" value="all" [(ngModel)]="taskVisibility"
+                    (change)="getAllTasks()" />
+                <span>All</span>
+            </label> -->
+
+            <!-- <label class="ct_radio">
+                <input type="radio" name="taskVisibility" value="private" [(ngModel)]="taskVisibility"
+                    (change)="getAllTasks()" />
+                <span>Private</span>
+            </label> -->
+            <div class="d-flex align-items-center gap-2 ">
+                <div class="ct_radio-container ct_radio-container_w_18  ms-auto">
+                    <label class="ct_radio-button">
+                        <input type="radio" name="role" value="all" [(ngModel)]="taskVisibility"
+                            (change)="getAllTasks()">
+                        <span class="ct_radio-checkmark"></span>
+                    </label>
+                </div>
+                <p class="mb-0">All</p>
+            </div>
+            <div class="d-flex align-items-center gap-2 ">
+                <div class="ct_radio-container ct_radio-container_w_18  ms-auto">
+                    <label class="ct_radio-button">
+                        <input type="radio" name="role" value="private" [(ngModel)]="taskVisibility"
+                            (change)="getAllTasks()">
+                        <span class="ct_radio-checkmark"></span>
+                    </label>
+                </div>
+                <p class="mb-0">Private</p>
+            </div>
         </div>
+
 
 
         <div class="dropdown ct_right_dropdown ct_cursor_pointer">
@@ -73,10 +112,12 @@
                             </select>
                         </div>
                     </div>
+                    @if(userType == 'team'){
                     <button class="ct_purple_btn ct_w_100_1199 ct_h_60" data-bs-target="#ct_add_create_modal"
                         data-bs-toggle="modal" (click)="reset()">
                         <img src="img/plus-circle.svg" alt="" class="me-2">Create Task
                     </button>
+                    }
 
                 </div>
             </div>
@@ -140,7 +181,8 @@
                                             [queryParams]="{ taskId: item.id }">
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
                                         </a>
-                                        <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
+                                        @if(userType == 'team'){
+                                            <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
                                             data-bs-toggle="modal" (click)="fetchPhaseDetails(item)">
                                             <img src="img/edit_green_icon.png" class="ct_icon_24" alt="">
                                         </a>
@@ -148,6 +190,8 @@
                                             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
                                             <img src="img/Delete_icon.svg" class="ct_icon_24" alt="">
                                         </a>
+                                        }
+                                        
                                     </div>
                                 </td>
                             </tr>
@@ -276,7 +320,7 @@
                             <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</label>
                             <div class="form-group ct_mb_22">
                                 <select class="form-control ct_input" formControlName="phaseId">
-                                    <option value="" disabled>Select Member</option>
+                                    <option value="" disabled>Select Task</option>
                                     <option *ngFor="let member of phaseList" [value]="member.id">
                                         {{ member.phase_name }}
                                     </option>
@@ -308,7 +352,7 @@
 
                                 <div class="err_msg"
                                     *ngIf="Form.errors?.['dateInvalid'] && (Form.get('endDate')?.touched || Form.get('startDate')?.touched)">
-                                    To-date must be greater than From-date.
+                                    Due-date must be greater than Start-date.
                                 </div>
                             </div>
                         </div>
@@ -401,7 +445,7 @@
                         Delete Task
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you delete the task ‘Create a Design System for Food Website ?
+                        Are you sure you delete this task?
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">

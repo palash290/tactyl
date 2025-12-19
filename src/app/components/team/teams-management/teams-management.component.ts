@@ -56,7 +56,7 @@ export class TeamsManagementComponent {
   }
 
   getAllTeams() {
-    this.service.get(this.userType == 'individual' ? 'user/fetchTeamsByUsersIds' : 'user/fetchTeamsByTeamAdminId?isTeamListShowed=0').subscribe({
+    this.service.get(this.userType == 'invited' ? 'user/fetchTeamsByUsersIds' : 'user/fetchTeamsByTeamAdminId?isTeamListShowed=0').subscribe({
       next: (resp: any) => {
         this.allTeamsList = resp.data.map((team: any) => ({
           ...team,

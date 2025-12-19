@@ -28,13 +28,16 @@ export class TasksManagementComponent {
   selectedRecent: string = 'DESC';
   selectedTeamId: string = '';
   searchText: string = '';
-  showPrivateTask: boolean = false;
+  taskVisibility: 'all' | 'private' = 'all';
+  userType: any;
+  // showPrivateTask: boolean = false;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
   constructor(private service: CommonService, private toastr: NzMessageService) { }
 
   ngOnInit() {
+    this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getTeams();
     this.getAllTasks()
@@ -68,14 +71,22 @@ export class TasksManagementComponent {
       params.append('team_id', this.selectedTeamId);
     }
 
-    params.append('is_private', this.showPrivateTask ? '1' : '0');
+    // params.append('is_private', this.showPrivateTask ? '1' : '0');
+    // 🔥 All / Private logic
+    if (this.taskVisibility === 'private') {
+      params.append('is_private', '1');
+    } else {
+      params.append('is_private', '0'); // or omit param if API supports
+    }
 
-    this.service.get(`user/fetchTotalTask?${params.toString()}`).subscribe({
+
+    this.service.get(this.userType == 'invited' ? 'user/fetchInvitedUsersTaskByTherUserId' : `user/fetchTotalTask?${params.toString()}`).subscribe({
       next: (resp: any) => {
         this.taskList = resp.data;
       },
       error: (error) => {
         console.log(error.message);
+        this.taskList = [];
       }
     });
   }
@@ -144,7 +155,7 @@ export class TasksManagementComponent {
   }
 
   getTeams() {
-    this.service.get('user/fetchTeamsByTeamAdminId').subscribe({
+    this.service.get(this.userType == 'invited' ? 'user/fetchTeamsByUsersIds' : 'user/fetchTeamsByTeamAdminId').subscribe({
       next: (resp: any) => {
         this.teamList = resp.data
       },
@@ -179,7 +190,7 @@ export class TasksManagementComponent {
   }
 
   getMembers(selectedTeamId: any) {
-    this.service.get(`user/fetchTeamsMembersByTeamIdForIndividual?teamId=${selectedTeamId}`).subscribe({
+    this.service.get(`user/fetchAcceptedMembersByThereTeamsId?team_id=${selectedTeamId}`).subscribe({
       next: (resp: any) => {
         this.membersList = resp.data;
       },
@@ -261,6 +272,7 @@ export class TasksManagementComponent {
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
+        this.getAllTasks();
       },
       error: error => {
         console.log(error.message);

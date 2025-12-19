@@ -217,3 +217,21 @@ pagination-controls.ct_pagination_div {
   border-color: var(--purple);
   vertical-align: middle;
 }
+
+
+
+
+
+
+.cdk-drag-preview {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drop-list-dragging .ct_task_design_inner_card {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

@@ -1,54 +1,65 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="text-end" *ngIf="userType == 'team'">
-            <button class="ct_purple_btn  ct_w_100_767 ms-auto" data-bs-target="#ct_add_phase_modal"
-                data-bs-toggle="modal" (click)="reset()">
-                <img src="/img/plus-circle.svg" alt="" class="me-2">Create Phase
-            </button>
-        </div>
-        <div class="table-responsive ct_mt_20">
-            <table class="table ct_custom_table">
-                <thead>
-                    <th>S.No</th>
-                    <th>Phase Name</th>
-                    <th>Description</th>
-                    <th *ngIf="userType == 'team'">Actions</th>
-                </thead>
-                <tbody>
-                    <tr
-                        *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
-                        <td>{{(p - 1) * 10 + i + 1}}</td>
-                        <td>
-                            <span class="ct_overlay_text d-inline-block">{{item.phase_name}}</span>
-                        </td>
-                        <td>
-                            <span class="ct_overlay_text d-inline-block">{{item?.description ? item?.description : '-'}}
-                            </span>
-                        </td>
-                        <td *ngIf="userType == 'team'">
-                            <div class="d-flex align-items-center gap-3">
-                                <a href="javascript:void(0)" data-bs-target="#ct_add_phase_modal" data-bs-toggle="modal"
-                                    (click)="fetchBoardDetails(item)">
-                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" />
-                                </a>
+<div class="ct_inner_header_bg ct_mt_30 ct_px_30 ct_d_align_center justify-content-between gap-3 ct_flex_col_575">
+    <div>
+        <h4 class="ct_fs_35 mb-2 ct_ff_Matter_Medium">Phase</h4>
+    </div>
 
-                                <a href="javascript:void(0)" (click)="getId(item)" data-bs-target="#ct_delete_phase"
-                                    data-bs-toggle="modal">
-                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-12">
-            <div class="ct_no_recod_found_bg" *ngIf="filteredData.length == 0">
-                <p class="text-center mb-0 ct_fs_20">No phase found</p>
+</div>
+<div class="ct_px_30 ct_mt_30 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-end" *ngIf="userType == 'individual'">
+                    <button class="ct_purple_btn  ct_w_100_767 ms-auto" data-bs-target="#ct_add_phase_modal"
+                        data-bs-toggle="modal" (click)="reset()">
+                        <img src="/img/plus-circle.svg" alt="" class="me-2">Create Phase
+                    </button>
+                </div>
+                <div class="table-responsive ct_mt_20">
+                    <table class="table ct_custom_table">
+                        <thead>
+                            <th>S.No</th>
+                            <th>Phase Name</th>
+                            <th>Description</th>
+                            <th *ngIf="userType == 'individual'">Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                                <td>{{(p - 1) * 10 + i + 1}}</td>
+                                <td>
+                                    <span class="ct_overlay_text d-inline-block">{{item.phase_name}}</span>
+                                </td>
+                                <td>
+                                    <span class="ct_overlay_text d-inline-block">{{item?.description ? item?.description
+                                        : '-'}}
+                                    </span>
+                                </td>
+                                <td *ngIf="userType == 'individual'">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <a href="javascript:void(0)" data-bs-target="#ct_add_phase_modal"
+                                            data-bs-toggle="modal" (click)="fetchBoardDetails(item)">
+                                            <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" />
+                                        </a>
+
+                                        <a href="javascript:void(0)" (click)="getId(item)"
+                                            data-bs-target="#ct_delete_phase" data-bs-toggle="modal">
+                                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div class="ct_no_recod_found_bg" *ngIf="filteredData.length == 0">
+                        <p class="text-center mb-0 ct_fs_20">No phase found</p>
+                    </div>
+                </div>
+                <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+                    (pageChange)="p = $event"></pagination-controls>
             </div>
         </div>
-        <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
-            (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
 

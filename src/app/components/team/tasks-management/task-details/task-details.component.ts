@@ -35,4 +35,6 @@ export class TaskDetailsComponent {
   backClicked() {
     this.location.back();
   }
+
+  
 }

@@ -39,7 +39,7 @@
                         <td>{{(p - 1) * 10 + i + 1}}</td>
                         <td>
                             <div class="d-flex align-item-start gap-2">
-                                <span class="ct_dot_10 mt-2"
+                                <span class="ct_dot_10 mt-2" style="border: 1px solid #e6e6e6;"
                                     [ngStyle]="{ 'background-color': item.board_color }"></span>
                                 <div>
                                     <h5 class="ct_fs_16 mb-1 ct_fw_500">
@@ -53,7 +53,7 @@
                         </td>
                         <td>{{item.created_name}}</td>
                         <td>{{item.created_at | date:'dd-MMM-yyyy'}}</td>
-                        <td>45</td>
+                        <td>{{item.totalTasks}}</td>
                         <td>
                             <div class="d-flex align-items-center gap-3">
                                 <a routerLink="/team/view-board">
@@ -166,7 +166,7 @@
                     </h1>
                     @if(isPhaseExists){
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Before deleting this board please assign another bord to the phase related to this.
+                        Before deleting this board please assign another board to the phase related to this.
                     </p>
                     } @else {
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">

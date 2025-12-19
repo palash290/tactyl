@@ -62,8 +62,8 @@ export class LogInComponent {
       this.service.post('user/signIn', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
-            this.service.setToken(resp.data);
-            
+            this.service.setToken(resp.data.jwt_token);
+
             this.loading = false;
 
             if (this.type == 'team') {
@@ -73,9 +73,14 @@ export class LogInComponent {
               this.router.navigate(['/individual/dashboard']);
               this.toastr.success(resp.message);
             } else if (this.type == 'invited') {
-              this.router.navigate(['/set-password'], {
-                queryParams: { oldPassword: this.Form.value.password, email: this.Form.value.email }
-              });
+              if (resp.data.isForgotPassword == '0') {
+                this.router.navigate(['/set-password'], {
+                  queryParams: { oldPassword: this.Form.value.password, email: this.Form.value.email }
+                });
+              } else {
+                this.router.navigate(['/individual/dashboard']);
+              }
+
             }
           } else {
             this.toastr.warning(resp.message);

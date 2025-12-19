@@ -37,6 +37,7 @@ export class HeaderComponent {
       next: (resp: any) => {
         this.userData = resp.data;
         localStorage.setItem('teamEmail', resp.data.email);
+        localStorage.setItem('userId', resp.data.id);
       },
       error: (error) => {
         console.log(error.message);

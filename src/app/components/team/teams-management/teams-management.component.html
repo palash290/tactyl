@@ -74,17 +74,19 @@
                             <div class="ct_mt_20">
                                 <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
 
-                                <ul class="ct_d_align_center gap-3 flex-wrap justify-content-between ct_grid_3_1199"
+                                <ul class="ct_grid_2  ct_grid_3_1199"
                                     *ngIf="item.limitedMembers?.length > 0; else noMembers">
                                     <li class="mb-2" *ngFor="let member of item.limitedMembers">
                                         <div class="ct_Members_info_sort gap-2 ct_d_align_center">
                                             <img [src]="member.profile_images ? member.profile_images : '/img/no_pro.png'"
                                                 alt="" class="ct_img_42 ct_flex_shrink_0">
                                             <div>
-                                                <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                    >{{member?.name}}
+                                                <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium ct_overlay_text"
+                                                    style="width: 140px;">
+                                                    {{member?.name}}
                                                 </h5>
-                                                <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
+                                                <p class="ct_fs_12 ct_text_787885 mb-0 ct_overlay_text"
+                                                    style="width: 140px;">
                                                     {{member?.Designation}}</p>
                                             </div>
                                         </div>
@@ -188,8 +190,8 @@
                                         <img [src]="item.profile_image ? item.profile_image : '/img/no_pro.png'" alt=""
                                             class="ct_img_42 ct_flex_shrink_0">
                                         <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate"
-                                                >{{item.name}}</h5>
+                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate">{{item.name}}
+                                            </h5>
                                             <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
                                                 {{item.email}}</p>
                                         </div>

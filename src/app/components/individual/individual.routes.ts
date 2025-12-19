@@ -58,6 +58,13 @@ export const individualRoutes: Routes = [
                         loadComponent: () =>
                               import('../team/boards/view-board/view-board.component').then(m => m.ViewBoardComponent),
                   },
+
+                  {
+                        path: 'phases',
+                        loadComponent: () =>
+                              import('../individual/individual-phases/individual-phases.component').then(m => m.IndividualPhasesComponent),
+                  },
+
                   {
                         path: 'notes',
                         loadComponent: () =>

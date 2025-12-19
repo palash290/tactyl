@@ -4,7 +4,7 @@
             <a class="ct_back_icon me-1" (click)="backClicked()"><i class="fa-solid fa-chevron-left"></i></a>Tasks
         </h4>
     </div>
-    <div class="d-flex align-items-center gap-3">
+    <!-- <div class="d-flex align-items-center gap-3">
         <div class="ct_icon_53 ct_border_radius_10" style="background-color: #fff0f0" data-bs-target="#ct_delete_modal"
             data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
@@ -13,7 +13,7 @@
             data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
-    </div>
+    </div> -->
 </div>
 <div class="ct_mt_30 ct_px_30 pb-4">
     <div class="container-fluid">
@@ -30,7 +30,6 @@
                                 date:'dd-MMM-yyyy'}}</p>
                         </div>
                     </div>
-
                     <div>
                         <h4 class="ct_fs_22 mb-2">Description</h4>
                         <p class="mb-0 ct_text_clr_808080 ct_para_scroll ct_custom_scroll">{{taskDetails?.description}}
@@ -46,12 +45,10 @@
                                         style="background-color: #FEE2E2; color: #991B1B;">P1</span>
                                     }
 
-
                                     @if(taskDetails?.priority == 'P2'){
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
                                         style="background-color: #FFEDD5; color: #9A3412;">P2</span>
                                     }
-
 
                                     @if(taskDetails?.priority == 'P3'){
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
@@ -62,15 +59,13 @@
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
                                         style="background-color: #2222220A; color: #222222;">P4</span>
                                     }
-
-                                    <!-- <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #FEF2F2; color: #EF4444;">P1</span> -->
                                 </div>
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
                                         style="background-color: #EFF6FF; color: #1D4ED8;">{{taskDetails?.phase_name}}</span>
                                 </div>
+
                                 <!-- <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Urgency</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
@@ -89,12 +84,11 @@
                                                 stroke-linecap="round" />
                                         </svg>
 
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date |
-                                            date:'dd-MMM-yyyy'}}</p>
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date}}</p>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assigned Member</p>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assigned By</p>
                                     <div class="ct_d_align_center gap-2">
                                         <svg width="14" height="24" viewBox="0 0 14 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -113,12 +107,8 @@
                                         <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedBy.name}}</p>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
-
                     </div>
                     <div class="ct_mt_30">
                         <p class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">Assigned To</p>
@@ -131,9 +121,7 @@
                             <div>
                                 <h6 class="ct_fs_18 ct_text_purple ct_ff_Matter_Medium mb-0">Action Score: 82</h6>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
                 <div class="ct_white_bg_2 mt-5">
@@ -143,7 +131,6 @@
                             data-bs-toggle="modal">
                             <img src="/img/plus-circle.svg" alt="" class="me-2">Add Note
                         </button>
-
                     </div>
                     <div class="ct_para_scroll ct_custom_scroll">
                         <div class="ct_outline_bg">
@@ -422,7 +409,7 @@
                         Delete Task
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you delete the task ‘Create a Design System for Food Website ?
+                        Are you sure you delete this task?
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">

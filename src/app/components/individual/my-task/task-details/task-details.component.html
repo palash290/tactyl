@@ -10,7 +10,7 @@
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
         <div class="ct_icon_53 ct_border_radius_10" style="background-color: #e8ecff"
-            data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal">
+            data-bs-target="#ct_add_create_modal" data-bs-toggle="modal">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
     </div>
@@ -20,41 +20,50 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="ct_white_bg_2">
-                    <span class="ct_custom_badge ct_py_8_px_12"
-                        style="color: #22C55E;background-color: #22C55E1F;">Marketing Team</span>
+                    
                     <div class="ct_d_align_center justify-content-between gap-2 ct_mt_20 mb-3 ct_flex_col_767">
-                        <h4 class="ct_fs_26 ct_ff_Matter_SemiBold">Design new dashboard layout</h4>
+                        <h4 class="ct_fs_26 ct_ff_Matter_SemiBold">{{taskDetails?.title}}</h4>
                         <div class="ct_d_align_center gap-2 ">
                             <img src="/img/calander_icon.svg">
-                            <p class="mb-0 ct_text_clr_6E6F76 ct_white_nowrap">Created on 30 June 2025</p>
+                            <p class="mb-0 ct_text_clr_6E6F76 ct_white_nowrap">Created on {{taskDetails?.created_at |
+                                date:'dd-MMM-yyyy'}}</p>
 
                         </div>
                     </div>
 
                     <div>
                         <h4 class="ct_fs_22 mb-2">Description</h4>
-                        <p class="mb-0 ct_text_clr_808080 ct_para_scroll ct_custom_scroll">Follow the video tutorial
-                            above. Understand how to use each tool in the Figma application. Also learn how to make a
-                            good and correct design. Starting from spacing, typography, content, and many other design
-                            hierarchies. Then try to make it yourself with your imagination and inspiration.</p>
+                        <p class="mb-0 ct_text_clr_808080 ct_para_scroll ct_custom_scroll">{{taskDetails?.description}}</p>
                     </div>
                     <div class="row ct_mt_30">
                         <div class="col-lg-12">
                             <div class="ct_d_align_center ct_gap_70 flex-wrap">
-                                <div>
+                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</p>
-                                    <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #FEF2F2; color: #EF4444;">P1</span>
+                                    @if(taskDetails?.priority == 'P1'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #FEE2E2; color: #991B1B;">P1</span>
+                                    }
+
+                                    @if(taskDetails?.priority == 'P2'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #FFEDD5; color: #9A3412;">P2</span>
+                                    }
+
+                                    @if(taskDetails?.priority == 'P3'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #DCFCE7; color: #166534;">P3</span>
+                                    }
+
+                                    @if(taskDetails?.priority == 'P4'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #2222220A; color: #222222;">P4</span>
+                                    }
                                 </div>
-                                <div>
-                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Status</p>
+                               <div>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #EFF6FF; color: #1D4ED8;">Planning</span>
-                                </div>
-                                <div>
-                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Urgency</p>
-                                    <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #0080001A; color: #008000;">High</span>
+                                        style="background-color: #EFF6FF; color: #1D4ED8;">{{taskDetails?.phase_name}}</span>
                                 </div>
 
                                 <div>
@@ -69,11 +78,11 @@
                                                 stroke-linecap="round" />
                                         </svg>
 
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">15th August 2025</p>
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date}}</p>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assigned Member</p>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assigned By</p>
                                     <div class="ct_d_align_center gap-2">
                                         <svg width="14" height="24" viewBox="0 0 14 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +98,7 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">Guy Hawkins</p>
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedBy.name}}</p>
                                     </div>
                                 </div>
 
@@ -103,8 +112,8 @@
                         <p class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">Assigned To</p>
                         <div class="ct_d_align_center justify-content-between gap-3 flex-wrap">
                             <div class="ct_d_align_center gap-2">
-                                <img src="/img/user_2.png" class="ct_img_w_24" />
-                                <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">Jane Cooper</p>
+                                <img [src]="taskDetails?.profile_image ? taskDetails?.profile_image : '/img/no_pro.png'" class="ct_img_w_24" />
+                                <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedTo.name}}</p>
                             </div>
                             <div>
                                 <h6 class="ct_fs_18 ct_text_purple ct_ff_Matter_Medium mb-0">Action Score: 82</h6>
@@ -132,7 +141,8 @@
                                         implementing dark mode and improving navigation structure for better UX. </p>
                                 </div>
                                 <div>
-                                    <a routerLink="/team/view-notes" class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
+                                    <a routerLink="/team/view-notes"
+                                        class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>
                                 </div>
 
@@ -162,19 +172,20 @@
     </div>
 </div>
 
-<div class="modal fade ct_custom_modal modal-lg" id="ct_edit_task_modal" tabindex="-1"
+<!-- Add user  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_create_modal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header p-0 border-0">
                 <div class="d-flex align-items-center gap-2">
-                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <img src="img/modal_star.png" alt="" class="ct_flex_shrink_0" />
                     <div>
                         <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
-                            Edit Task
+                            Update Task
                         </h1>
-                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
-                            Update task details to keep your workflow accurate.
+                        <p *ngIf="!taskId" class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Add a new task to your board and start tracking progress
                         </p>
                     </div>
                 </div>
@@ -183,65 +194,96 @@
                 </button>
             </div>
             <div class="modal-body p-0 ct_mt_20">
-                <form action="">
+                <form [formGroup]="Form">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Task Title </label>
                                 <input type="text" class="form-control ct_input" placeholder="Enter task title"
-                                    value="e.g. Deisgn new landing page" />
+                                    formControlName="title" />
+                                <div *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['title'].errors?.['required']">Please enter
+                                        task title.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description </label>
-                                <textarea class="form-control ct_input h-auto" rows="2"
-                                    placeholder="Enter Description"></textarea>
+                                <textarea class="form-control ct_input h-auto" rows="2" placeholder="Enter Description"
+                                    formControlName="description"></textarea>
+                                <div *ngIf="Form.controls['description'].invalid && Form.controls['description'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['description'].errors?.['required']">Please enter
+                                        description.</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Member</label>
-                                <select class="form-control ct_input">
-                                    <option value="">Guy Hawkins</option>
-                                </select>
-                            </div>
-                        </div>
-
 
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</label>
-                                <select class="form-control ct_input">
-                                    <option value="">Medium Priority</option>
+                                <select class="form-control ct_input" formControlName="priority">
+                                    <option value="" disabled>Select Priority</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                    <option value="P3">P3</option>
+                                    <option value="P4">P4</option>
                                 </select>
+
+                                <div *ngIf="Form.controls['priority'].invalid && Form.controls['priority'].touched"
+                                    class="err_msg">
+                                    Please select priority.
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</label>
                             <div class="form-group ct_mb_22">
-                                <select class="form-control ct_input">
-                                    <option value="">Design Review</option>
+                                <select class="form-control ct_input" formControlName="phaseId">
+                                    <option value="" disabled>Select Task</option>
+                                    <option *ngFor="let member of phaseList" [value]="member.id">
+                                        {{ member.phase_name }}
+                                    </option>
                                 </select>
+
+                                <div *ngIf="Form.controls['phaseId'].invalid && Form.controls['phaseId'].touched"
+                                    class="err_msg">
+                                    Please select a phase.
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Start Date</label>
-                                <input type="date" class="form-control ct_input" />
+                                <input type="date" class="form-control ct_input" formControlName="startDate"
+                                    [min]="minDate" />
+
+                                <div class="err_msg"
+                                    *ngIf="Form.get('from')?.touched && Form.get('startDate')?.hasError('required')">
+                                    From date is required.
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</label>
-                                <input type="date" class="form-control ct_input" />
+                                <input type="date" class="form-control ct_input" formControlName="endDate"
+                                    [min]="Form.get('startDate')?.value" />
+
+                                <div class="err_msg"
+                                    *ngIf="Form.errors?.['dateInvalid'] && (Form.get('endDate')?.touched || Form.get('startDate')?.touched)">
+                                    Due-date must be greater than Start-date.
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="ct_para_scroll ct_custom_scroll">
-                                <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <!-- <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
                                     <div class="ct_d_align_center gap-3">
-                                        <img src="/img/lucide_lock.svg" alt="" class=" ct_flex_shrink_0">
+                                        <img src="img/lucide_lock.svg" alt="" class=" ct_flex_shrink_0">
                                         <div>
                                             <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
                                                 style="max-width: 100px">
@@ -255,17 +297,17 @@
                                     </div>
                                     <div class="ms-auto">
                                         <label class="toggle-switch">
-                                            <input type="checkbox">
+                                            <input type="checkbox" formControlName="isPrivate">
                                             <div class="toggle-switch-background">
                                                 <div class="toggle-switch-handle"></div>
                                             </div>
                                         </label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div
                                     class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
                                     <div class="ct_d_align_center gap-3">
-                                        <img src="/img/octicon_goal-24.svg" alt="" class=" ct_flex_shrink_0">
+                                        <img src="img/octicon_goal-24.svg" alt="" class=" ct_flex_shrink_0">
                                         <div>
                                             <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
                                                 style="max-width: 150px">
@@ -279,30 +321,35 @@
                                     </div>
                                     <div class="ms-auto">
                                         <label class="toggle-switch">
-                                            <input type="checkbox">
+                                            <input type="checkbox" formControlName="isGoalRevelant">
                                             <div class="toggle-switch-background">
                                                 <div class="toggle-switch-handle"></div>
                                             </div>
                                         </label>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </form>
                 <div class="modal-footer border-0 p-0 ct_mt_44">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                    <button #closeModalAdd type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
-                        Save Changes
+                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium" (click)="onSubmit()">
+                        Update Task
                     </button>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--  Add user Modal E -->
+
+
+
 <!-- Add note  board Modal S -->
 <div class="modal fade ct_custom_modal modal-lg" id="ct_add_note_modal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -402,14 +449,15 @@
                         Delete Task
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you delete the task ‘Create a Design System for Food Website ?
+                        Are you sure you delete this task?
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                    <button #closeModalDelete type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
                         No
                     </button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                    <button (click)="deleteTask()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
                         Yes
                     </button>
                 </div>
