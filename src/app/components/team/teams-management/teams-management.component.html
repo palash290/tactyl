@@ -5,9 +5,12 @@
             View and organize all teams under your workspace.
         </p>
     </div>
+    @if(userType == 'team'){
     <button class="ct_purple_btn ct_w_100_575" (click)="openModal()">
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button>
+    }
+
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
     <div class="container-fluid">
@@ -103,10 +106,18 @@
                         </div>
                     </div>
                     <div class=" text-center mt-auto">
-                        <a [routerLink]="['/team/team-overview']"
+                        @if(userType == 'team'){
+                             <a [routerLink]="['/team/team-overview']"
                             [queryParams]="{ teamId: item.id, teamName: item.team_name }"
                             class="ct_purple_link ct_ff_Matter_Medium">View
                             Details</a>
+                        } @else if (userType == 'invited') {
+                               <a [routerLink]="['/individual/team-overview']"
+                            [queryParams]="{ teamId: item.id, teamName: item.team_name }"
+                            class="ct_purple_link ct_ff_Matter_Medium">View
+                            Details</a>
+                        }
+                       
                     </div>
                 </div>
             </div>

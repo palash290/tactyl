@@ -8,9 +8,9 @@ import { environment } from '../../environments/environment';
 
 export class CommonService {
 
-  baseUrl = 'http://52.63.192.184:4000/api/';
+  baseUrl = 'https://tactyl-dev.online/api/';
   //baseUrl = 'https://tactyl.online/api/';
-  //baseUrl = 'http://192.168.1.45:4009/api/';
+  //baseUrl = 'http://192.168.1.53:4009/api/';
   //baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
@@ -29,7 +29,7 @@ export class CommonService {
   };
 
   postAPI(url: any, data: any): Observable<any> {
-    const authToken = localStorage.getItem('austriaAdminToken')
+    const authToken = localStorage.getItem('austriaAdminToken');
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Bearer ${authToken}`

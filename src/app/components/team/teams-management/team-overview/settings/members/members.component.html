@@ -54,7 +54,8 @@
                 </td>
                 <td>
                     <div class="d-flex align-items-center gap-3">
-                        <a [routerLink]="['/team/view-team-member']" [queryParams]="{ memberId: item.user_id }">
+                        <a [routerLink]="['/team/view-team-member']"
+                            [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
 
@@ -76,7 +77,7 @@
     <p class="ct_fs_15 mt-5">No members found</p>
 </div>
 <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
-            (pageChange)="p = $event"></pagination-controls>
+    (pageChange)="p = $event"></pagination-controls>
 
 <!-- Add user board Modal S -->
 <div class="modal fade ct_custom_modal modal-lg" id="ct_add_user_modal" tabindex="-1"

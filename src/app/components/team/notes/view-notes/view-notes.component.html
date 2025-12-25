@@ -7,11 +7,11 @@
     <div class="d-flex align-items-center gap-3">
         <div class="ct_icon_53 ct_border_radius_10" style="background-color: #fff0f0" data-bs-target="#ct_delete_modal"
             data-bs-toggle="modal">
-            <img src="../assets/img/Delete_icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
         <div class="ct_icon_53 ct_border_radius_10" style="background-color: #e8ecff"
-            data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal">
-            <img src="../assets/img/Edit _icon.svg" alt="" class="ct_img_25" />
+            data-bs-target="#ct_add_note_modal" data-bs-toggle="modal">
+            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
     </div>
 </div>
@@ -20,13 +20,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="ct_light_blue_bg">
-                    <h4 class="ct_fs_24 ct_ff_Matter_Medium mb-3">Bug Fix Notes</h4>
+                    <h4 class="ct_fs_24 ct_ff_Matter_Medium mb-3">{{noteDetails.notes_title}}</h4>
                     <div>
-                        <p class="ct_fs_16 ct_text_clr_101010C4 mb-0">Conducted a detailed review of reported UI and
-                            backend bugs from the latest release cycle. The primary focus was on improving consistency,
-                            fixing visual glitches, and optimizing user interactions across multiple modules. Below are
-                            the main fixes and verifications completed during this cycle:</p>
-                        <div>
+                        <p class="ct_fs_16 ct_text_clr_101010C4 mb-0">{{noteDetails.notes_description}}</p>
+                        <!-- <div>
                             <p class="ct_fs_16 ct_text_clr_101010C4 mb-0">Fix Summary:</p>
                             <ul style="list-style: disc;" class="ps-4">
                                 <li class="ct_fs_16 ct_text_clr_101010C4 ">Corrected layout misalignment in the “My
@@ -40,11 +37,10 @@
                                 <li class="ct_fs_16 ct_text_clr_101010C4">Improved API response time for the task detail
                                     view.</li>
                             </ul>
-
-                        </div>
-                        <p class="mb-0 ct_fs_16 ct_text_clr_101010C4 ">All fixes have been verified in the staging
+                        </div> -->
+                        <!-- <p class="mb-0 ct_fs_16 ct_text_clr_101010C4 ">All fixes have been verified in the staging
                             environment and are pending approval from the QA team. Additional monitoring will continue
-                            post-deployment to ensure stability across devices and browsers.</p>
+                            post-deployment to ensure stability across devices and browsers.</p> -->
                     </div>
 
                 </div>
@@ -52,5 +48,117 @@
             </div>
 
         </div>
+    </div>
+</div>
+
+
+
+<!-- Add note  board Modal S -->
+<div class="modal fade ct_custom_modal modal-lg" id="ct_add_note_modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Update Note
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Store key decisions, progress updates, and action points.
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 ct_mt_20">
+                <form [formGroup]="Form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Note Title </label>
+                                <input type="text" class="form-control ct_input" placeholder="Enter note title "
+                                    formControlName="title" />
+                                <div *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['title'].errors?.['required']">Please enter
+                                        title.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description </label>
+                                <textarea class="form-control ct_input h-auto" rows="2" placeholder="Enter Description"
+                                    formControlName="description"></textarea>
+                                <div *ngIf="Form.controls['description'].invalid && Form.controls['description'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['description'].errors?.['required']">Please enter
+                                        description.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_44">
+                    <button #closeModalAdd type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button (click)="onSubmit()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Update Note
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Add user Modal E -->
+
+<!-- Delete  Modal S -->
+<div class="modal fade ct_custom_modal" id="ct_delete_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div>
+                    <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
+                        Delete Note
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        Are you sure you delete this note?
+                    </p>
+                </div>
+                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
+                    <button #closeModalDelete type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                        No
+                    </button>
+                    <button (click)="deleteTeam()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Yes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  ct_delete_modal Modal E -->
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loader-con">
+        <div style="--i: 0;" class="pfile"></div>
+        <div style="--i: 1;" class="pfile"></div>
+        <div class="pfile" style="--i: 2;"></div>
+        <div class="pfile" style="--i: 3;"></div>
+        <div class="pfile" style="--i: 4;"></div>
+        <div class="pfile" style="--i: 5;"></div>
     </div>
 </div>

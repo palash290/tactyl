@@ -18,7 +18,7 @@
                 </div>
             </label>
         </div> -->
-
+        @if(userType == 'team'){
         <div class="ct_d_align_center gap-3">
             <p class="ct_fs_20 ct_ff_Matter_Medium ct_text_clr_4B5563 mb-0 ct_white_nowrap">
                 Tasks
@@ -35,6 +35,7 @@
                     (change)="getAllTasks()" />
                 <span>Private</span>
             </label> -->
+
             <div class="d-flex align-items-center gap-2 ">
                 <div class="ct_radio-container ct_radio-container_w_18  ms-auto">
                     <label class="ct_radio-button">
@@ -55,9 +56,8 @@
                 </div>
                 <p class="mb-0">Private</p>
             </div>
+
         </div>
-
-
 
         <div class="dropdown ct_right_dropdown ct_cursor_pointer">
             <i class="fa-solid fa-ellipsis-vertical" id="dropdownMenuButton" id="dropdownMenuButton1"
@@ -68,7 +68,7 @@
                 </li>
             </ul>
         </div>
-
+        }
     </div>
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
@@ -177,12 +177,21 @@
                                 <!-- <td>82</td> -->
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
-                                        <a routerLink="/team/task-details" [routerLink]="['/team/task-details']"
+                                        @if(userType == 'team'){
+                                        <a [routerLink]="['/team/task-details']"
                                             [queryParams]="{ taskId: item.id }">
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
                                         </a>
+                                        } @else if (userType == 'invited') {
+                                        <a
+                                            [routerLink]="['/individual/my-task-details']"
+                                            [queryParams]="{ taskId: item.id }">
+                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
+                                        </a>
+                                        }
+
                                         @if(userType == 'team'){
-                                            <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
+                                        <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
                                             data-bs-toggle="modal" (click)="fetchPhaseDetails(item)">
                                             <img src="img/edit_green_icon.png" class="ct_icon_24" alt="">
                                         </a>
@@ -191,7 +200,7 @@
                                             <img src="img/Delete_icon.svg" class="ct_icon_24" alt="">
                                         </a>
                                         }
-                                        
+
                                     </div>
                                 </td>
                             </tr>
@@ -257,6 +266,50 @@
                                     <div *ngIf="Form.controls['description'].errors?.['required']">Please enter
                                         description.</div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Hours </label>
+                                <input type="text" class="form-control ct_input" placeholder="Enter estimated hours"
+                                    formControlName="estimatedHours" [maxlength]="4" />
+                                <div *ngIf="Form.controls['estimatedHours'].invalid && Form.controls['estimatedHours'].touched"
+                                    class="err_msg">
+
+                                    <div *ngIf="Form.controls['estimatedHours'].errors?.['required']">
+                                        Please enter estimated hours.
+                                    </div>
+
+                                    <div *ngIf="!Form.controls['estimatedHours'].errors?.['required']
+              && Form.controls['estimatedHours'].errors?.['pattern']">
+                                        Only numbers are allowed.
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Minutes </label>
+                                <input type="text" class="form-control ct_input" placeholder="Enter estimated minutes"
+                                    formControlName="estimatedMinutes" />
+                                <div *ngIf="Form.controls['estimatedMinutes'].invalid && Form.controls['estimatedMinutes'].touched"
+                                    class="err_msg">
+
+                                    <div *ngIf="Form.controls['estimatedMinutes'].errors?.['required']">
+                                        Please enter estimated minutes.
+                                    </div>
+
+                                    <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
+              && Form.controls['estimatedMinutes'].errors?.['pattern']">
+                                        Only numbers are allowed.
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
 
@@ -399,6 +452,30 @@
                                     <div class="ms-auto">
                                         <label class="toggle-switch">
                                             <input type="checkbox" formControlName="isGoalRevelant">
+                                            <div class="toggle-switch-background">
+                                                <div class="toggle-switch-handle"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div
+                                    class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
+                                    <div class="ct_d_align_center gap-3">
+                                        <img src="img/urgent.svg" alt="" class=" ct_flex_shrink_0">
+                                        <div>
+                                            <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
+                                                style="max-width: 150px">
+                                                Mark as Urgent
+                                            </h5>
+                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
+                                                style="max-width: 120px">
+                                                Requires immediate attention
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" formControlName="is_urgent">
                                             <div class="toggle-switch-background">
                                                 <div class="toggle-switch-handle"></div>
                                             </div>

@@ -80,7 +80,7 @@ export class TasksManagementComponent {
     }
 
 
-    this.service.get(this.userType == 'invited' ? 'user/fetchInvitedUsersTaskByTherUserId' : `user/fetchTotalTask?${params.toString()}`).subscribe({
+    this.service.get(this.userType == 'invited' ? `user/fetchInvitedUsersTaskByTherUserId?${params.toString()}` : `user/fetchTotalTask?${params.toString()}`).subscribe({
       next: (resp: any) => {
         this.taskList = resp.data;
       },
@@ -92,6 +92,11 @@ export class TasksManagementComponent {
   }
 
   initForm() {
+    const numberOnlyValidator = [
+      Validators.required,
+      Validators.pattern(/^\d+$/) // allows 0, 00, 01, 10
+    ];
+
     this.Form = new FormGroup({
       title: new FormControl('', Validators.required),
       selectedTeamId: new FormControl('', Validators.required),
@@ -103,6 +108,9 @@ export class TasksManagementComponent {
       isGoalRevelant: new FormControl(false),
       memberId: new FormControl('', Validators.required),
       phaseId: new FormControl('', Validators.required),
+      estimatedHours: new FormControl('', numberOnlyValidator),
+      estimatedMinutes: new FormControl('', numberOnlyValidator),
+      is_urgent: new FormControl(false),
     },
       {
         validators: this.dateRangeValidator as any   // <-- FIX
@@ -124,6 +132,9 @@ export class TasksManagementComponent {
       endDate: item.due_date,
       isPrivate: item.is_private,
       isGoalRevelant: item.goal_relevant,
+      estimatedMinutes: item.estimated_minutes,
+      estimatedHours: item.estimated_hours,
+      is_urgent: item.is_urgent,
     });
   }
 
@@ -132,14 +143,17 @@ export class TasksManagementComponent {
     this.Form.patchValue({
       title: '',
       description: '',
+      estimated_minutes: '',
+      estimated_hours: '',
       selectedTeamId: '',
       memberId: '',
       phaseId: '',
       priority: '',
       startDate: '',
       endDate: '',
-      isPrivate: '',
-      isGoalRevelant: '',
+      isPrivate: false,
+      isGoalRevelant: false,
+      is_urgent: false
     });
   }
 
@@ -233,6 +247,9 @@ export class TasksManagementComponent {
       formURlData.append('priority', this.Form.value.priority);
       formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('estimated_hours', this.Form.value.estimatedHours);
+      formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
+      formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
       this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({
         next: (resp: any) => {

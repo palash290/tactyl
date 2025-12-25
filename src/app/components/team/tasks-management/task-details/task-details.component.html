@@ -4,16 +4,19 @@
             <a class="ct_back_icon me-1" (click)="backClicked()"><i class="fa-solid fa-chevron-left"></i></a>Tasks
         </h4>
     </div>
-    <!-- <div class="d-flex align-items-center gap-3">
+    @if(userType == 'team'){
+          <div class="d-flex align-items-center gap-3">
         <div class="ct_icon_53 ct_border_radius_10" style="background-color: #fff0f0" data-bs-target="#ct_delete_modal"
             data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
         <div class="ct_icon_53 ct_border_radius_10" style="background-color: #e8ecff"
-            data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal">
+            data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal" (click)="getTaskDetails()">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
-    </div> -->
+    </div>
+    }
+  
 </div>
 <div class="ct_mt_30 ct_px_30 pb-4">
     <div class="container-fluid">
@@ -133,32 +136,25 @@
                         </button>
                     </div>
                     <div class="ct_para_scroll ct_custom_scroll">
-                        <div class="ct_outline_bg">
+                        <div class="ct_outline_bg" *ngFor="let item of noteList">
                             <div class="d-flex align-items-start justify-content-between gap-3">
                                 <div>
-                                    <h4 class="ct_fs_18 ct_fw_500 mb-2">Website Redesign Ideas</h4>
-                                    <p class="ct_text_clr_101010C4 ct_para_scroll ct_custom_scroll">Consider
-                                        implementing dark mode and improving navigation structure for better UX. </p>
+                                    <h4 class="ct_fs_18 ct_fw_500 mb-2">{{item.title}}</h4>
+                                    <p class="ct_text_clr_101010C4 ct_para_scroll ct_custom_scroll text-truncate"
+                                        style="max-width: 500px">{{item.description}}
+                                    </p>
                                 </div>
                                 <div>
-                                    <a routerLink="/team/view-notes" class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
+                                    <a [routerLink]="['/team/view-notes']"
+                                        [queryParams]="{ noteId: item.id, taskId: taskId }"
+                                        class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>
                                 </div>
-
                             </div>
                         </div>
-                        <div class="ct_outline_bg ct_mt_15">
-                            <div class="d-flex align-items-start justify-content-between gap-3">
-                                <div>
-                                    <h4 class="ct_fs_18 ct_fw_500 mb-2">Website Redesign Ideas</h4>
-                                    <p class="ct_text_clr_101010C4 ct_para_scroll ct_custom_scroll">Consider
-                                        implementing dark mode and improving navigation structure for better UX. </p>
-                                </div>
-                                <div>
-                                    <a routerLink="/team/view-notes" class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
-                                        Details</a>
-                                </div>
-
+                        <div class="col-md-12">
+                            <div class="ct_no_recod_found_bg" *ngIf="noteList?.length == 0">
+                                <p class="text-center mb-0 ct_fs_20">No notes found</p>
                             </div>
                         </div>
                     </div>
@@ -190,65 +186,178 @@
                 </button>
             </div>
             <div class="modal-body p-0 ct_mt_20">
-                <form action="">
+                <form [formGroup]="Form">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Task Title </label>
                                 <input type="text" class="form-control ct_input" placeholder="Enter task title"
-                                    value="e.g. Deisgn new landing page" />
+                                    formControlName="title" />
+                                <div *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['title'].errors?.['required']">Please enter
+                                        task title.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description </label>
-                                <textarea class="form-control ct_input h-auto" rows="2"
-                                    placeholder="Enter Description"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group ct_mb_22">
-                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Member</label>
-                                <select class="form-control ct_input">
-                                    <option value="">Guy Hawkins</option>
-                                </select>
+                                <textarea class="form-control ct_input h-auto" rows="2" placeholder="Enter Description"
+                                    formControlName="description"></textarea>
+                                <div *ngIf="Form.controls['description'].invalid && Form.controls['description'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="Form.controls['description'].errors?.['required']">Please enter
+                                        description.</div>
+                                </div>
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Hours </label>
+                                <input type="text" class="form-control ct_input" placeholder="Enter estimated hours"
+                                    formControlName="estimatedHours" [maxlength]="4" />
+                                <div *ngIf="Form.controls['estimatedHours'].invalid && Form.controls['estimatedHours'].touched"
+                                    class="err_msg">
+
+                                    <div *ngIf="Form.controls['estimatedHours'].errors?.['required']">
+                                        Please enter estimated hours.
+                                    </div>
+
+                                    <div *ngIf="!Form.controls['estimatedHours'].errors?.['required']
+              && Form.controls['estimatedHours'].errors?.['pattern']">
+                                        Only numbers are allowed.
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Minutes </label>
+                                <input type="text" class="form-control ct_input" placeholder="Enter estimated minutes"
+                                    formControlName="estimatedMinutes" />
+                                <div *ngIf="Form.controls['estimatedMinutes'].invalid && Form.controls['estimatedMinutes'].touched"
+                                    class="err_msg">
+
+                                    <div *ngIf="Form.controls['estimatedMinutes'].errors?.['required']">
+                                        Please enter estimated minutes.
+                                    </div>
+
+                                    <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
+              && Form.controls['estimatedMinutes'].errors?.['pattern']">
+                                        Only numbers are allowed.
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-md-12">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Team</label>
+                                <select class="form-control ct_input" formControlName="selectedTeamId"
+                                    (change)="onTeamChange($event)">
+                                    <option value="" disabled>Select Team</option>
+                                    <option *ngFor="let agent of teamList" [value]="agent.id">
+                                        {{ agent.team_name }}
+                                    </option>
+                                </select>
+
+                                <div *ngIf="Form.controls['selectedTeamId'].invalid && Form.controls['selectedTeamId'].touched"
+                                    class="err_msg">
+                                    Please select a team.
+                                </div>
+
+                            </div>
+                        </div> -->
+
+                        <!-- Assign Member -->
+                        <div class="col-md-12">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Member</label>
+                                <select class="form-control ct_input" formControlName="memberId">
+                                    <option value="" disabled>Select Member</option>
+                                    <option *ngFor="let member of teamMembersList" [value]="member.user_id">
+                                        {{ member.name }}
+                                    </option>
+                                </select>
+
+                                <div *ngIf="Form.controls['memberId'].invalid && Form.controls['memberId'].touched"
+                                    class="err_msg">
+                                    Please select a member.
+                                </div>
+
+                            </div>
+                        </div>
 
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</label>
-                                <select class="form-control ct_input">
-                                    <option value="">Medium Priority</option>
+                                <select class="form-control ct_input" formControlName="priority">
+                                    <option value="" disabled>Select Priority</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                    <option value="P3">P3</option>
+                                    <option value="P4">P4</option>
                                 </select>
+
+                                <div *ngIf="Form.controls['priority'].invalid && Form.controls['priority'].touched"
+                                    class="err_msg">
+                                    Please select priority.
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</label>
                             <div class="form-group ct_mb_22">
-                                <select class="form-control ct_input">
-                                    <option value="">Design Review</option>
+                                <select class="form-control ct_input" formControlName="phaseId">
+                                    <option value="" disabled>Select Phase</option>
+                                    <option *ngFor="let member of phaseList" [value]="member.id">
+                                        {{ member.phase_name }}
+                                    </option>
                                 </select>
+
+                                <div *ngIf="Form.controls['phaseId'].invalid && Form.controls['phaseId'].touched"
+                                    class="err_msg">
+                                    Please select a phase.
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Start Date</label>
-                                <input type="date" class="form-control ct_input" />
+                                <input type="date" class="form-control ct_input" formControlName="startDate"
+                                    [min]="minDate" />
+
+                                <div class="err_msg"
+                                    *ngIf="Form.get('from')?.touched && Form.get('startDate')?.hasError('required')">
+                                    From date is required.
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</label>
-                                <input type="date" class="form-control ct_input" />
+                                <input type="date" class="form-control ct_input" formControlName="endDate"
+                                    [min]="Form.get('startDate')?.value" />
+
+                                <div class="err_msg"
+                                    *ngIf="Form.errors?.['dateInvalid'] && (Form.get('endDate')?.touched || Form.get('startDate')?.touched)">
+                                    Due-date must be greater than Start-date.
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="ct_para_scroll ct_custom_scroll">
-                                <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <!-- <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
                                     <div class="ct_d_align_center gap-3">
-                                        <img src="/img/lucide_lock.svg" alt="" class=" ct_flex_shrink_0">
+                                        <img src="img/lucide_lock.svg" alt="" class=" ct_flex_shrink_0">
                                         <div>
                                             <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
                                                 style="max-width: 100px">
@@ -262,17 +371,17 @@
                                     </div>
                                     <div class="ms-auto">
                                         <label class="toggle-switch">
-                                            <input type="checkbox">
+                                            <input type="checkbox" formControlName="isPrivate">
                                             <div class="toggle-switch-background">
                                                 <div class="toggle-switch-handle"></div>
                                             </div>
                                         </label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div
                                     class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
                                     <div class="ct_d_align_center gap-3">
-                                        <img src="/img/octicon_goal-24.svg" alt="" class=" ct_flex_shrink_0">
+                                        <img src="img/octicon_goal-24.svg" alt="" class=" ct_flex_shrink_0">
                                         <div>
                                             <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
                                                 style="max-width: 150px">
@@ -286,7 +395,32 @@
                                     </div>
                                     <div class="ms-auto">
                                         <label class="toggle-switch">
-                                            <input type="checkbox">
+                                            <input type="checkbox" formControlName="isGoalRevelant">
+                                            <div class="toggle-switch-background">
+                                                <div class="toggle-switch-handle"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
+                                    <div class="ct_d_align_center gap-3">
+                                        <img src="img/urgent.svg" alt="" class=" ct_flex_shrink_0">
+                                        <div>
+                                            <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
+                                                style="max-width: 150px">
+                                                Mark as Urgent
+                                            </h5>
+                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
+                                                style="max-width: 120px">
+                                                Requires immediate attention
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" formControlName="is_urgent">
                                             <div class="toggle-switch-background">
                                                 <div class="toggle-switch-handle"></div>
                                             </div>
@@ -299,10 +433,11 @@
                     </div>
                 </form>
                 <div class="modal-footer border-0 p-0 ct_mt_44">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                    <button #closeModalAdd type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                    <button (click)="onSubmit()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
                         Save Changes
                     </button>
                 </div>
@@ -310,6 +445,7 @@
         </div>
     </div>
 </div>
+
 <!-- Add note  board Modal S -->
 <div class="modal fade ct_custom_modal modal-lg" id="ct_add_note_modal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -332,23 +468,34 @@
                 </button>
             </div>
             <div class="modal-body p-0 ct_mt_20">
-                <form action="">
+                <form [formGroup]="notesForm">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Note Title </label>
-                                <input type="text" class="form-control ct_input" placeholder="Enter note title " />
+                                <input type="text" class="form-control ct_input" placeholder="Enter note title "
+                                    formControlName="title" />
+                                <div *ngIf="notesForm.controls['title'].invalid && notesForm.controls['title'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="notesForm.controls['title'].errors?.['required']">Please enter
+                                        title.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description </label>
-                                <textarea class="form-control ct_input h-auto" rows="2"
-                                    placeholder="Enter Description"></textarea>
+                                <textarea class="form-control ct_input h-auto" rows="2" placeholder="Enter Description"
+                                    formControlName="description"></textarea>
+                                <div *ngIf="notesForm.controls['description'].invalid && notesForm.controls['description'].touched"
+                                    class="err_msg">
+                                    <div *ngIf="notesForm.controls['description'].errors?.['required']">Please enter
+                                        description.</div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <div class="ct_para_scroll ct_custom_scroll">
                                 <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
                                     <div class="ct_d_align_center gap-3">
@@ -373,17 +520,16 @@
                                         </label>
                                     </div>
                                 </div>
-
-
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
                 <div class="modal-footer border-0 p-0 ct_mt_44">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                    <button #closeModalAddNotes type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                    <button (click)="onSubmitNotes()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
                         Add Note
                     </button>
                 </div>
@@ -413,10 +559,11 @@
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
-                    <button type="button" class="ct_outline_btn ct_ff_Matter_Medium" data-bs-dismiss="modal">
+                    <button #closeModalDelete type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
                         No
                     </button>
-                    <button type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                    <button (click)="deleteTask()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
                         Yes
                     </button>
                 </div>
@@ -425,3 +572,14 @@
     </div>
 </div>
 <!--  ct_delete_modal Modal E -->
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loader-con">
+        <div style="--i: 0;" class="pfile"></div>
+        <div style="--i: 1;" class="pfile"></div>
+        <div class="pfile" style="--i: 2;"></div>
+        <div class="pfile" style="--i: 3;"></div>
+        <div class="pfile" style="--i: 4;"></div>
+        <div class="pfile" style="--i: 5;"></div>
+    </div>
+</div>

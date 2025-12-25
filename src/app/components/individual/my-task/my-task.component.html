@@ -25,7 +25,7 @@
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedPriority"
                                 (change)="filterList()">
-                                <option value="">All Priority</option>
+                                <option value="">All</option>
                                 <option value="P1">P1</option>
                                 <option value="P2">P2</option>
                                 <option value="P3">P3</option>
@@ -108,29 +108,21 @@
                                                 on:
                                             </p>
                                         </div>
-                                        <p class="mb-0 ct_ff_Matter_Medium ct_fs_14 ct_white_nowrap ">{{ task.created_at |
+                                        <p class="mb-0 ct_ff_Matter_Medium ct_fs_14 ct_white_nowrap ">{{ task.created_at
+                                            |
                                             date:'dd MMM yyyy'}} </p>
-
                                     </div>
                                 </div>
-
                             </div>
-
-
                         </div>
                     </div>
-
                 </div>
             </div>
-
-
             <div class="col-md-12">
                 <div class="ct_no_recod_found_bg" *ngIf="filteredData.length == 0">
                     <p class="text-center mb-0 ct_fs_20">No task found</p>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
@@ -186,6 +178,50 @@
                                     <div *ngIf="Form.controls['description'].errors?.['required']">Please enter
                                         description.</div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Hours </label>
+                                <input type="text" class="form-control ct_input" placeholder="Enter estimated hours"
+                                    formControlName="estimatedHours" [maxlength]="4" />
+                                <div *ngIf="Form.controls['estimatedHours'].invalid && Form.controls['estimatedHours'].touched"
+                                    class="err_msg">
+
+                                    <div *ngIf="Form.controls['estimatedHours'].errors?.['required']">
+                                        Please enter estimated hours.
+                                    </div>
+
+                                    <div *ngIf="!Form.controls['estimatedHours'].errors?.['required']
+              && Form.controls['estimatedHours'].errors?.['pattern']">
+                                        Only numbers are allowed.
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ct_mb_22">
+                                <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Minutes </label>
+                                <input type="text" class="form-control ct_input" placeholder="Enter estimated minutes"
+                                    formControlName="estimatedMinutes" />
+                                <div *ngIf="Form.controls['estimatedMinutes'].invalid && Form.controls['estimatedMinutes'].touched"
+                                    class="err_msg">
+
+                                    <div *ngIf="Form.controls['estimatedMinutes'].errors?.['required']">
+                                        Please enter estimated minutes.
+                                    </div>
+
+                                    <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
+              && Form.controls['estimatedMinutes'].errors?.['pattern']">
+                                        Only numbers are allowed.
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
 
@@ -328,6 +364,31 @@
                                     <div class="ms-auto">
                                         <label class="toggle-switch">
                                             <input type="checkbox" formControlName="isGoalRevelant">
+                                            <div class="toggle-switch-background">
+                                                <div class="toggle-switch-handle"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
+                                    <div class="ct_d_align_center gap-3">
+                                        <img src="img/urgent.svg" alt="" class=" ct_flex_shrink_0">
+                                        <div>
+                                            <h5 class="ct_fs_16 mb-1 ct_ff_Matter_Medium text-truncate"
+                                                style="max-width: 150px">
+                                                Mark as Urgent
+                                            </h5>
+                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
+                                                style="max-width: 120px">
+                                                Requires immediate attention
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" formControlName="is_urgent">
                                             <div class="toggle-switch-background">
                                                 <div class="toggle-switch-handle"></div>
                                             </div>

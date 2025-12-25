@@ -33,9 +33,25 @@ export const individualRoutes: Routes = [
                   },
 
                   {
+                        path: 'task-management',
+                        loadComponent: () =>
+                              import('../team/tasks-management/tasks-management.component').then(m => m.TasksManagementComponent),
+                  },
+                  {
+                        path: 'my-task-details',
+                        loadComponent: () =>
+                              import('../team/tasks-management/task-details/task-details.component').then(m => m.TaskDetailsComponent),
+                  },
+
+                  {
                         path: 'my-teams',
                         loadComponent: () =>
                               import('../team/teams-management/teams-management.component').then(m => m.TeamsManagementComponent),
+                  },
+                    {
+                        path: 'team-overview',
+                        loadComponent: () =>
+                              import('../team/teams-management/team-overview/team-overview.component').then(m => m.TeamOverviewComponent),
                   },
 
                   {

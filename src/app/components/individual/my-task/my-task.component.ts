@@ -36,15 +36,23 @@ export class MyTaskComponent {
   }
 
   initForm() {
+    const numberOnlyValidator = [
+      Validators.required,
+      Validators.pattern(/^\d+$/) // allows 0, 00, 01, 10
+    ];
+
     this.Form = new FormGroup({
       title: new FormControl('', Validators.required),
       // selectedTeamId: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
+      estimatedHours: new FormControl('', numberOnlyValidator),
+      estimatedMinutes: new FormControl('', numberOnlyValidator),
       priority: new FormControl('', Validators.required),
       startDate: new FormControl('', Validators.required),
       endDate: new FormControl('', Validators.required),
-      isPrivate: new FormControl(false),
+      // isPrivate: new FormControl(false),
       isGoalRevelant: new FormControl(false),
+      is_urgent: new FormControl(false),
       // memberId: new FormControl('', Validators.required),
       phaseId: new FormControl('', Validators.required),
     },
@@ -181,9 +189,12 @@ export class MyTaskComponent {
       formURlData.append('start_date', this.Form.value.startDate);
       formURlData.append('due_date', this.Form.value.endDate);
       formURlData.append('priority', this.Form.value.priority);
+      formURlData.append('estimated_hours', this.Form.value.estimatedHours);
+      formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       // formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('is_private', '0');
       formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
       this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({
         next: (resp: any) => {
@@ -217,12 +228,15 @@ export class MyTaskComponent {
     this.Form.patchValue({
       title: '',
       description: '',
+      estimated_minutes: '',
+      estimated_hours: '',
       phaseId: '',
       priority: '',
       startDate: '',
       endDate: '',
       isPrivate: '',
       isGoalRevelant: '',
+      is_urgent: ''
     });
   }
 

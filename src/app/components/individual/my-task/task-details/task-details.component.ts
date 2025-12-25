@@ -16,23 +16,29 @@ export class TaskDetailsComponent {
 
   taskId: any;
   Form!: FormGroup;
+  notesForm!: FormGroup;
   loading: boolean = false;
   userId: any;
   phaseList: any;
   minDate: any;
   taskDetails: any;
+  noteList: any;
+  userType: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
+  @ViewChild('closeModalAddNotes') closeModalAddNotes!: ElementRef;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
 
   constructor(private service: CommonService, private location: Location, private route: ActivatedRoute, private toastr: NzMessageService, private router: Router) { }
 
   ngOnInit() {
+    this.userType = localStorage.getItem('userType');
     this.userId = localStorage.getItem('userId');
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
     this.initForm();
     this.dateValidation();
     this.getPhaes();
     this.getTaskDetails();
+    this.getNotes();
   }
 
   getTaskDetails() {
@@ -48,6 +54,9 @@ export class TaskDetailsComponent {
           endDate: resp.data.due_date,
           //isPrivate: item.is_private,
           isGoalRevelant: resp.data.goal_relevant,
+          estimatedMinutes: resp.data.estimated_minutes,
+          estimatedHours: resp.data.estimated_hours,
+          is_urgent: resp.data.is_urgent,
         });
       },
       error: (error) => {
@@ -57,22 +66,47 @@ export class TaskDetailsComponent {
   }
 
   initForm() {
+    const numberOnlyValidator = [
+      Validators.required,
+      Validators.pattern(/^\d+$/)
+    ];
+
+    this.notesForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+    });
+
     this.Form = new FormGroup({
       title: new FormControl('', Validators.required),
       // selectedTeamId: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       priority: new FormControl('', Validators.required),
+      estimatedHours: new FormControl('', numberOnlyValidator),
+      estimatedMinutes: new FormControl('', numberOnlyValidator),
       startDate: new FormControl('', Validators.required),
       endDate: new FormControl('', Validators.required),
       isPrivate: new FormControl(false),
       isGoalRevelant: new FormControl(false),
+      is_urgent: new FormControl(false),
       // memberId: new FormControl('', Validators.required),
       phaseId: new FormControl('', Validators.required),
+
     },
       {
         validators: this.dateRangeValidator as any   // <-- FIX
       }
     );
+  }
+
+  getNotes() {
+    this.service.get(`user/fetchNotesByTaskId?task_id=${this.taskId}`).subscribe({
+      next: (resp: any) => {
+        this.noteList = resp.data;
+      },
+      error: (error) => {
+        console.log(error.message);
+      }
+    });
   }
 
   backClicked() {
@@ -111,22 +145,6 @@ export class TaskDetailsComponent {
     });
   }
 
-  // fetchPhaseDetails(item: any) {
-  //   this.taskId = item.id;
-  //   this.Form.patchValue({
-  //     title: item.title,
-  //     description: item.description || '',
-  //     selectedTeamId: item.team_id,
-  //     memberId: item.user_id,
-  //     phaseId: item.phase_id,
-  //     priority: item.priority,
-  //     startDate: item.start_date,
-  //     endDate: item.due_date,
-  //     isPrivate: item.is_private,
-  //     isGoalRevelant: item.goal_relevant,
-  //   });
-  // }
-
   getPhaes() {
     this.service.get(`user/fetchIndividualUserPhasesByUserId`).subscribe({
       next: (resp: any) => {
@@ -159,9 +177,12 @@ export class TaskDetailsComponent {
       formURlData.append('start_date', this.Form.value.startDate);
       formURlData.append('due_date', this.Form.value.endDate);
       formURlData.append('priority', this.Form.value.priority);
+      formURlData.append('estimated_hours', this.Form.value.estimatedHours);
+      formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       // formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('is_private', '0');
       formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
       this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({
         next: (resp: any) => {
@@ -186,5 +207,49 @@ export class TaskDetailsComponent {
       this.toastr.warning('Please check all the fields!');
     }
   }
+
+  onSubmitNotes() {
+    this.notesForm.markAllAsTouched();
+
+    const title = this.notesForm.value.title?.trim();
+
+    if (!title) {
+      return;
+    }
+
+    if (this.notesForm.valid) {
+      this.loading = true;
+      const formURlData: any = new URLSearchParams();
+      formURlData.append('title', title);
+      formURlData.append('description', this.notesForm.value.description);
+      formURlData.append('task_id', this.taskId);
+
+      this.service.post('user/createNotes', formURlData.toString()).subscribe({
+        next: (resp: any) => {
+          if (resp.success == true) {
+            this.toastr.success(resp.message);
+            this.loading = false;
+            this.closeModalAddNotes.nativeElement.click();
+            this.getNotes();
+            // this.boardId = null;
+            // this.service.triggerRefresh();
+          } else {
+            this.toastr.warning(resp.message);
+            this.loading = false;
+            this.getNotes();
+          }
+        },
+        error: (error) => {
+          this.toastr.warning('Something went wrong.');
+          console.log(error.message);
+          this.loading = false;
+        }
+      });
+    } else {
+      this.loading = false;
+      this.toastr.warning('Please check all the fields!');
+    }
+  }
+
 
 }
