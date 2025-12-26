@@ -146,7 +146,7 @@
                                     <span class="ct_overlay_text d-inline-block">{{item.title}}</span>
                                 </td>
                                 <td>{{item.team_name}}</td>
-                                <td>{{item.name}}</td>
+                                <td>{{item.created_by_name}}</td>
                                 <td>
                                     @if(item.priority == 'P1'){
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
@@ -179,7 +179,7 @@
                                     <div class="d-flex align-items-center gap-3">
                                         @if(userType == 'team'){
                                         <a [routerLink]="['/team/task-details']"
-                                            [queryParams]="{ taskId: item.id }">
+                                            [queryParams]="{ taskId: item.id, teamId: item.team_id, boardId: item.board_id }">
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
                                         </a>
                                         } @else if (userType == 'invited') {

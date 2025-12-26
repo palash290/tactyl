@@ -4,12 +4,10 @@
             <h4 class="ct_fs_35  mb-2 ct_ff_Matter_Medium">Dashboard</h4>
             <p class="mb-0 ct_text_929292 ct_fs_18">Here's what's happening with your tasks today.</p>
         </div>
-
         <!-- <button class="ct_purple_btn ct_w_100_1199 " data-bs-target="#ct_add_create_modal" data-bs-toggle="modal">
             <img src="/img/plus-circle.svg" alt="" class="me-2">Create Task
         </button> -->
     </div>
-
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
     <div class="container-fluid">
@@ -21,13 +19,9 @@
                     </div>
                     <div class="ct_dash_card_title">
                         <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Total Tasks</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F7BE4A;">03</h5>
-
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F7BE4A;">{{dashboardData.total_tasks}}</h5>
                     </div>
-
-
                 </div>
-
             </div>
             <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4">
                 <div class="ct_dash_card justify-content-start gap-4">
@@ -35,14 +29,10 @@
                         <img src="/img/completed_task_icon.svg" alt="">
                     </div>
                     <div class="ct_dash_card_title">
-                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Pending</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #19CE71;">02</h5>
-
+                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Total Phase</p>
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #19CE71;">{{dashboardData.total_phases}}</h5>
                     </div>
-
-
                 </div>
-
             </div>
             <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4">
                 <div class="ct_dash_card justify-content-start gap-4">
@@ -50,17 +40,11 @@
                         <img src="/img/pending_task_icon.svg" alt="">
                     </div>
                     <div class="ct_dash_card_title">
-                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Pending</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F24E1E;">03</h5>
-
+                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Total Boards</p>
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F24E1E;">{{dashboardData.total_boards}}</h5>
                     </div>
-
-
                 </div>
-
             </div>
-
-
         </div>
 
         <div class="row ct_mt_15">
@@ -68,7 +52,6 @@
                 <div class="ct_white_bg">
                     <div class="ct_d_align_center justify-content-between gap-3 ct_flex_col_575 ">
                         <h4 class="ct_fs_22 ct_ff_Matter_SemiBold mb-0">Task Distribution by phase</h4>
-
                     </div>
 
                     <!-- <div id="ct_Performance_graph" class="ct_mt_30"></div> -->
@@ -78,16 +61,13 @@
                             [markers]="chartOptions1.markers" [colors]="chartOptions1.colors"
                             [title]="chartOptions1.title"></apx-chart>
                     </div>
-
                 </div>
-
             </div>
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <div class="ct_white_bg">
                     <div class="ct_d_align_center justify-content-between gap-3 ">
                         <h4 class="ct_fs_22 ct_ff_Matter_SemiBold mb-0">Recent Tasks</h4>
                     </div>
-
                     <ul class="ct_mt_30 ct_recent_task_lists ct_para_scroll ct_custom_scroll"
                         style="max-height: 383px;">
                         <li>
@@ -142,6 +122,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 

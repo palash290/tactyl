@@ -123,7 +123,7 @@ export class TaskDetailsComponent {
       formURlData.append('start_date', this.Form.value.startDate);
       formURlData.append('due_date', this.Form.value.endDate);
       formURlData.append('priority', this.Form.value.priority);
-      formURlData.append('is_private', '0');
+      formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('estimated_hours', this.Form.value.estimatedHours);
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
@@ -188,6 +188,7 @@ export class TaskDetailsComponent {
           is_urgent: resp.data.is_urgent,
           estimatedMinutes: resp.data.estimated_minutes,
           estimatedHours: resp.data.estimated_hours,
+          isPrivate: resp.data.is_private
         });
       },
       error: (error) => {

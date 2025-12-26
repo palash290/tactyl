@@ -23,6 +23,7 @@ export class TeamOverviewComponent {
   teamId: any;
   loading: boolean = false;
   userEmail: any;
+  userType: any;
   activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
   activeSettingsTab: 'users' | 'permissions' | 'phases' = 'users';
 
@@ -32,6 +33,7 @@ export class TeamOverviewComponent {
   constructor(private location: Location, private service: CommonService, private route: ActivatedRoute, private router: Router, private toastr: NzMessageService) { }
 
   ngOnInit() {
+    this.userType = localStorage.getItem('userType');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.route.queryParams.subscribe(params => {
       this.teamName = params['teamName'];

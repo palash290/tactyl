@@ -4,7 +4,7 @@
             <a class="ct_back_icon me-1" (click)="backClicked()"><i class="fa-solid fa-chevron-left"></i></a>Tasks
         </h4>
     </div>
-    @if(userType == 'team'){
+    @if(userType == 'team' || userType == 'individual'){
             <div class="d-flex align-items-center gap-3">
         <div class="ct_icon_53 ct_border_radius_10" style="background-color: #fff0f0" data-bs-target="#ct_delete_modal"
             data-bs-toggle="modal">
@@ -370,7 +370,7 @@
                                                 Mark as Urgent
                                             </h5>
                                             <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px">
+                                                style="max-width: 150px">
                                                 Requires immediate attention
                                             </p>
                                         </div>

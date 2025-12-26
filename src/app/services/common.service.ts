@@ -8,9 +8,9 @@ import { environment } from '../../environments/environment';
 
 export class CommonService {
 
-  baseUrl = 'https://tactyl-dev.online/api/';
-  //baseUrl = 'https://tactyl.online/api/';
-  //baseUrl = 'http://192.168.1.53:4009/api/';
+  //baseUrl = 'https://tactyl-dev.online/api/';
+  baseUrl = 'https://tactyl.online/api/';
+  //baseUrl = 'http://192.168.1.16:4009/api/';
   //baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
