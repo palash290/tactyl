@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-team-dashboard',
@@ -13,8 +14,12 @@ export class TeamDashboardComponent {
 
   chartOptions1: any;
   chartOptions2: any;
+  dashboardData: any;
+
+  constructor(private service: CommonService, private router: Router) { }
 
   ngOnInit() {
+    this.getDashboard();
     this.chartOptions1 = {
       chart: {
         type: 'line',
@@ -86,5 +91,18 @@ export class TeamDashboardComponent {
       dataLabels: { enabled: false }
     };
   }
+
+  getDashboard() {
+    this.service.get(`user/teamAdminDashboard`).subscribe({
+      next: (resp: any) => {
+        this.dashboardData = resp.data[0];
+        // this.filterTable();
+      },
+      error: (error) => {
+        console.log(error.message);
+      }
+    });
+  }
+
 
 }

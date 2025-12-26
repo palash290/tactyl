@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-individual-dashboard',
@@ -11,8 +12,14 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 export class IndividualDashboardComponent {
 
   chartOptions1: any;
+  dashboardData: any;
+  userType: any;
+
+  constructor(private service: CommonService, private router: Router) { }
 
   ngOnInit() {
+    this.userType = localStorage.getItem('userType');
+    this.getDashboard();
     this.chartOptions1 = {
       chart: {
         type: 'line',
@@ -43,5 +50,18 @@ export class IndividualDashboardComponent {
       }
     };
   }
+
+  getDashboard() {
+    this.service.get(this.userType == 'individual' ? `user/individualUserDashboard` : 'user/invitedTeamMemberDashboard').subscribe({
+      next: (resp: any) => {
+        this.dashboardData = resp.data[0];
+        // this.filterTable();
+      },
+      error: (error) => {
+        console.log(error.message);
+      }
+    });
+  }
+
 
 }

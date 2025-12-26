@@ -33,7 +33,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
-                <td>{{i+1}}</td>
+                <td>{{(p - 1) * 10 + i + 1}}</td>
                 <td>
                     <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'" class="ct_img_40" />
                 </td>

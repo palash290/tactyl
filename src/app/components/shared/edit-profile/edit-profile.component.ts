@@ -21,10 +21,12 @@ export class EditProfileComponent {
   loading: boolean = false;
   profileImg: string | ArrayBuffer | null = null;
   selectedFile!: File;
+  userType: any;
 
   constructor(private service: CommonService, private toastr: NzMessageService) { }
 
   ngOnInit() {
+    this.userType = localStorage.getItem('userType');
     this.initForm();
     this.loadUserProfile();
   }
@@ -33,7 +35,8 @@ export class EditProfileComponent {
     this.profileForm = new FormGroup({
       name: new FormControl('', Validators.required),
       designation: new FormControl('', Validators.required),
-      email: new FormControl({ value: this.userEmail, disabled: true })
+      email: new FormControl({ value: this.userEmail, disabled: true }),
+      company_name: new FormControl({ value: this.userEmail, disabled: true }),
     });
   }
 
@@ -47,7 +50,8 @@ export class EditProfileComponent {
         this.profileForm.patchValue({
           name: this.first_name,
           designation: this.designation,
-          email: this.userEmail
+          email: this.userEmail,
+          company_name: resp.data.company_name
         });
       },
       error: (error) => {

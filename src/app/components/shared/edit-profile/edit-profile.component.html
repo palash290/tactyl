@@ -54,6 +54,19 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(userType == 'team'){
+                            <div class="col-md-12">
+                                <div class="form-group ct_mb_15">
+                                    <label for="" class="ct_fs_18 ct_mb_10">Company Name</label>
+                                    <div class="position-relative">
+                                        <img src="/img/user_icon.svg" alt="" class="ct_input_icon_left">
+                                        <input type="text" class="form-control  ct_input ct_input_ps_50 "
+                                            placeholder="Enter full name" value="Alex Johnson"
+                                            formControlName="company_name">
+                                    </div>
+                                </div>
+                            </div>
+                            }
                             <div class="col-md-12">
                                 <div class="form-group ct_mb_15">
                                     <label for="" class="ct_fs_18 ct_mb_10">Designation</label>
@@ -84,12 +97,12 @@
 </div>
 
 <div class="ct_loader_main" *ngIf="loading">
-      <div class="loader-con">
-            <div style="--i: 0;" class="pfile"></div>
-            <div style="--i: 1;" class="pfile"></div>
-            <div class="pfile" style="--i: 2;"></div>
-            <div class="pfile" style="--i: 3;"></div>
-            <div class="pfile" style="--i: 4;"></div>
-            <div class="pfile" style="--i: 5;"></div>
-      </div>
+    <div class="loader-con">
+        <div style="--i: 0;" class="pfile"></div>
+        <div style="--i: 1;" class="pfile"></div>
+        <div class="pfile" style="--i: 2;"></div>
+        <div class="pfile" style="--i: 3;"></div>
+        <div class="pfile" style="--i: 4;"></div>
+        <div class="pfile" style="--i: 5;"></div>
+    </div>
 </div>

@@ -39,7 +39,7 @@ export class ViewTeamMemberComponent {
   getUsertasks() {
     this.service.get(`user/fetchUsersTaskByTherUserId?team_id=${this.teamId}&user_id=${this.memberId}`).subscribe({
       next: (resp: any) => {
-        this.taskList = resp.data.users_tasks;
+        this.taskList = resp.data.users_tasks || [];
       },
       error: (error) => {
         console.log(error.message);

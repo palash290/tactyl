@@ -17,7 +17,8 @@
             </a>
         </li>
 
-        <li>
+        @if(userType == 'invited'){
+            <li>
             <a routerLink="/individual/task-management" [ngClass]="{ 'active': isActive('/individual/task-management')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 1H8V5H16V1Z" fill="#787885" />
@@ -26,6 +27,19 @@
                 My Tasks
             </a>
         </li>
+        } @else {
+            <li>
+            <a routerLink="/individual/my-task" [ngClass]="{ 'active': isActive('/individual/my-task')}">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 1H8V5H16V1Z" fill="#787885" />
+                    <path d="M3 3H6V7H18V3H21V23H3V3Z" fill="#787885" />
+                </svg>
+                My Tasks
+            </a>
+        </li>
+        }
+
+        
 
         @if(userType == 'invited'){
         <li>
@@ -114,7 +128,7 @@
             </a>
         </li>
 
-        <li>
+        <!-- <li>
             <a routerLink="/individual/notes" [ngClass]="{ 'active': isActive('/individual/notes')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -126,7 +140,7 @@
                 </svg>
                 Notes
             </a>
-        </li>
+        </li> -->
         <li>
             <a routerLink="/individual/my-performance" [ngClass]="{ 'active': isActive('/individual/my-performance')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
