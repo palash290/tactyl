@@ -30,7 +30,7 @@
                     </div>
                     <div class="ct_dash_card_title">
                         <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Total Phase</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #19CE71;">{{dashboardData.total_phases}}</h5>
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #19CE71;">{{dashboardData.total_phases ? dashboardData.total_phases : '0'}}</h5>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="ct_dash_card_title">
                         <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Total Boards</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F24E1E;">{{dashboardData.total_boards}}</h5>
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F24E1E;">{{dashboardData.total_boards ? dashboardData.total_boards : '0'}}</h5>
                     </div>
                 </div>
             </div>
