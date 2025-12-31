@@ -34,263 +34,396 @@
                     <div class="ct_search_box_bg ct_flex_1 ct_w_100_1199 ct_flex_col_767">
                         <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_767">
                             <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                                placeholder="Search tasks by board name..." />
+                                placeholder="Search..." [(ngModel)]="searchText" (input)="applyFilters()" />
                             <img src="img/search_icon.svg" class="ct_input_icon_left" />
                         </div>
+                        @if(userType == 'team'){
                         <div class="ct_w_100_767">
-                            <select class="form-control ct_input ct_grey_select">
+                            <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedTeam"
+                                (change)="applyFilters()">
                                 <option value="">All Teams</option>
+                                <option *ngFor="let team of teams" [value]="team.id">
+                                    {{ team.team_name }}
+                                </option>
                             </select>
                         </div>
-                        <div class="ct_w_100_767">
-                            <select class="form-control ct_input ct_grey_select">
+                        }
+
+                        @if(userType == 'team' || userType == 'individual'){
+                             <div class="ct_w_100_767">
+                            <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedBoard"
+                                (change)="applyFilters()">
                                 <option value="">All Boards</option>
+                                <option *ngFor="let board_name of boards" [value]="board_name.id">
+                                    {{ board_name.board_name }}
+                                </option>
                             </select>
                         </div>
-
-
+                        }
                     </div>
-
-
                 </div>
             </div>
         </div>
-
         <div class="row ct_mt_30">
-            <div class="col-lg-6  mb-4">
-                <div class="ct_compase_card" style="box-shadow: 0 0 0 3px #ffe3e3;border-color: #EF4444;background-color: #FEF2F2;
-">
-                    <div class="ct_d_align_center justify-content-between  gap-3">
-                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 d-block py-2"
-                            style="background-color: #EF4444;">Do Now</span>
-                        <div>
-                            <p class="ct_fs_14 mb-0  ct_text_clr_6B7280">2 tasks</p>
-                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">Est hrs: 45 hrs</p>
-                        </div>
-                    </div>
-                    <div class="ct_mt_40">
-                        <div class="ct_compass_white_card" style="border-color: #FEE2E2;">
-                            <div class="ct_d_align_center justify-content-between gap-3">
-                                <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Fix
-                                        critical security vulnerability</h4>
-                                    <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">John Doe</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 82
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="ct_compass_white_card ct_mt_10" style="border-color: #FEE2E2;">
-                            <div class="ct_d_align_center justify-content-between gap-3">
-                                <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Fix
-                                        critical security vulnerability</h4>
-                                    <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">John Doe</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 82
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-6  mb-4">
+            <!-- ================= DO NOW ================= -->
+            <div class="col-lg-6 mb-4">
                 <div class="ct_compase_card"
-                    style="box-shadow: 0 0 0 3px #BFDBFE;border-color: #3B82F6;background-color: #EFF6FF;">
-                    <div class="ct_d_align_center justify-content-between  gap-3">
-                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 d-block py-2"
-                            style="background-color: #3B82F6;">Do Next</span>
+                    style="box-shadow: 0 0 0 3px #ffe3e3; border-color: #EF4444; background-color: #FEF2F2;">
+                    <div class="ct_d_align_center justify-content-between gap-3">
+                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 py-2"
+                            style="background-color: #EF4444;">
+                            Do Now
+                        </span>
                         <div>
-                            <p class="ct_fs_14 mb-0  ct_text_clr_6B7280">3 tasks</p>
-                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">Est hrs: 45 hrs</p>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                {{ doNow.length }} tasks
+                            </p>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                Est hrs: {{ getTotalHours(doNow) }}
+                            </p>
                         </div>
                     </div>
                     <div class="ct_mt_40">
-                        <div class="ct_compass_white_card" style="border-color: #DBEAFE;">
+                        <div class="ct_compass_white_card mb-3" style="border-color: #FEE2E2;"
+                            *ngFor="let task of doNow">
                             <div class="ct_d_align_center justify-content-between gap-3">
                                 <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Plan Q2
-                                        strategy</h4>
+                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
+                                        {{ task.title }}
+                                    </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">John Doe</p>
+                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                            class="ct_img_w_24 ct_flex_shrink_0">
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
+                                            {{ task.assignee_name }}
+                                        </p>
                                     </div>
                                 </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 64
+                                <div class="text-end">
+                                    @if(task?.status){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
+                                        Action Score: {{ task.action_score }}
                                     </p>
                                 </div>
-
                             </div>
-
                         </div>
-                        <div class="ct_compass_white_card ct_mt_10" style="border-color: #DBEAFE;">
-                            <div class="ct_d_align_center justify-content-between gap-3">
-                                <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Team skill
-                                        development</h4>
-                                    <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">Anna Smith</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 60
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="ct_compass_white_card ct_mt_10" style="border-color: #DBEAFE;">
-                            <div class="ct_d_align_center justify-content-between gap-3">
-                                <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Update
-                                        documentation</h4>
-                                    <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">Tom Brown</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 70
-                                    </p>
-                                </div>
-
-                            </div>
-
+                        <div *ngIf="doNow?.length == 0" class="text-center">
+                            No task here..
                         </div>
                     </div>
-
                 </div>
-
             </div>
+            <!-- ================= DO NEXT ================= -->
+            <div class="col-lg-6 mb-4">
+                <div class="ct_compase_card"
+                    style="box-shadow: 0 0 0 3px #BFDBFE; border-color: #3B82F6; background-color: #EFF6FF;">
 
-            <div class="col-lg-6  mb-4">
-                <div class="ct_compase_card" style="box-shadow: 0 0 0 3px #FEF08A;border-color: #EAB308;background-color: #FEFCE8;
-">
-                    <div class="ct_d_align_center justify-content-between  gap-3">
-                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 d-block py-2"
-                            style="background-color: #EAB308;"> Do Later</span>
+                    <div class="ct_d_align_center justify-content-between gap-3">
+                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 py-2"
+                            style="background-color: #3B82F6;">
+                            Do Next
+                        </span>
                         <div>
-                            <p class="ct_fs_14 mb-0  ct_text_clr_6B7280">2 tasks</p>
-                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">Est hrs: 45 hrs</p>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                {{ doNext.length }} tasks
+                            </p>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                Est hrs: {{ getTotalHours(doNext) }}
+                            </p>
                         </div>
                     </div>
                     <div class="ct_mt_40">
-                        <div class="ct_compass_white_card" style="border-color: #FEE2E2;">
+                        <div class="ct_compass_white_card mb-3" style="border-color: #DBEAFE;"
+                            *ngFor="let task of doNext">
                             <div class="ct_d_align_center justify-content-between gap-3">
                                 <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Schedule
-                                        team meetings</h4>
+                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
+                                        {{ task.title }}
+                                    </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">John Doe</p>
+                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                            class="ct_img_w_24 ct_flex_shrink_0">
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
+                                            {{ task.assignee_name }}
+                                        </p>
                                     </div>
                                 </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 82
+                                <div class="text-end">
+                                    @if(task?.status){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
+                                        Action Score: {{ task.action_score }}
                                     </p>
                                 </div>
-
                             </div>
-
                         </div>
-                        <div class="ct_compass_white_card ct_mt_10" style="border-color: #FEE2E2;">
-                            <div class="ct_d_align_center justify-content-between gap-3">
-                                <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Respond to
-                                        non-critical emails</h4>
-                                    <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">John Doe</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 82
-                                    </p>
-                                </div>
-
-                            </div>
-
+                        <div *ngIf="doNext?.length == 0" class="text-center">
+                            No task here..
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
-            <div class="col-lg-6  mb-4">
-                <div class="ct_compase_card" style="box-shadow: 0 0 0 3px #E5E7EB;border-color: #9CA3AF;background-color: #F9FAFB;
-">
-                    <div class="ct_d_align_center justify-content-between  gap-3">
-                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 d-block py-2"
-                            style="background-color: #6B7280;"> Do Last</span>
+            <!-- ================= DO LATER ================= -->
+            <div class="col-lg-6 mb-4">
+                <div class="ct_compase_card"
+                    style="box-shadow: 0 0 0 3px #FEF08A; border-color: #EAB308; background-color: #FEFCE8;">
+                    <div class="ct_d_align_center justify-content-between gap-3">
+                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 py-2"
+                            style="background-color: #EAB308;">
+                            Do Later
+                        </span>
                         <div>
-                            <p class="ct_fs_14 mb-0  ct_text_clr_6B7280">2 tasks</p>
-                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">Est hrs: 45 hrs</p>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                {{ doLater.length }} tasks
+                            </p>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                Est hrs: {{ getTotalHours(doLater) }}
+                            </p>
                         </div>
                     </div>
                     <div class="ct_mt_40">
-                        <div class="ct_compass_white_card" style="border-color: #FEE2E2;">
+                        <div class="ct_compass_white_card mb-3" style="border-color: #FEF3C7;"
+                            *ngFor="let task of doLater">
                             <div class="ct_d_align_center justify-content-between gap-3">
                                 <div>
-                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">Browse
-                                        social media <span class="ct_custom_badge px-3 ct_border_radius_20"
-                                            style="background-color: #F3F4F6;">Low Priority</span></h4>
+                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
+                                        {{ task.title }}
+                                    </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img src="img/user_3.png" class="ct_img_w_24 ct_flex_shrink_0">
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">Lisa Park</p>
+                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                            class="ct_img_w_24 ct_flex_shrink_0">
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
+                                            {{ task.assignee_name }}
+                                        </p>
                                     </div>
                                 </div>
-                                <div>
-                                    <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Mark
-                                        As Done</span>
-                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">Action Score: 82
+                                <div class="text-end">
+                                    @if(task?.status){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
+                                        Action Score: {{ task.action_score }}
                                     </p>
                                 </div>
-
                             </div>
-
                         </div>
-
+                        <div *ngIf="doLater?.length == 0" class="text-center">
+                            No task here..
+                        </div>
                     </div>
-
                 </div>
-
             </div>
-
+            <!-- ================= DO LAST ================= -->
+            <div class="col-lg-6 mb-4">
+                <div class="ct_compase_card"
+                    style="box-shadow: 0 0 0 3px #E5E7EB; border-color: #9CA3AF; background-color: #F9FAFB;">
+                    <div class="ct_d_align_center justify-content-between gap-3">
+                        <span class="ct_custom_badge text-white ct_border_radius_20 px-3 py-2"
+                            style="background-color: #6B7280;">
+                            Do Last
+                        </span>
+                        <div>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                {{ doLast.length }} tasks
+                            </p>
+                            <p class="ct_fs_14 mb-0 ct_text_clr_6B7280">
+                                Est hrs: {{ getTotalHours(doLast) }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ct_mt_40">
+                        <div class="ct_compass_white_card mb-3" style="border-color: #E5E7EB;"
+                            *ngFor="let task of doLast">
+                            <div class="ct_d_align_center justify-content-between gap-3">
+                                <div>
+                                    <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
+                                        {{ task.title }}
+                                    </h4>
+                                    <div class="ct_d_align_center gap-2">
+                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                            class="ct_img_w_24 ct_flex_shrink_0">
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
+                                            {{ task.assignee_name }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    @if(task?.status){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
+                                        Action Score: {{ task.action_score }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="doLast?.length == 0" class="text-center">
+                            No task here..
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- complete Modal S -->
+<div class="modal fade ct_custom_modal" id="ct_complete_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Task Completed
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Please enter the Actual Hours spent
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 mt-3">
+                <div class="d-flex justify-content-start gap-3 justify-content-between mb-1">
+                    <h1 class="modal-title ct_fs_18 ct_ff_Matter_SemiBold mb-2 ">
+                        Task Name:
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        {{taskName}}
+                    </p>
+                </div>
+                <div class="d-flex justify-content-start gap-3 justify-content-between mb-3">
+                    <h1 class="modal-title ct_fs_18 ct_ff_Matter_SemiBold mb-2 ">
+                        Estimated Hours:
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        {{actualTime}}
+                    </p>
+                </div>
+
+                <form [formGroup]="completeForm">
+                    <div class="col-md-12">
+                        <div class="form-group ct_mb_22">
+                            <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Hours </label>
+                            <input type="text" class="form-control ct_input" placeholder="Enter actual hours"
+                                formControlName="actualHours" [maxlength]="4" />
+                            <div *ngIf="completeForm.controls['actualHours'].invalid && completeForm.controls['actualHours'].touched"
+                                class="err_msg">
+
+                                <div *ngIf="completeForm.controls['actualHours'].errors?.['required']">
+                                    Please enter actual hours.
+                                </div>
+
+                                <div *ngIf="!completeForm.controls['actualHours'].errors?.['required']
+              && completeForm.controls['actualHours'].errors?.['pattern']">
+                                    Only numbers are allowed.
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group ct_mb_22">
+                            <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Minutes </label>
+                            <input type="text" class="form-control ct_input" placeholder="Enter actual minutes"
+                                formControlName="actualMinutes" />
+                            <div *ngIf="completeForm.controls['actualMinutes'].invalid && completeForm.controls['actualMinutes'].touched"
+                                class="err_msg">
+                                <div *ngIf="completeForm.controls['actualMinutes'].errors?.['required']">
+                                    Please enter actual minutes.
+                                </div>
+
+                                <div *ngIf="!completeForm.controls['actualMinutes'].errors?.['required']
+        && completeForm.controls['actualMinutes'].errors?.['pattern']">
+                                    Only numbers are allowed.
+                                </div>
+
+                                <div *ngIf="!completeForm.controls['actualMinutes'].errors?.['required']
+        && !completeForm.controls['actualMinutes'].errors?.['pattern']
+        && (completeForm.controls['actualMinutes'].errors?.['min']
+            || completeForm.controls['actualMinutes'].errors?.['max'])">
+                                    Estimated minutes must be between 0 and 60.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+
+
+                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
+                    <button #closeModalComplete type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button (click)="submitTask()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  ct_complete_modal Modal E -->
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loader-con">
+        <div style="--i: 0;" class="pfile"></div>
+        <div style="--i: 1;" class="pfile"></div>
+        <div class="pfile" style="--i: 2;"></div>
+        <div class="pfile" style="--i: 3;"></div>
+        <div class="pfile" style="--i: 4;"></div>
+        <div class="pfile" style="--i: 5;"></div>
     </div>
 </div>

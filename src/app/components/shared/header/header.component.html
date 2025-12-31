@@ -85,7 +85,8 @@
         <div class="ct_right_dropdown dropdown">
             <button id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="d-flex align-items-center gap-2">
-                    <img [src]="userData?.profile_image ? userData?.profile_image : '/img/no_pro.png'" alt="" class="ct_img_50">
+                    <img [src]="userData?.profile_image ? userData?.profile_image : '/img/no_pro.png'" alt=""
+                        class="ct_img_50">
                     <div class="text-start">
                         <!-- <p class="mb-0 ct_fw_500">Alice Johnson</p> -->
                         <small class="ct_text_2c2c2d ct_fs_18 ct_ff_Matter_Medium">Welcome, {{userData?.name}}</small>
@@ -94,13 +95,17 @@
                 <i class="fa-solid fa-angle-down ms-auto"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                @if(userType == 'individual' || userType == 'invited'){
+                @if(userType == 'individual'){
                 <li><a class="dropdown-item" routerLink="/individual/edit-profile">Edit Profile</a></li>
                 <li><a class="dropdown-item" routerLink="/individual/change-password">Change Password</a></li>
                 }
                 @if(userType == 'team'){
                 <li><a class="dropdown-item" routerLink="/team/edit-profile">Edit Profile</a></li>
                 <li><a class="dropdown-item" routerLink="/team/change-password">Change Password</a></li>
+                }
+                @if(userType == 'invited'){
+                <li><a class="dropdown-item" routerLink="/invited/edit-profile">Edit Profile</a></li>
+                <li><a class="dropdown-item" routerLink="/invited/change-password">Change Password</a></li>
                 }
 
                 <li><a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"

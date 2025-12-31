@@ -56,12 +56,27 @@ export class TeamsManagementComponent {
   }
 
   getAllTeams() {
-    this.service.get(this.userType == 'invited' ? 'user/fetchTeamsByUsersIds' : 'user/fetchTeamsByTeamAdminId?isTeamListShowed=0').subscribe({
+    this.service.get(
+      this.userType === 'invited'
+        ? 'user/fetchTeamsByUsersIds'
+        : 'user/fetchTeamsByTeamAdminId?isTeamListShowed=0'
+    ).subscribe({
       next: (resp: any) => {
-        this.allTeamsList = resp.data.map((team: any) => ({
-          ...team,
-          limitedMembers: team.teamMembers?.slice(0, 6) || []
-        }));
+        this.allTeamsList = resp.data.map((team: any) => {
+          const totalTasks = team.totalTasks || 0;
+          const completedTasks = team.totalCompletedTasks || 0;
+
+          const progress =
+            totalTasks > 0
+              ? Math.round((completedTasks / totalTasks) * 100)
+              : 0;
+
+          return {
+            ...team,
+            progress,
+            limitedMembers: team.teamMembers?.slice(0, 6) || []
+          };
+        });
 
         this.filterTeamList();
       },

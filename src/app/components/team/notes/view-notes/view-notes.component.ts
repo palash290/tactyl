@@ -7,7 +7,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 
 @Component({
   selector: 'app-view-notes',
-  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './view-notes.component.html',
   styleUrl: './view-notes.component.css'
 })
@@ -18,6 +18,7 @@ export class ViewNotesComponent {
   Form!: FormGroup;
   loading: boolean = false;
   taskId: any;
+  userType: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
 
@@ -26,6 +27,7 @@ export class ViewNotesComponent {
   ngOnInit() {
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
     this.noteId = this.route.snapshot.queryParamMap.get('noteId');
+    this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getNotes();
   }

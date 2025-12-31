@@ -64,6 +64,11 @@ export const routes: Routes = [
             loadChildren: () => import('./components/team/team.routes').then(m => m.teamRoutes),
             canActivate: [authGuard]
       },
+      {
+            path: 'invited',
+            loadChildren: () => import('./components/invited/invited.routes').then(m => m.invitedRoutes),
+            canActivate: [authGuard]
+      },
       // {
       //       path: 'main',
       //       loadComponent: () => import('./components/main/main.component').then(m => m.MainComponent),

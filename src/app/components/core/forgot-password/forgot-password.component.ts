@@ -14,8 +14,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class ForgotPasswordComponent {
 
   @ViewChild('closeModal') closeModal!: ElementRef;
-
-
   Form!: FormGroup;
   loading: boolean = false;
 

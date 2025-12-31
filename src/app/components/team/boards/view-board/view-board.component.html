@@ -33,12 +33,15 @@
                             </select>
                         </div> -->
                     </div>
+                    @if (userType == 'team') {
                     <div class="ct_w_100_767">
                         <button class="ct_purple_btn ct_h_60 ct_w_100_767" data-bs-target="#ct_add_create_modal"
                             data-bs-toggle="modal">
                             <img src="/img/plus-circle.svg" alt="" class="me-2">Create Task
                         </button>
                     </div>
+                    }
+
                 </div>
 
                 <div class="row ct_mt_20">
@@ -203,16 +206,21 @@
                                     formControlName="estimatedMinutes" />
                                 <div *ngIf="Form.controls['estimatedMinutes'].invalid && Form.controls['estimatedMinutes'].touched"
                                     class="err_msg">
-
                                     <div *ngIf="Form.controls['estimatedMinutes'].errors?.['required']">
                                         Please enter estimated minutes.
                                     </div>
 
                                     <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
-              && Form.controls['estimatedMinutes'].errors?.['pattern']">
+        && Form.controls['estimatedMinutes'].errors?.['pattern']">
                                         Only numbers are allowed.
                                     </div>
 
+                                    <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
+        && !Form.controls['estimatedMinutes'].errors?.['pattern']
+        && (Form.controls['estimatedMinutes'].errors?.['min']
+            || Form.controls['estimatedMinutes'].errors?.['max'])">
+                                        Estimated minutes must be between 0 and 60.
+                                    </div>
                                 </div>
 
                             </div>
@@ -373,8 +381,7 @@
                                                 style="max-width: 150px">
                                                 Mark as Urgent
                                             </h5>
-                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px">
+                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate">
                                                 Requires immediate attention
                                             </p>
                                         </div>

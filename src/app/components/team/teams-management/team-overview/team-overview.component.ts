@@ -11,7 +11,7 @@ import { CommonService } from '../../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-team-overview',
-  imports: [CommonModule, FormsModule, OverviewComponent, BoardComponent, MembersComponent, PermissionsComponent,
+  imports: [CommonModule, FormsModule, OverviewComponent, BoardComponent, MembersComponent,
     PhasesComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './team-overview.component.html',
   styleUrl: './team-overview.component.css'

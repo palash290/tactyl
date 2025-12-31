@@ -19,6 +19,7 @@ export class ViewBoardComponent {
   boardId: any;
   teamId: any;
   minDate: any;
+  userType: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
   constructor(private location: Location, private service: CommonService, private route: ActivatedRoute
@@ -26,6 +27,7 @@ export class ViewBoardComponent {
   ) { }
 
   ngOnInit() {
+    this.userType = localStorage.getItem('userType');
     this.boardId = this.route.snapshot.queryParamMap.get('boardId');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.getPhaes();
@@ -35,9 +37,15 @@ export class ViewBoardComponent {
   }
 
   initForm() {
-    const numberOnlyValidator = [
+   const numberOnlyValidator = [
       Validators.required,
-      Validators.pattern(/^\d+$/) // allows 0, 00, 01, 10
+      Validators.pattern(/^\d+$/),
+    ];
+
+    const minutesRangeValidator = [
+      ...numberOnlyValidator,
+      Validators.min(0),
+      Validators.max(60),
     ];
 
     this.Form = new FormGroup({
@@ -52,7 +60,7 @@ export class ViewBoardComponent {
       memberId: new FormControl('', Validators.required),
       phaseId: new FormControl('', Validators.required),
       estimatedHours: new FormControl('', numberOnlyValidator),
-      estimatedMinutes: new FormControl('', numberOnlyValidator),
+      estimatedMinutes: new FormControl('', minutesRangeValidator),
       is_urgent: new FormControl(false),
     },
       {
@@ -324,9 +332,16 @@ export class ViewBoardComponent {
   }
 
   openTask(task: any) {
-    this.router.navigate(['/team/task-details'], {
-      queryParams: { taskId: task.id, teamId: this.teamId, boardId: this.boardId }
-    });
+    if (this.userType == 'team') {
+      this.router.navigate(['/team/task-details'], {
+        queryParams: { taskId: task.id, teamId: this.teamId, boardId: this.boardId }
+      });
+    } else {
+      this.router.navigate(['/invited/task-details'], {
+        queryParams: { taskId: task.id, teamId: this.teamId, boardId: this.boardId }
+      });
+    }
+
   }
 
 

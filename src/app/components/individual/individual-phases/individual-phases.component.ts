@@ -8,7 +8,7 @@ import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-individual-phases',
-  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
   templateUrl: './individual-phases.component.html',
   styleUrl: './individual-phases.component.css'
 })

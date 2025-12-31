@@ -5,7 +5,7 @@ import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-individual-dashboard',
-  imports: [RouterLink, NgApexchartsModule],
+  imports: [NgApexchartsModule],
   templateUrl: './individual-dashboard.component.html',
   styleUrl: './individual-dashboard.component.css'
 })

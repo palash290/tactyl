@@ -29,7 +29,7 @@ export const individualRoutes: Routes = [
                   {
                         path: 'task-details',
                         loadComponent: () =>
-                              import('./my-task/task-details/task-details.component').then(m => m.TaskDetailsComponent),
+                              import('./my-task/my-task-details/my-task-details.component').then(m => m.MyTaskDetailsComponent),
                   },
 
                   {
@@ -48,7 +48,7 @@ export const individualRoutes: Routes = [
                         loadComponent: () =>
                               import('../team/teams-management/teams-management.component').then(m => m.TeamsManagementComponent),
                   },
-                    {
+                  {
                         path: 'team-overview',
                         loadComponent: () =>
                               import('../team/teams-management/team-overview/team-overview.component').then(m => m.TeamOverviewComponent),
@@ -96,11 +96,7 @@ export const individualRoutes: Routes = [
                         loadComponent: () =>
                               import('../shared/notifications/notifications.component').then(m => m.NotificationsComponent),
                   },
-                  {
-                        path: 'team-requests',
-                        loadComponent: () =>
-                              import('../individual/team-requests/team-requests.component').then(m => m.TeamRequestsComponent),
-                  },
+                 
             ],
       },
 ];

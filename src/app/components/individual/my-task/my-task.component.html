@@ -208,16 +208,21 @@
                                     formControlName="estimatedMinutes" />
                                 <div *ngIf="Form.controls['estimatedMinutes'].invalid && Form.controls['estimatedMinutes'].touched"
                                     class="err_msg">
-
                                     <div *ngIf="Form.controls['estimatedMinutes'].errors?.['required']">
                                         Please enter estimated minutes.
                                     </div>
 
                                     <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
-              && Form.controls['estimatedMinutes'].errors?.['pattern']">
+        && Form.controls['estimatedMinutes'].errors?.['pattern']">
                                         Only numbers are allowed.
                                     </div>
 
+                                    <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
+        && !Form.controls['estimatedMinutes'].errors?.['pattern']
+        && (Form.controls['estimatedMinutes'].errors?.['min']
+            || Form.controls['estimatedMinutes'].errors?.['max'])">
+                                        Estimated minutes must be between 0 and 60.
+                                    </div>
                                 </div>
 
                             </div>
@@ -378,8 +383,7 @@
                                                 style="max-width: 150px">
                                                 Mark as Urgent
                                             </h5>
-                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 150px">
+                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate">
                                                 Requires immediate attention
                                             </p>
                                         </div>

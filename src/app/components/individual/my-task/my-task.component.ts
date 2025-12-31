@@ -38,7 +38,13 @@ export class MyTaskComponent {
   initForm() {
     const numberOnlyValidator = [
       Validators.required,
-      Validators.pattern(/^\d+$/) // allows 0, 00, 01, 10
+      Validators.pattern(/^\d+$/),
+    ];
+
+    const minutesRangeValidator = [
+      ...numberOnlyValidator,
+      Validators.min(0),
+      Validators.max(60),
     ];
 
     this.Form = new FormGroup({
@@ -46,7 +52,7 @@ export class MyTaskComponent {
       // selectedTeamId: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       estimatedHours: new FormControl('', numberOnlyValidator),
-      estimatedMinutes: new FormControl('', numberOnlyValidator),
+      estimatedMinutes: new FormControl('', minutesRangeValidator),
       priority: new FormControl('', Validators.required),
       startDate: new FormControl('', Validators.required),
       endDate: new FormControl('', Validators.required),

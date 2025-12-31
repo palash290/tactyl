@@ -54,10 +54,18 @@
                 </td>
                 <td>
                     <div class="d-flex align-items-center gap-3">
+                        @if (userType == 'team') {
                         <a [routerLink]="['/team/view-team-member']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
+                        } @else {
+                        <a [routerLink]="['/invited/view-team-member']"
+                            [queryParams]="{ memberId: item.user_id, teamId: teamId }">
+                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                        </a>
+                        }
+
 
                         <a href="javascript:void(0)" (click)="getId(item.user_id)" data-bs-target="#ct_delete_member"
                             data-bs-toggle="modal" *ngIf="userType == 'team'">

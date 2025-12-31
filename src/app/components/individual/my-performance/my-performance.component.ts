@@ -4,7 +4,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-my-performance',
-  imports: [RouterLink, NgApexchartsModule],
+  imports: [NgApexchartsModule],
   templateUrl: './my-performance.component.html',
   styleUrl: './my-performance.component.css'
 })

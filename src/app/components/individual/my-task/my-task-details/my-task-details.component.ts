@@ -9,21 +9,23 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-task-details',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxPaginationModule],
-  templateUrl: './task-details.component.html',
-  styleUrl: './task-details.component.css'
+  templateUrl: './my-task-details.component.html',
+  styleUrl: './my-task-details.component.css'
 })
-export class TaskDetailsComponent {
+export class MyTaskDetailsComponent {
 
   taskId: any;
   Form!: FormGroup;
   notesForm!: FormGroup;
-  loading: boolean = false;
+  loading: boolean = true;
   userId: any;
   phaseList: any;
   minDate: any;
   taskDetails: any;
   noteList: any;
   userType: any;
+  completeForm!: FormGroup;
+  @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
   @ViewChild('closeModalAddNotes') closeModalAddNotes!: ElementRef;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
@@ -34,14 +36,15 @@ export class TaskDetailsComponent {
     this.userType = localStorage.getItem('userType');
     this.userId = localStorage.getItem('userId');
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
+    this.getTaskDetails();
     this.initForm();
     this.dateValidation();
     this.getPhaes();
-    this.getTaskDetails();
     this.getNotes();
   }
 
   getTaskDetails() {
+    this.loading = true;
     this.service.get(`user/fetchIndividualTaskByThereId?id=${this.taskId}`).subscribe({
       next: (resp: any) => {
         this.taskDetails = resp.data;
@@ -58,8 +61,10 @@ export class TaskDetailsComponent {
           estimatedHours: resp.data.estimated_hours,
           is_urgent: resp.data.is_urgent,
         });
+        this.loading = false;
       },
       error: (error) => {
+        this.loading = false;
         console.log(error.message);
       }
     });
@@ -68,12 +73,23 @@ export class TaskDetailsComponent {
   initForm() {
     const numberOnlyValidator = [
       Validators.required,
-      Validators.pattern(/^\d+$/)
+      Validators.pattern(/^\d+$/),
+    ];
+
+    const minutesRangeValidator = [
+      ...numberOnlyValidator,
+      Validators.min(0),
+      Validators.max(60),
     ];
 
     this.notesForm = new FormGroup({
       title: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
+    });
+
+    this.completeForm = new FormGroup({
+      actualHours: new FormControl('', numberOnlyValidator),
+      actualMinutes: new FormControl('', minutesRangeValidator)
     });
 
     this.Form = new FormGroup({
@@ -82,7 +98,7 @@ export class TaskDetailsComponent {
       description: new FormControl('', Validators.required),
       priority: new FormControl('', Validators.required),
       estimatedHours: new FormControl('', numberOnlyValidator),
-      estimatedMinutes: new FormControl('', numberOnlyValidator),
+      estimatedMinutes: new FormControl('', minutesRangeValidator),
       startDate: new FormControl('', Validators.required),
       endDate: new FormControl('', Validators.required),
       isPrivate: new FormControl(false),
@@ -249,6 +265,39 @@ export class TaskDetailsComponent {
       this.loading = false;
       this.toastr.warning('Please check all the fields!');
     }
+  }
+
+  submitTask() {
+    if (this.completeForm.invalid) {
+      this.completeForm.markAllAsTouched();
+      return;
+    }
+
+    this.loading = true;
+
+    const { actualHours, actualMinutes } = this.completeForm.value;
+
+    const formURlData = new URLSearchParams();
+    formURlData.set('actual_hours', actualHours);
+    formURlData.set('actual_minutes', actualMinutes);
+    formURlData.set('task_id', this.taskId);
+
+    this.service.post('user/changeTaskStatus', formURlData.toString()).subscribe({
+      next: (resp: any) => {
+        this.loading = false;
+        this.closeModalComplete.nativeElement.click();
+        resp.success
+          ? this.toastr.success(resp.message)
+          : this.toastr.warning(resp.message);
+        this.getTaskDetails();
+      },
+      error: (error) => {
+        this.loading = false;
+        this.toastr.error(
+          error.error?.message || error.message || 'Something went wrong!'
+        );
+      },
+    });
   }
 
 

@@ -94,29 +94,39 @@ export class TasksManagementComponent {
   initForm() {
     const numberOnlyValidator = [
       Validators.required,
-      Validators.pattern(/^\d+$/) // allows 0, 00, 01, 10
+      Validators.pattern(/^\d+$/),
     ];
 
-    this.Form = new FormGroup({
-      title: new FormControl('', Validators.required),
-      selectedTeamId: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      priority: new FormControl('', Validators.required),
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl('', Validators.required),
-      isPrivate: new FormControl(false),
-      isGoalRevelant: new FormControl(false),
-      memberId: new FormControl('', Validators.required),
-      phaseId: new FormControl('', Validators.required),
-      estimatedHours: new FormControl('', numberOnlyValidator),
-      estimatedMinutes: new FormControl('', numberOnlyValidator),
-      is_urgent: new FormControl(false),
-    },
+    const minutesRangeValidator = [
+      ...numberOnlyValidator,
+      Validators.min(0),
+      Validators.max(60),
+    ];
+
+    this.Form = new FormGroup(
       {
-        validators: this.dateRangeValidator as any   // <-- FIX
+        title: new FormControl('', Validators.required),
+        selectedTeamId: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required),
+        priority: new FormControl('', Validators.required),
+        startDate: new FormControl('', Validators.required),
+        endDate: new FormControl('', Validators.required),
+        isPrivate: new FormControl(false),
+        isGoalRevelant: new FormControl(false),
+        memberId: new FormControl('', Validators.required),
+        phaseId: new FormControl('', Validators.required),
+
+        estimatedHours: new FormControl('', numberOnlyValidator),
+        estimatedMinutes: new FormControl('', minutesRangeValidator),
+
+        is_urgent: new FormControl(false),
+      },
+      {
+        validators: this.dateRangeValidator as any,
       }
     );
   }
+
 
   fetchPhaseDetails(item: any) {
     this.taskId = item.id;

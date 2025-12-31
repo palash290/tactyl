@@ -78,7 +78,7 @@ export class LogInComponent {
                   queryParams: { oldPassword: this.Form.value.password, email: this.Form.value.email }
                 });
               } else {
-                this.router.navigate(['/individual/dashboard']);
+                this.router.navigate(['/invited/dashboard']);
               }
 
             }

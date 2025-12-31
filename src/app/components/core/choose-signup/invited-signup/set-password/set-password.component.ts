@@ -68,7 +68,7 @@ export class SetPasswordComponent {
             console.log(resp.message)
             this.form.reset();
             this.loading = false;
-            this.router.navigate(['/individual/dashboard']);
+            this.router.navigate(['/invited/dashboard']);
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;

@@ -56,7 +56,6 @@
                 </div>
                 <p class="mb-0">Private</p>
             </div>
-
         </div>
 
         <div class="dropdown ct_right_dropdown ct_cursor_pointer">
@@ -93,7 +92,6 @@
                                 <option value="P4">P4</option>
                             </select>
                         </div>
-
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedRecent"
                                 (change)="getAllTasks()">
@@ -101,7 +99,6 @@
                                 <option value="ASC">Oldest</option>
                             </select>
                         </div>
-
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input" [(ngModel)]="selectedTeamId" (change)="getAllTasks()">
                                 <option value="" disabled>Select Team</option>
@@ -118,11 +115,9 @@
                         <img src="img/plus-circle.svg" alt="" class="me-2">Create Task
                     </button>
                     }
-
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive ">
@@ -183,13 +178,10 @@
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
                                         </a>
                                         } @else if (userType == 'invited') {
-                                        <a
-                                            [routerLink]="['/individual/my-task-details']"
-                                            [queryParams]="{ taskId: item.id }">
+                                        <a [routerLink]="['/invited/task-details']" [queryParams]="{ taskId: item.id }">
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
                                         </a>
                                         }
-
                                         @if(userType == 'team'){
                                         <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
                                             data-bs-toggle="modal" (click)="fetchPhaseDetails(item)">
@@ -200,7 +192,6 @@
                                             <img src="img/Delete_icon.svg" class="ct_icon_24" alt="">
                                         </a>
                                         }
-
                                     </div>
                                 </td>
                             </tr>
@@ -212,7 +203,6 @@
                         </div>
                     </div>
                 </div>
-
                 <pagination-controls class="ct_pagination_div" *ngIf="!(taskList?.length == 0)"
                     (pageChange)="p = $event"></pagination-controls>
             </div>
@@ -268,7 +258,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Hours </label>
@@ -290,7 +279,6 @@
 
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Minutes </label>
@@ -298,21 +286,24 @@
                                     formControlName="estimatedMinutes" />
                                 <div *ngIf="Form.controls['estimatedMinutes'].invalid && Form.controls['estimatedMinutes'].touched"
                                     class="err_msg">
-
                                     <div *ngIf="Form.controls['estimatedMinutes'].errors?.['required']">
                                         Please enter estimated minutes.
                                     </div>
 
                                     <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
-              && Form.controls['estimatedMinutes'].errors?.['pattern']">
+        && Form.controls['estimatedMinutes'].errors?.['pattern']">
                                         Only numbers are allowed.
                                     </div>
 
+                                    <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
+        && !Form.controls['estimatedMinutes'].errors?.['pattern']
+        && (Form.controls['estimatedMinutes'].errors?.['min']
+            || Form.controls['estimatedMinutes'].errors?.['max'])">
+                                        Estimated minutes must be between 0 and 60.
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
-
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Team</label>
@@ -323,15 +314,12 @@
                                         {{ agent.team_name }}
                                     </option>
                                 </select>
-
                                 <div *ngIf="Form.controls['selectedTeamId'].invalid && Form.controls['selectedTeamId'].touched"
                                     class="err_msg">
                                     Please select a team.
                                 </div>
-
                             </div>
                         </div>
-
                         <!-- Assign Member -->
                         <div class="col-md-12">
                             <div class="form-group ct_mb_22">
@@ -342,15 +330,12 @@
                                         {{ member.name }}
                                     </option>
                                 </select>
-
                                 <div *ngIf="Form.controls['memberId'].invalid && Form.controls['memberId'].touched"
                                     class="err_msg">
                                     Please select a member.
                                 </div>
-
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</label>
@@ -361,12 +346,10 @@
                                     <option value="P3">P3</option>
                                     <option value="P4">P4</option>
                                 </select>
-
                                 <div *ngIf="Form.controls['priority'].invalid && Form.controls['priority'].touched"
                                     class="err_msg">
                                     Please select priority.
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -378,7 +361,6 @@
                                         {{ member.phase_name }}
                                     </option>
                                 </select>
-
                                 <div *ngIf="Form.controls['phaseId'].invalid && Form.controls['phaseId'].touched"
                                     class="err_msg">
                                     Please select a phase.
@@ -390,7 +372,6 @@
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Start Date</label>
                                 <input type="date" class="form-control ct_input" formControlName="startDate"
                                     [min]="minDate" />
-
                                 <div class="err_msg"
                                     *ngIf="Form.get('from')?.touched && Form.get('startDate')?.hasError('required')">
                                     From date is required.
@@ -402,7 +383,6 @@
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</label>
                                 <input type="date" class="form-control ct_input" formControlName="endDate"
                                     [min]="Form.get('startDate')?.value" />
-
                                 <div class="err_msg"
                                     *ngIf="Form.errors?.['dateInvalid'] && (Form.get('endDate')?.touched || Form.get('startDate')?.touched)">
                                     Due-date must be greater than Start-date.
@@ -467,8 +447,7 @@
                                                 style="max-width: 150px">
                                                 Mark as Urgent
                                             </h5>
-                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px">
+                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate">
                                                 Requires immediate attention
                                             </p>
                                         </div>
@@ -494,7 +473,6 @@
                     <button type="button" class="ct_purple_btn ct_ff_Matter_Medium" (click)="onSubmit()">
                         {{ taskId ? 'Update Task' : 'Create Task' }}
                     </button>
-
                 </div>
             </div>
         </div>

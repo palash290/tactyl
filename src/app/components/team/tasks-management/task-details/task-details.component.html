@@ -4,19 +4,30 @@
             <a class="ct_back_icon me-1" (click)="backClicked()"><i class="fa-solid fa-chevron-left"></i></a>Tasks
         </h4>
     </div>
-    @if(userType == 'team'){
-          <div class="d-flex align-items-center gap-3">
-        <div class="ct_icon_53 ct_border_radius_10" style="background-color: #fff0f0" data-bs-target="#ct_delete_modal"
-            data-bs-toggle="modal">
+
+    <div class="d-flex align-items-center gap-3">
+        @if(taskDetails?.status){
+        <div>
+            <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Completed</span>
+        </div>
+        } @else {
+        <div>
+            <span class="ct_outline_badge ct_cursor_pointer" style="border-color: #008000; color: #008000;"
+                data-bs-target="#ct_complete_modal" data-bs-toggle="modal">Mark
+                As Done</span>
+        </div>
+        }
+        @if(userType == 'team'){
+        <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
+            data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
-        <div class="ct_icon_53 ct_border_radius_10" style="background-color: #e8ecff"
-            data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal" (click)="getTaskDetails()">
+        <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
+            data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
+        }
     </div>
-    }
-  
 </div>
 <div class="ct_mt_30 ct_px_30 pb-4">
     <div class="container-fluid">
@@ -86,9 +97,18 @@
                                             <path d="M4.66797 2V4M11.3346 2V4" stroke="#6B7280" stroke-width="1.33333"
                                                 stroke-linecap="round" />
                                         </svg>
-
                                         <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date}}</p>
                                     </div>
+                                </div>
+                                <div>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Urgency</p>
+                                    @if(taskDetails?.is_urgent == '1'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #FEE2E2; color: #991B1B;">High</span>
+                                    } @else {
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #2222220A; color: #222222;">Low</span>
+                                    }
                                 </div>
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assigned By</p>
@@ -130,10 +150,12 @@
                 <div class="ct_white_bg_2 mt-5">
                     <div class="ct_d_align_center justify-content-between gap-3 ct_mb_30">
                         <h4 class="mb-0 ct_fs_26 ct_ff_Matter_SemiBold">Notes</h4>
+                        @if(userType == 'team'){
                         <button class="ct_purple_btn ct_w_100_575" data-bs-target="#ct_add_note_modal"
                             data-bs-toggle="modal">
                             <img src="/img/plus-circle.svg" alt="" class="me-2">Add Note
                         </button>
+                        }
                     </div>
                     <div class="ct_para_scroll ct_custom_scroll">
                         <div class="ct_outline_bg" *ngFor="let item of noteList">
@@ -145,10 +167,19 @@
                                     </p>
                                 </div>
                                 <div>
+                                    @if (userType == 'team') {
                                     <a [routerLink]="['/team/view-notes']"
                                         [queryParams]="{ noteId: item.id, taskId: taskId }"
                                         class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>
+                                    }
+                                    @if (userType == 'invited') {
+                                    <a [routerLink]="['/invited/view-notes']"
+                                        [queryParams]="{ noteId: item.id, taskId: taskId }"
+                                        class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
+                                        Details</a>
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -163,7 +194,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade ct_custom_modal modal-lg" id="ct_edit_task_modal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -212,7 +242,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Hours </label>
@@ -234,7 +263,6 @@
 
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Estimated Minutes </label>
@@ -242,21 +270,25 @@
                                     formControlName="estimatedMinutes" />
                                 <div *ngIf="Form.controls['estimatedMinutes'].invalid && Form.controls['estimatedMinutes'].touched"
                                     class="err_msg">
-
                                     <div *ngIf="Form.controls['estimatedMinutes'].errors?.['required']">
                                         Please enter estimated minutes.
                                     </div>
 
                                     <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
-              && Form.controls['estimatedMinutes'].errors?.['pattern']">
+        && Form.controls['estimatedMinutes'].errors?.['pattern']">
                                         Only numbers are allowed.
                                     </div>
 
+                                    <div *ngIf="!Form.controls['estimatedMinutes'].errors?.['required']
+        && !Form.controls['estimatedMinutes'].errors?.['pattern']
+        && (Form.controls['estimatedMinutes'].errors?.['min']
+            || Form.controls['estimatedMinutes'].errors?.['max'])">
+                                        Estimated minutes must be between 0 and 60.
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
-
                         <!-- <div class="col-md-12">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Select Team</label>
@@ -267,12 +299,10 @@
                                         {{ agent.team_name }}
                                     </option>
                                 </select>
-
                                 <div *ngIf="Form.controls['selectedTeamId'].invalid && Form.controls['selectedTeamId'].touched"
                                     class="err_msg">
                                     Please select a team.
                                 </div>
-
                             </div>
                         </div> -->
 
@@ -286,15 +316,12 @@
                                         {{ member.name }}
                                     </option>
                                 </select>
-
                                 <div *ngIf="Form.controls['memberId'].invalid && Form.controls['memberId'].touched"
                                     class="err_msg">
                                     Please select a member.
                                 </div>
-
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group ct_mb_22">
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</label>
@@ -305,12 +332,10 @@
                                     <option value="P3">P3</option>
                                     <option value="P4">P4</option>
                                 </select>
-
                                 <div *ngIf="Form.controls['priority'].invalid && Form.controls['priority'].touched"
                                     class="err_msg">
                                     Please select priority.
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -322,7 +347,6 @@
                                         {{ member.phase_name }}
                                     </option>
                                 </select>
-
                                 <div *ngIf="Form.controls['phaseId'].invalid && Form.controls['phaseId'].touched"
                                     class="err_msg">
                                     Please select a phase.
@@ -334,7 +358,6 @@
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Start Date</label>
                                 <input type="date" class="form-control ct_input" formControlName="startDate"
                                     [min]="minDate" />
-
                                 <div class="err_msg"
                                     *ngIf="Form.get('from')?.touched && Form.get('startDate')?.hasError('required')">
                                     From date is required.
@@ -346,7 +369,6 @@
                                 <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</label>
                                 <input type="date" class="form-control ct_input" formControlName="endDate"
                                     [min]="Form.get('startDate')?.value" />
-
                                 <div class="err_msg"
                                     *ngIf="Form.errors?.['dateInvalid'] && (Form.get('endDate')?.touched || Form.get('startDate')?.touched)">
                                     Due-date must be greater than Start-date.
@@ -402,7 +424,6 @@
                                         </label>
                                     </div>
                                 </div>
-
                                 <div
                                     class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
                                     <div class="ct_d_align_center gap-3">
@@ -412,8 +433,7 @@
                                                 style="max-width: 150px">
                                                 Mark as Urgent
                                             </h5>
-                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate"
-                                                style="max-width: 120px">
+                                            <p class="ct_fs_14 ct_text_787885 mb-0 text-truncate">
                                                 Requires immediate attention
                                             </p>
                                         </div>
@@ -427,7 +447,6 @@
                                         </label>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -572,6 +591,102 @@
     </div>
 </div>
 <!--  ct_delete_modal Modal E -->
+
+
+<!-- complete Modal S -->
+<div class="modal fade ct_custom_modal" id="ct_complete_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/img/modal_star.png" alt="" class="ct_flex_shrink_0" />
+                    <div>
+                        <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
+                            Task Completed
+                        </h1>
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Please enter the Actual Hours spent
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 mt-3">
+                <div class="d-flex justify-content-start gap-3 justify-content-between mb-1">
+                    <h1 class="modal-title ct_fs_18 ct_ff_Matter_SemiBold mb-2 ">
+                        Task Name:
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        {{taskName}}
+                    </p>
+                </div>
+                <div class="d-flex justify-content-start gap-3 justify-content-between mb-3">
+                    <h1 class="modal-title ct_fs_18 ct_ff_Matter_SemiBold mb-2 ">
+                        Estimated Hours:
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        {{actualTime}}
+                    </p>
+                </div>
+                <form [formGroup]="completeForm">
+                    <div class="col-md-12">
+                        <div class="form-group ct_mb_22">
+                            <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Hours </label>
+                            <input type="text" class="form-control ct_input" placeholder="Enter actual hours"
+                                formControlName="actualHours" [maxlength]="4" />
+                            <div *ngIf="completeForm.controls['actualHours'].invalid && completeForm.controls['actualHours'].touched"
+                                class="err_msg">
+                                <div *ngIf="completeForm.controls['actualHours'].errors?.['required']">
+                                    Please enter actual hours.
+                                </div>
+                                <div *ngIf="!completeForm.controls['actualHours'].errors?.['required']
+              && completeForm.controls['actualHours'].errors?.['pattern']">
+                                    Only numbers are allowed.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ct_mb_22">
+                            <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Minutes </label>
+                            <input type="text" class="form-control ct_input" placeholder="Enter actual minutes"
+                                formControlName="actualMinutes" />
+                            <div *ngIf="completeForm.controls['actualMinutes'].invalid && completeForm.controls['actualMinutes'].touched"
+                                class="err_msg">
+                                <div *ngIf="completeForm.controls['actualMinutes'].errors?.['required']">
+                                    Please enter actual minutes.
+                                </div>
+                                <div *ngIf="!completeForm.controls['actualMinutes'].errors?.['required']
+        && completeForm.controls['actualMinutes'].errors?.['pattern']">
+                                    Only numbers are allowed.
+                                </div>
+                                <div *ngIf="!completeForm.controls['actualMinutes'].errors?.['required']
+        && !completeForm.controls['actualMinutes'].errors?.['pattern']
+        && (completeForm.controls['actualMinutes'].errors?.['min']
+            || completeForm.controls['actualMinutes'].errors?.['max'])">
+                                    Estimated minutes must be between 0 and 60.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
+                    <button #closeModalComplete type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button (click)="submitTask()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  ct_complete_modal Modal E -->
 
 <div class="ct_loader_main" *ngIf="loading">
     <div class="loader-con">

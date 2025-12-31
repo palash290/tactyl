@@ -9,7 +9,7 @@ import { startWith, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-phases',
-  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
   templateUrl: './phases.component.html',
   styleUrl: './phases.component.css'
 })

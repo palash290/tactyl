@@ -53,10 +53,16 @@
                                 class="d-flex align-items-center justify-content-between gap-xxl-5 gap-4 ct_flex_col_1199">
                                 <div class="ct_flex_1 ct_w_100_1199">
                                     <h5 class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">{{item.progress}}%</h5>
-                                    <div class="progress ct_progress_bar">
+                                    <!-- <div class="progress ct_progress_bar">
                                         <div class="progress-bar" role="progressbar" style="width: 0%"
                                             aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div> -->
+                                    <div class="progress ct_progress_bar">
+                                        <div class="progress-bar" role="progressbar" [style.width.%]="item.progress"
+                                            [attr.aria-valuenow]="item.progress" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
                                     </div>
+
                                     <p class="mb-0 ct_fs_14 ct_text_clr_787885 mt-1">Progress</p>
                                 </div>
                                 <div
@@ -68,7 +74,7 @@
                                     </div>
                                     <div class="text-center">
                                         <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                            style="background-color: #7EFFA1;">{{item.completedTasks}}</span>
+                                            style="background-color: #7EFFA1;">{{item.totalCompletedTasks}}</span>
                                         <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
                                     </div>
 
@@ -95,29 +101,25 @@
                                         </div>
                                     </li>
                                 </ul>
-
                                 <ng-template #noMembers>
                                     <p class="text-center ct_text_787885 ct_fs_14 mb-0">No members</p>
                                 </ng-template>
-
-
                             </div>
-
                         </div>
                     </div>
                     <div class=" text-center mt-auto">
                         @if(userType == 'team'){
-                             <a [routerLink]="['/team/team-overview']"
+                        <a [routerLink]="['/team/team-overview']"
                             [queryParams]="{ teamId: item.id, teamName: item.team_name }"
                             class="ct_purple_link ct_ff_Matter_Medium">View
                             Details</a>
                         } @else if (userType == 'invited') {
-                               <a [routerLink]="['/individual/team-overview']"
+                        <a [routerLink]="['/invited/team-overview']"
                             [queryParams]="{ teamId: item.id, teamName: item.team_name }"
                             class="ct_purple_link ct_ff_Matter_Medium">View
                             Details</a>
                         }
-                       
+
                     </div>
                 </div>
             </div>
@@ -361,12 +363,8 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
-
                 </form>
             </div>
         </div>

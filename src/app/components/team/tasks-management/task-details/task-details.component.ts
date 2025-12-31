@@ -15,6 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class TaskDetailsComponent {
 
   Form!: FormGroup;
+  completeForm!: FormGroup;
   notesForm!: FormGroup;
   taskId: any;
   teamId: any;
@@ -26,9 +27,12 @@ export class TaskDetailsComponent {
   phaseList: any;
   boardId: any;
   userType: any;
+  taskName: any;
+  actualTime: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
   @ViewChild('closeModalAddNotes') closeModalAddNotes!: ElementRef;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
+  @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
 
   constructor(private location: Location, private service: CommonService, private route: ActivatedRoute, private toastr: NzMessageService) { }
 
@@ -37,7 +41,7 @@ export class TaskDetailsComponent {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.boardId = this.route.snapshot.queryParamMap.get('boardId');
     this.userType = localStorage.getItem('userType');
-    this.getTaskDetails();
+    this.getTaskDetails(this.taskId);
     this.getAllMembers();
     this.getNotes();
     this.initForm();
@@ -47,12 +51,23 @@ export class TaskDetailsComponent {
   initForm() {
     const numberOnlyValidator = [
       Validators.required,
-      Validators.pattern(/^\d+$/) // allows 0, 00, 01, 10
+      Validators.pattern(/^\d+$/),
+    ];
+
+    const minutesRangeValidator = [
+      ...numberOnlyValidator,
+      Validators.min(0),
+      Validators.max(60),
     ];
 
     this.notesForm = new FormGroup({
       title: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
+    });
+
+    this.completeForm = new FormGroup({
+      actualHours: new FormControl('', numberOnlyValidator),
+      actualMinutes: new FormControl('', minutesRangeValidator)
     });
 
     this.Form = new FormGroup({
@@ -67,7 +82,7 @@ export class TaskDetailsComponent {
       memberId: new FormControl('', Validators.required),
       phaseId: new FormControl('', Validators.required),
       estimatedHours: new FormControl('', numberOnlyValidator),
-      estimatedMinutes: new FormControl('', numberOnlyValidator),
+      estimatedMinutes: new FormControl('', minutesRangeValidator),
       is_urgent: new FormControl(false),
     },
       {
@@ -132,13 +147,14 @@ export class TaskDetailsComponent {
       this.service.post(`user/editTaskById?id=${this.taskId}`, formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
+            this.getTaskDetails(this.taskId);
             this.toastr.success(resp.message);
             this.loading = false;
             this.closeModalAdd.nativeElement.click();
-            this.taskId = null;
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;
+            this.getTaskDetails(this.taskId);
           }
         },
         error: (error) => {
@@ -172,10 +188,13 @@ export class TaskDetailsComponent {
     return null;
   }
 
-  getTaskDetails() {
-    this.service.get(`user/fetchTaskByThereId?id=${this.taskId}`).subscribe({
+  getTaskDetails(taskId: any) {
+    this.loading = true;
+    this.service.get(`user/fetchTaskByThereId?id=${taskId}`).subscribe({
       next: (resp: any) => {
         this.taskDetails = resp.data;
+        this.taskName = resp.data.title;
+        this.actualTime = `${resp.data.estimated_hours} hr ${resp.data.estimated_minutes} min`;
         this.Form.patchValue({
           title: resp.data.title,
           description: resp.data.description || '',
@@ -190,9 +209,11 @@ export class TaskDetailsComponent {
           estimatedHours: resp.data.estimated_hours,
           isPrivate: resp.data.is_private
         });
+        this.loading = false;
       },
       error: (error) => {
         console.log(error.message);
+        this.loading = false;
       }
     });
   }
@@ -270,6 +291,40 @@ export class TaskDetailsComponent {
   backClicked() {
     this.location.back();
   }
+
+  submitTask() {
+    if (this.completeForm.invalid) {
+      this.completeForm.markAllAsTouched();
+      return;
+    }
+
+    this.loading = true;
+
+    const { actualHours, actualMinutes } = this.completeForm.value;
+
+    const formURlData = new URLSearchParams();
+    formURlData.set('actual_hours', actualHours);
+    formURlData.set('actual_minutes', actualMinutes);
+    formURlData.set('task_id', this.taskId);
+
+    this.service.post('user/changeTaskStatus', formURlData.toString()).subscribe({
+      next: (resp: any) => {
+        this.loading = false;
+        this.closeModalComplete.nativeElement.click();
+        resp.success
+          ? this.toastr.success(resp.message)
+          : this.toastr.warning(resp.message);
+          this.getTaskDetails(this.taskId);
+      },
+      error: (error) => {
+        this.loading = false;
+        this.toastr.error(
+          error.error?.message || error.message || 'Something went wrong!'
+        );
+      },
+    });
+  }
+
 
 
 }

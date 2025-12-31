@@ -5,7 +5,7 @@ import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-team-dashboard',
-  imports: [RouterLink, NgApexchartsModule],
+  imports: [NgApexchartsModule],
   templateUrl: './team-dashboard.component.html',
   styleUrl: './team-dashboard.component.css'
 })
