@@ -3,10 +3,11 @@ import { CommonService } from '../../../services/common.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tactyl-compass',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './tactyl-compass.component.html',
   styleUrl: './tactyl-compass.component.css'
 })
