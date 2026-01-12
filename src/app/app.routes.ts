@@ -55,6 +55,10 @@ export const routes: Routes = [
             loadComponent: () => import('./components/shared/pricing-plan/pricing-plan.component').then(m => m.PricingPlanComponent)
       },
       {
+            path: 'free-trial',
+            loadComponent: () => import('./components/shared/trial-page/trial-page.component').then(m => m.TrialPageComponent)
+      },
+      {
             path: 'complete-profile',
             loadComponent: () => import('./components/core/choose-signup/invited-signup/complete-profile/complete-profile.component').then(m => m.CompleteProfileComponent)
       },

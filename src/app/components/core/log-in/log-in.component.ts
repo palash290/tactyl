@@ -36,10 +36,13 @@ export class LogInComponent {
   }
 
   login() {
-    if (!this.type) {
-      console.warn("Type missing, redirecting to default...");
-      return;
-    }
+
+    // if (!this.type) {
+    //   console.warn("Type missing, redirecting to default...");
+    //   return;
+    // }
+    this.router.navigate(['/pricing-plan']);
+    return
 
     this.Form.markAllAsTouched();
 
@@ -78,7 +81,7 @@ export class LogInComponent {
                   queryParams: { oldPassword: this.Form.value.password, email: this.Form.value.email }
                 });
               } else {
-                this.router.navigate(['/invited/dashboard']);
+                this.router.navigate(['/pricing-plan']);
               }
 
             }

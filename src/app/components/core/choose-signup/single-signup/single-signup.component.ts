@@ -53,10 +53,11 @@ export class SingleSignupComponent {
     // }
 
     // return
-    if (!this.type) {
-      console.warn("Type missing, redirecting to default...");
-      return;
-    }
+    
+    // if (!this.type) {
+    //   console.warn("Type missing, redirecting to default...");
+    //   return;
+    // }
 
     this.Form.markAllAsTouched();
     if (this.Form.valid) {

@@ -1,0 +1,132 @@
+.ct_pricing_box {
+    background-color: #000;
+    border-radius: 25px;
+    padding: 32px 26px;
+    border: 2px solid transparent;
+    position: relative;
+    transition: 0.4s ease all;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ct_pricing_box h6,
+.ct_pricing_box p,
+.ct_pricing_box h2,
+.ct_pricing_box ul li {
+    color: #fff;
+}
+
+.ct_pricing_box h6 {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.ct_pricing_box h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 0px;
+}
+
+.ct_pricing_box h2 span {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.ct_pricing_box p {
+    font-size: 12px;
+}
+
+.ct_pricing_box ul li {
+    font-size: 15px;
+}
+
+.ct_pricing_box ul li+li {
+    margin-top: 10px;
+}
+
+.ct_aleary_using_price_btn {
+    background-color: #323232;
+    border-color: #323232;
+}
+
+.ct_pricing_box:hover {
+    border-color: #E65F2B;
+    background-color: transparent;
+}
+
+.ct_pricing_box:hover h6,
+.ct_pricing_box:hover p,
+.ct_pricing_box:hover h2,
+.ct_pricing_box:hover ul li {
+    color: #000;
+}
+
+.ct_popular_badge1 {
+    background-color: #c4bc00;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    display: block;
+    width: fit-content;
+    font-weight: 700;
+}
+
+
+
+
+/* Card CSS */
+form {
+    max-width: 400px;
+    margin: auto;
+}
+
+div input {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+button.sub_button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #E65F2B;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+button:disabled {
+    background-color: #bbb;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.ct_back_project_btn {
+    background-color: #f5f5f5;
+    color: #000;
+    border-color: #f5f5f5;
+    transition: 0.4s ease all;
+    cursor: pointer;
+}
+
+.ct_back_project_btn:hover {
+    background-color: transparent;
+    border-color: #000;
+}
