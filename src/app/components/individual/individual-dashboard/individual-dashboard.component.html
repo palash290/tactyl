@@ -4,15 +4,15 @@
             <h4 class="ct_fs_35  mb-2 ct_ff_Matter_Medium">Dashboard</h4>
             <p class="mb-0 ct_text_929292 ct_fs_18">Here's what's happening with your tasks today.</p>
         </div>
-        <!-- <button class="ct_purple_btn ct_w_100_1199 " data-bs-target="#ct_add_create_modal" data-bs-toggle="modal">
-            <img src="/img/plus-circle.svg" alt="" class="me-2">Create Task
-        </button> -->
     </div>
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
     <div class="container-fluid">
+
+        @if(userType == 'individual'){
         <div class="row gx-5">
-            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4">
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
+                [routerLink]="['/individual/my-task']" [queryParams]="{ status: '' }">
                 <div class="ct_dash_card justify-content-start gap-4">
                     <div class="ct_icon_82" style="background-color: #F7BE4A;">
                         <img src="/img/total_task_icon.svg" alt="">
@@ -24,7 +24,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4">
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
+                [routerLink]="['/individual/my-task']" [queryParams]="{ status: 'show' }">
                 <div class="ct_dash_card justify-content-start gap-4">
                     <div class="ct_icon_82" style="background-color: #19CE71;">
                         <img src="/img/completed_task_icon.svg" alt="">
@@ -36,7 +37,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4">
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
+                [routerLink]="['/individual/my-task']" [queryParams]="{ status: 'hide' }">
                 <div class="ct_dash_card justify-content-start gap-4">
                     <div class="ct_icon_82" style="background-color: #F24E1E;">
                         <img src="/img/pending_task_icon.svg" alt="">
@@ -49,6 +51,49 @@
                 </div>
             </div>
         </div>
+        } @else {
+        <div class="row gx-5">
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
+                routerLink="/invited/task-management">
+                <div class="ct_dash_card justify-content-start gap-4">
+                    <div class="ct_icon_82" style="background-color: #F7BE4A;">
+                        <img src="/img/total_task_icon.svg" alt="">
+                    </div>
+                    <div class="ct_dash_card_title">
+                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Total Tasks</p>
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F7BE4A;">
+                            {{dashboardData.total_tasks}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
+                routerLink="/invited/task-management">
+                <div class="ct_dash_card justify-content-start gap-4">
+                    <div class="ct_icon_82" style="background-color: #19CE71;">
+                        <img src="/img/completed_task_icon.svg" alt="">
+                    </div>
+                    <div class="ct_dash_card_title">
+                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Completed</p>
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #19CE71;">
+                            {{dashboardData.completed_tasks ? dashboardData.completed_tasks : '0'}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
+                routerLink="/invited/task-management">
+                <div class="ct_dash_card justify-content-start gap-4">
+                    <div class="ct_icon_82" style="background-color: #F24E1E;">
+                        <img src="/img/pending_task_icon.svg" alt="">
+                    </div>
+                    <div class="ct_dash_card_title">
+                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Pending</p>
+                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F24E1E;">
+                            {{dashboardData.pending_tasks ? dashboardData.pending_tasks : '0'}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
 
         <div class="row ct_mt_15">
             <div class="col-lg-6 mb-4 mb-lg-0">
@@ -56,13 +101,11 @@
                     <div class="ct_d_align_center justify-content-between gap-3 ct_flex_col_575 ">
                         <h4 class="ct_fs_22 ct_ff_Matter_SemiBold mb-0">Task Distribution by phase</h4>
                     </div>
-
-                    <!-- <div id="ct_Performance_graph" class="ct_mt_30"></div> -->
                     <div id="chart" class="ct_mt_30">
                         <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
-                            [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
-                            [markers]="chartOptions1.markers" [colors]="chartOptions1.colors"
-                            [title]="chartOptions1.title"></apx-chart>
+                            [labels]="chartOptions1.labels" [colors]="chartOptions1.colors"
+                            [legend]="chartOptions1.legend" [plotOptions]="chartOptions1.plotOptions"
+                            [dataLabels]="chartOptions1.dataLabels"></apx-chart>
                     </div>
                 </div>
             </div>

@@ -25,6 +25,7 @@ export class MyTaskDetailsComponent {
   noteList: any;
   userType: any;
   completeForm!: FormGroup;
+  actualTime: any;
   @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
   @ViewChild('closeModalAddNotes') closeModalAddNotes!: ElementRef;
@@ -48,6 +49,7 @@ export class MyTaskDetailsComponent {
     this.service.get(`user/fetchIndividualTaskByThereId?id=${this.taskId}`).subscribe({
       next: (resp: any) => {
         this.taskDetails = resp.data;
+        this.actualTime = `${resp.data.estimated_hours} hr ${resp.data.estimated_minutes} min`;
         this.Form.patchValue({
           title: resp.data.title,
           description: resp.data.description || '',
@@ -197,12 +199,13 @@ export class MyTaskDetailsComponent {
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       // formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('is_private', '0');
-      formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
       this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
+            this.getTaskDetails();
             this.toastr.success(resp.message);
             this.loading = false;
             this.closeModalAdd.nativeElement.click();

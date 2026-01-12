@@ -1,11 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OverviewComponent } from './overview/overview.component';
 import { BoardComponent } from './board/board.component';
 import { MembersComponent } from './settings/members/members.component';
-import { PermissionsComponent } from './settings/permissions/permissions.component';
 import { PhasesComponent } from './settings/phases/phases.component';
 import { CommonService } from '../../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -24,6 +23,7 @@ export class TeamOverviewComponent {
   loading: boolean = false;
   userEmail: any;
   userType: any;
+  dashboardData: any;
   activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
   activeSettingsTab: 'users' | 'permissions' | 'phases' = 'users';
 
@@ -38,7 +38,6 @@ export class TeamOverviewComponent {
     this.route.queryParams.subscribe(params => {
       this.teamName = params['teamName'];
     });
-
     this.initForm();
   }
 
@@ -92,7 +91,6 @@ export class TeamOverviewComponent {
     }
   }
 
-
   backClicked() {
     this.location.back();
   }
@@ -110,7 +108,7 @@ export class TeamOverviewComponent {
     });
   }
 
-  set(){
+  set() {
     this.activeMainTab = 'settings';
     this.activeSettingsTab = 'users';
   }

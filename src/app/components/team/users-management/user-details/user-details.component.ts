@@ -25,7 +25,6 @@ export class UserDetailsComponent {
     this.service.get(`user/fetchMembersDetailsByThereIds?member_id=${this.userId}`).subscribe({
       next: (resp: any) => {
         this.allMembers = resp.data;
-        // this.filterTable();
       },
       error: (error) => {
         console.log(error.message);

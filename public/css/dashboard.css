@@ -128,7 +128,7 @@
   gap: 15px;
   color: #282828;
   position: relative;
-  font-family: Matter-Medium;
+  /* font-family: matter-regular; */
   border-right: 2px solid transparent;
 }
 

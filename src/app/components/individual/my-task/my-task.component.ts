@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonService } from '../../../services/common.service';
 import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -22,13 +22,18 @@ export class MyTaskComponent {
   taskId: any;
   userId: any;
   userType: any;
+  taskVisibility: any = ' ';
+  isRevelent: any = '';
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService, private router: Router) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
     this.userId = localStorage.getItem('userId');
+    this.taskVisibility = this.route.snapshot.queryParamMap.get('status') || ' ';
     this.initForm();
     this.dateValidation();
     this.getPhaes();
@@ -145,15 +150,23 @@ export class MyTaskComponent {
         );
       }
 
-      // ⏱ Sort by date
-      if (this.sortOrder) {
-        tasks.sort((a, b) => {
-          const dateA = new Date(a.created_at).getTime();
-          const dateB = new Date(b.created_at).getTime();
-          return this.sortOrder === 'desc'
-            ? dateB - dateA
-            : dateA - dateB;
-        });
+      // ✅ Completed / Incompleted filter
+      if (this.taskVisibility == 'hide') {
+        // Hide completed → show only incomplete
+        tasks = tasks.filter(task => task.status == 0);
+      } else if (this.taskVisibility == 'show') {
+        // If you want ONLY completed, use:
+        tasks = tasks.filter(task => task.status == 1);
+      } else {
+
+      }
+
+      if (this.isRevelent == 'yes') {
+        tasks = tasks.filter(task => task.goal_relevant == 1);
+      } else if (this.isRevelent == 'no') {
+        tasks = tasks.filter(task => task.goal_relevant == 0);
+      } else {
+
       }
 
       return {
@@ -199,7 +212,7 @@ export class MyTaskComponent {
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       // formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('is_private', '0');
-      formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
       this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({

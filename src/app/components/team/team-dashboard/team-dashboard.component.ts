@@ -5,7 +5,7 @@ import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-team-dashboard',
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, RouterLink],
   templateUrl: './team-dashboard.component.html',
   styleUrl: './team-dashboard.component.css'
 })
@@ -50,53 +50,54 @@ export class TeamDashboardComponent {
       colors: ['#4f46e5'],
       title: { align: 'left' }
     };
-
-    this.chartOptions2 = {
-      chart: {
-        type: 'donut',
-        height: 300,
-        toolbar: { show: false },
-        offsetX: 0,
-        offsetY: 0
-      },
-
-      series: [45, 35, 20],
-      labels: ["Design Review", "Development", "QA Testing"],
-      colors: ["#4db8ff", "#3d6f4a", "#a5e3df"],
-
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '70%',
-            labels: {
-              show: true,
-              name: { show: true },
-              value: { show: true },
-              total: { show: true }
-            }
-          }
-        }
-      },
-
-      legend: {
-        position: 'bottom',
-        fontSize: '14px',
-        markers: {
-          width: 10,
-          height: 10,
-          radius: 50
-        }
-      },
-
-      dataLabels: { enabled: false }
-    };
   }
 
   getDashboard() {
     this.service.get(`user/teamAdminDashboard`).subscribe({
       next: (resp: any) => {
-        this.dashboardData = resp.data[0];
-        // this.filterTable();
+        this.dashboardData = resp.data;
+
+        const total = this.dashboardData.total_tasks || 0;
+        const completed = this.dashboardData.completed_tasks || 0;
+        const pending = this.dashboardData.pending_tasks || 0;
+
+        this.chartOptions2 = {
+          chart: {
+            type: 'donut',
+            height: 300,
+            toolbar: { show: false }
+          },
+          series: [total, completed, pending],
+          labels: ['Total Tasks', 'Completed', 'Pending'],
+          colors: ['#4db8ff', '#3d6f4a', '#a5e3df'],
+          plotOptions: {
+            pie: {
+              donut: {
+                size: '70%',
+                labels: {
+                  show: true,
+                  name: { show: true },
+                  value: { show: true },
+                  total: {
+                    show: true,
+                    label: 'Tasks',
+                    formatter: () => total.toString()
+                  }
+                }
+              }
+            }
+          },
+          legend: {
+            position: 'bottom',
+            fontSize: '14px',
+            markers: {
+              width: 10,
+              height: 10,
+              radius: 50
+            }
+          },
+          dataLabels: { enabled: false }
+        };
       },
       error: (error) => {
         console.log(error.message);

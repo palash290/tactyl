@@ -20,7 +20,7 @@ export class SingleSignupComponent {
   constructor(private service: CommonService, private router: Router, private fb: FormBuilder, private toastr: NzMessageService, private route: ActivatedRoute) {
     this.Form = this.fb.group({
       name: ['', [Validators.required]],
-      designation: ['', [Validators.required]],
+      // designation: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       new_password: ['', [Validators.required, Validators.minLength(8)]],
       confirm_password: ['', Validators.required],
@@ -69,7 +69,7 @@ export class SingleSignupComponent {
       if (this.type == 'team') {
         formURlData.set('role', '2');
       }
-      formURlData.set('Designation', this.Form.value.designation);
+      // formURlData.set('Designation', this.Form.value.designation);
       formURlData.set('password', this.Form.value.new_password);
       formURlData.set('email', this.Form.value.email);
 

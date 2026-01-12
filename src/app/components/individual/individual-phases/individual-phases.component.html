@@ -2,7 +2,6 @@
     <div>
         <h4 class="ct_fs_35 mb-2 ct_ff_Matter_Medium">Phase</h4>
     </div>
-
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
     <div class="container-fluid">
@@ -19,6 +18,7 @@
                         <thead>
                             <th>S.No</th>
                             <th>Phase Name</th>
+                            <th>Total Tasks</th>
                             <th>Description</th>
                             <th *ngIf="userType == 'individual'">Actions</th>
                         </thead>
@@ -29,6 +29,7 @@
                                 <td>
                                     <span class="ct_overlay_text d-inline-block">{{item.phase_name}}</span>
                                 </td>
+                                <td>{{item.totalTasks}}</td>
                                 <td>
                                     <span class="ct_overlay_text d-inline-block">{{item?.description ? item?.description
                                         : '-'}}
@@ -128,7 +129,6 @@
     </div>
 </div>
 <!--  Add phase Modal E -->
-
 
 <!-- Delete  Modal S -->
 <div class="modal fade ct_custom_modal" id="ct_delete_phase" tabindex="-1" aria-labelledby="exampleModalLabel"

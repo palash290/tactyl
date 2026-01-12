@@ -118,9 +118,5 @@ export class EditProfileComponent {
     }
   }
 
-  // backClicked() {
-  //   this.location.back();
-  // }
-
 
 }

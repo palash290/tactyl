@@ -51,6 +51,7 @@ body {
 }
 
 .ct_ff_Matter_Regular {
+    font-family: matter-regular;
     src: url(../fonts/Matter-Regular.ttf);
 }
 

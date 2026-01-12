@@ -20,6 +20,8 @@ export class ViewBoardComponent {
   teamId: any;
   minDate: any;
   userType: any;
+  boardName: any;
+  taskVisibility: 'show' | 'hide' = 'hide';
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
   constructor(private location: Location, private service: CommonService, private route: ActivatedRoute
@@ -28,6 +30,7 @@ export class ViewBoardComponent {
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
+    this.boardName = this.route.snapshot.queryParamMap.get('boardName');
     this.boardId = this.route.snapshot.queryParamMap.get('boardId');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.getPhaes();
@@ -37,7 +40,7 @@ export class ViewBoardComponent {
   }
 
   initForm() {
-   const numberOnlyValidator = [
+    const numberOnlyValidator = [
       Validators.required,
       Validators.pattern(/^\d+$/),
     ];
@@ -109,7 +112,7 @@ export class ViewBoardComponent {
   phaseList: any;
 
   getPhaes() {
-    this.service.get(`user/fetchPhasesByThereBoardId?team_id=${this.teamId}&board_id=${this.boardId}`).subscribe({
+    this.service.get(this.userType == 'invited' ? 'user/fetchIndividualUserPhasesByUserId' : `user/fetchPhasesByThereBoardId?team_id=${this.teamId}&board_id=${this.boardId}`).subscribe({
       next: (resp: any) => {
         this.phaseList = resp.data;
         this.filterList()
@@ -146,14 +149,23 @@ export class ViewBoardComponent {
       }
 
       // ⏱ Sort by date
-      if (this.sortOrder) {
-        tasks.sort((a, b) => {
-          const dateA = new Date(a.created_at).getTime();
-          const dateB = new Date(b.created_at).getTime();
-          return this.sortOrder === 'desc'
-            ? dateB - dateA
-            : dateA - dateB;
-        });
+      // if (this.sortOrder) {
+      //   tasks.sort((a, b) => {
+      //     const dateA = new Date(a.created_at).getTime();
+      //     const dateB = new Date(b.created_at).getTime();
+      //     return this.sortOrder === 'desc'
+      //       ? dateB - dateA
+      //       : dateA - dateB;
+      //   });
+      // }
+
+      // ✅ Completed / Incompleted filter
+      if (this.taskVisibility == 'hide') {
+        // Hide completed → show only incomplete
+        tasks = tasks.filter(task => task.status == 0);
+      } else {
+        // If you want ONLY completed, use:
+        tasks = tasks.filter(task => task.status == 1);
       }
 
       return {
@@ -189,7 +201,7 @@ export class ViewBoardComponent {
       formURlData.append('estimated_hours', this.Form.value.estimatedHours);
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
-      formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
 
       this.service.post('user/createTask', formURlData.toString()).subscribe({
         next: (resp: any) => {

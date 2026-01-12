@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonService } from '../../../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { startWith, Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -131,7 +131,6 @@ export class BoardComponent {
             this.closeModalAdd.nativeElement.click();
             this.getBoards();
             this.boardId = null;
-            // this.service.triggerRefresh();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;
@@ -184,7 +183,6 @@ export class BoardComponent {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
         this.getBoards();
-        // this.service.triggerRefresh();
       },
       error: error => {
         console.log(error.message);

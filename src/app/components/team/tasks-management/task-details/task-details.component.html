@@ -17,15 +17,23 @@
                 As Done</span>
         </div>
         }
+
         @if(userType == 'team'){
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
+        @if(taskDetails?.status){
+        <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff">
+            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+        </div>
+        }@else {
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
             data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
+        }
+
         }
     </div>
 </div>
@@ -52,6 +60,7 @@
                     <div class="row ct_mt_30">
                         <div class="col-lg-12">
                             <div class="ct_d_align_center ct_gap_70 flex-wrap">
+
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Priority</p>
                                     @if(taskDetails?.priority == 'P1'){
@@ -74,17 +83,12 @@
                                         style="background-color: #2222220A; color: #222222;">P4</span>
                                     }
                                 </div>
+
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
                                         style="background-color: #EFF6FF; color: #1D4ED8;">{{taskDetails?.phase_name}}</span>
                                 </div>
-
-                                <!-- <div>
-                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Urgency</p>
-                                    <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #0080001A; color: #008000;">High</span>
-                                </div> -->
 
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Due Date</p>
@@ -100,6 +104,7 @@
                                         <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date}}</p>
                                     </div>
                                 </div>
+
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Urgency</p>
                                     @if(taskDetails?.is_urgent == '1'){
@@ -110,6 +115,7 @@
                                         style="background-color: #2222220A; color: #222222;">Low</span>
                                     }
                                 </div>
+
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assigned By</p>
                                     <div class="ct_d_align_center gap-2">
@@ -130,6 +136,39 @@
                                         <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedBy.name}}</p>
                                     </div>
                                 </div>
+                                
+                                @if(taskDetails?.status){
+                                <div>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Time</p>
+                                    <div class="ct_d_align_center gap-2">
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">
+                                            <ng-container *ngIf="taskDetails?.actual_hours != null; else onlyMinutes">
+                                                {{ taskDetails.actual_hours }} Hrs
+                                                <ng-container *ngIf="taskDetails?.actual_minutes != null">
+                                                    {{ taskDetails.actual_minutes }} Min
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-template #onlyMinutes>
+                                                <ng-container *ngIf="taskDetails?.actual_minutes != null">
+                                                    {{ taskDetails.actual_minutes }} Min
+                                                </ng-container>
+                                            </ng-template>
+                                        </p>
+                                    </div>
+                                </div>
+                                }
+
+                                <div>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Goal Relevant</p>
+                                    @if(taskDetails?.goal_relevant == '1'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #9be17a; color: #ffffff;">Yes</span>
+                                    } @else {
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #2222220A; color: #222222;">No</span>
+                                    }
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -141,8 +180,10 @@
                                     class="ct_img_w_24" />
                                 <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedTo.name}}</p>
                             </div>
+
                             <div>
-                                <h6 class="ct_fs_18 ct_text_purple ct_ff_Matter_Medium mb-0">Action Score: {{taskDetails?.action_score}}</h6>
+                                <h6 class="ct_fs_18 ct_text_purple ct_ff_Matter_Medium mb-0">Action Score:
+                                    {{taskDetails?.action_score}}</h6>
                             </div>
                         </div>
                     </div>

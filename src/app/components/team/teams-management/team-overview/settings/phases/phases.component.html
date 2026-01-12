@@ -11,16 +11,45 @@
                 <thead>
                     <th>S.No</th>
                     <th>Phase Name</th>
+                    <th>Total Tasks</th>
                     <th>Description</th>
                     <th *ngIf="userType == 'team'">Actions</th>
                 </thead>
-                <tbody>
+                <!-- <tbody cdkDropList (cdkDropListDropped)="drop($event)">
                     <tr
-                        *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                        *ngFor="let item of filteredData; let i = index" cdkDrag>
                         <td>{{(p - 1) * 10 + i + 1}}</td>
                         <td>
                             <span class="ct_overlay_text d-inline-block">{{item.phase_name}}</span>
                         </td>
+                        <td>{{item.totalTasks}}</td>
+                        <td>
+                            <span class="ct_overlay_text d-inline-block">{{item?.description ? item?.description : '-'}}
+                            </span>
+                        </td>
+                        <td *ngIf="userType == 'team'">
+                            <div class="d-flex align-items-center gap-3">
+                                <a href="javascript:void(0)" data-bs-target="#ct_add_phase_modal" data-bs-toggle="modal"
+                                    (click)="fetchBoardDetails(item)">
+                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" />
+                                </a>
+
+                                <a href="javascript:void(0)" (click)="getId(item)" data-bs-target="#ct_delete_phase"
+                                    data-bs-toggle="modal">
+                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody> -->
+
+                <tbody>
+                    <tr *ngFor="let item of filteredData; let i = index">
+                        <td>{{(p - 1) * 10 + i + 1}}</td>
+                        <td>
+                            <span class="ct_overlay_text d-inline-block">{{item.phase_name}}</span>
+                        </td>
+                        <td>{{item.totalTasks}}</td>
                         <td>
                             <span class="ct_overlay_text d-inline-block">{{item?.description ? item?.description : '-'}}
                             </span>
@@ -40,6 +69,7 @@
                         </td>
                     </tr>
                 </tbody>
+
             </table>
         </div>
         <div class="col-md-12">
@@ -47,8 +77,8 @@
                 <p class="text-center mb-0 ct_fs_20">No phase found</p>
             </div>
         </div>
-        <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
-            (pageChange)="p = $event"></pagination-controls>
+        <!-- <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+            (pageChange)="p = $event"></pagination-controls> -->
     </div>
 </div>
 

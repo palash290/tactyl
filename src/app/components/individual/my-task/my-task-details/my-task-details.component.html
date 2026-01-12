@@ -21,10 +21,17 @@
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
+        @if(taskDetails?.status){
+        <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff">
+            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+        </div>
+        } @else {
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
             data-bs-target="#ct_add_create_modal" data-bs-toggle="modal">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
+        }
+
     </div>
 </div>
 <div class="ct_mt_30 ct_px_30 pb-4">
@@ -37,12 +44,10 @@
                         <h4 class="ct_fs_26 ct_ff_Matter_SemiBold">{{taskDetails?.title}}</h4>
                         <div class="ct_d_align_center gap-2 ">
                             <img src="/img/calander_icon.svg">
-                            <p class="mb-0 ct_text_clr_6E6F76 ct_white_nowrap">Created onss {{taskDetails?.created_at |
+                            <p class="mb-0 ct_text_clr_6E6F76 ct_white_nowrap">Created on {{taskDetails?.created_at |
                                 date:'dd-MMM-yyyy'}}</p>
-
                         </div>
                     </div>
-
                     <div>
                         <h4 class="ct_fs_22 mb-2">Description</h4>
                         <p class="mb-0 ct_text_clr_808080 ct_para_scroll ct_custom_scroll">{{taskDetails?.description}}
@@ -73,6 +78,7 @@
                                         style="background-color: #2222220A; color: #222222;">P4</span>
                                     }
                                 </div>
+
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
@@ -126,17 +132,66 @@
                                         <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedBy.name}}</p>
                                     </div>
                                 </div>
+
+                                @if(taskDetails?.status){
+                                <div>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Time</p>
+                                    <div class="ct_d_align_center gap-2">
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">
+                                            <ng-container *ngIf="taskDetails?.actual_hours != null; else onlyMinutes">
+                                                {{ taskDetails.actual_hours }} Hrs
+                                                <ng-container *ngIf="taskDetails?.actual_minutes != null">
+                                                    {{ taskDetails.actual_minutes }} Min
+                                                </ng-container>
+                                            </ng-container>
+
+                                            <ng-template #onlyMinutes>
+                                                <ng-container *ngIf="taskDetails?.actual_minutes != null">
+                                                    {{ taskDetails.actual_minutes }} Min
+                                                </ng-container>
+                                            </ng-template>
+                                        </p>
+                                    </div>
+                                </div>
+                                }
+
+                                <div>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Goal Relevant</p>
+                                    @if(taskDetails?.goal_relevant == '1'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #9be17a; color: #ffffff;">Yes</span>
+                                    } @else {
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #2222220A; color: #222222;">No</span>
+                                    }
+                                </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="ct_mt_30">
-                        <!-- <p class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">Assigned To</p> -->
+                        <!-- @if(taskDetails?.status){
+                        <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Time</p>
+                        } -->
                         <div class="ct_d_align_center justify-content-end gap-3 flex-wrap">
-                            <!-- <div class="ct_d_align_center gap-2">
-                                <img [src]="taskDetails?.profile_image ? taskDetails?.profile_image : '/img/no_pro.png'"
-                                    class="ct_img_w_24" />
-                                <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedTo.name}}</p>
-                            </div> -->
+                            <!-- @if(taskDetails?.status){
+                            <div class="ct_d_align_center gap-2">
+                                <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">
+                                    <ng-container *ngIf="taskDetails?.actual_hours != null; else onlyMinutes">
+                                        {{ taskDetails.actual_hours }} Hrs
+                                        <ng-container *ngIf="taskDetails?.actual_minutes != null">
+                                            {{ taskDetails.actual_minutes }} Min
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <ng-template #onlyMinutes>
+                                        <ng-container *ngIf="taskDetails?.actual_minutes != null">
+                                            {{ taskDetails.actual_minutes }} Min
+                                        </ng-container>
+                                    </ng-template>
+                                </p>
+                            </div>
+                            } -->
                             <div>
                                 <h6 class="ct_fs_18 ct_text_purple ct_ff_Matter_Medium mb-0">Action Score:
                                     {{taskDetails?.action_score}}</h6>
@@ -246,9 +301,7 @@
               && Form.controls['estimatedHours'].errors?.['pattern']">
                                         Only numbers are allowed.
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
 
@@ -275,7 +328,6 @@
                                         Estimated minutes must be between 0 and 60.
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -289,12 +341,10 @@
                                     <option value="P3">P3</option>
                                     <option value="P4">P4</option>
                                 </select>
-
                                 <div *ngIf="Form.controls['priority'].invalid && Form.controls['priority'].touched"
                                     class="err_msg">
                                     Please select priority.
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -306,7 +356,6 @@
                                         {{ member.phase_name }}
                                     </option>
                                 </select>
-
                                 <div *ngIf="Form.controls['phaseId'].invalid && Form.controls['phaseId'].touched"
                                     class="err_msg">
                                     Please select a phase.
@@ -362,6 +411,7 @@
                                         </label>
                                     </div>
                                 </div> -->
+
                                 <div
                                     class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
                                     <div class="ct_d_align_center gap-3">
@@ -410,7 +460,6 @@
                                         </label>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -423,7 +472,6 @@
                     <button type="button" class="ct_purple_btn ct_ff_Matter_Medium" (click)="onSubmit()">
                         Update Task
                     </button>
-
                 </div>
             </div>
         </div>
@@ -611,10 +659,9 @@
                         Estimated Hours:
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        {{taskDetails?.estimated_hours}}
+                        {{actualTime}}
                     </p>
                 </div>
-
                 <form [formGroup]="completeForm">
                     <div class="col-md-12">
                         <div class="form-group ct_mb_22">
@@ -632,9 +679,7 @@
               && completeForm.controls['actualHours'].errors?.['pattern']">
                                     Only numbers are allowed.
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
 
@@ -648,12 +693,10 @@
                                 <div *ngIf="completeForm.controls['actualMinutes'].errors?.['required']">
                                     Please enter actual minutes.
                                 </div>
-
                                 <div *ngIf="!completeForm.controls['actualMinutes'].errors?.['required']
         && completeForm.controls['actualMinutes'].errors?.['pattern']">
                                     Only numbers are allowed.
                                 </div>
-
                                 <div *ngIf="!completeForm.controls['actualMinutes'].errors?.['required']
         && !completeForm.controls['actualMinutes'].errors?.['pattern']
         && (completeForm.controls['actualMinutes'].errors?.['min']
@@ -661,12 +704,9 @@
                                     Estimated minutes must be between 0 and 60.
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </form>
-
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
                     <button #closeModalComplete type="button" class="ct_outline_btn ct_ff_Matter_Medium"
                         data-bs-dismiss="modal">

@@ -51,6 +51,10 @@ export const routes: Routes = [
             loadComponent: () => import('./components/core/choose-signup/invited-signup/set-password/set-password.component').then(m => m.SetPasswordComponent)
       },
       {
+            path: 'pricing-plan',
+            loadComponent: () => import('./components/shared/pricing-plan/pricing-plan.component').then(m => m.PricingPlanComponent)
+      },
+      {
             path: 'complete-profile',
             loadComponent: () => import('./components/core/choose-signup/invited-signup/complete-profile/complete-profile.component').then(m => m.CompleteProfileComponent)
       },

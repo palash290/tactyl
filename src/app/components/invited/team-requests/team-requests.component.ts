@@ -18,7 +18,7 @@ export class TeamRequestsComponent {
   @ViewChild('closeModalAccept') closeModalAccept!: ElementRef;
   @ViewChild('closeModalReject') closeModalReject!: ElementRef;
 
-  constructor(private service: CommonService, private router: Router, private toastr: NzMessageService) { }
+  constructor(private service: CommonService, private toastr: NzMessageService) { }
 
   ngOnInit() {
     this.getAllRequests();

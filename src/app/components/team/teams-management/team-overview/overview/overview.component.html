@@ -2,7 +2,8 @@
     <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
         <div class="ct_dash_card">
             <div class="ct_dash_card_title">
-                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">50</h5>
+                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.total_tasks ? dashboardData.total_tasks : 0}}
+                </h5>
                 <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
                     Total Tasks
                 </p>
@@ -15,7 +16,8 @@
     <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
         <div class="ct_dash_card">
             <div class="ct_dash_card_title">
-                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">43</h5>
+                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.completed_tasks ? dashboardData.completed_tasks : 0}}
+                </h5>
                 <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
                     Completed Tasks
                 </p>
@@ -28,7 +30,8 @@
     <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
         <div class="ct_dash_card">
             <div class="ct_dash_card_title">
-                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">7</h5>
+                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.overdue_tasks ? dashboardData.overdue_tasks : 0}}
+                </h5>
                 <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
                     Overdue Tasks
                 </p>
@@ -42,7 +45,7 @@
         <div class="ct_dash_card">
             <div class="ct_dash_card_title">
                 <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">
-                    4.2d
+                    {{dashboardData?.average_cycle_time ? dashboardData.average_cycle_time : 0}}
                 </h5>
                 <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
                     Avg. Cycle Time
@@ -63,55 +66,7 @@
             <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
                 <li>
                     <div class="d-flex align-items-center gap-3">
-                        <img src="/img/user_2.png" class="ct_img_40" />
-                        <p class="mb-0">
-                            <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
-                                    Banner'</span></i>
-                        </p>
-                    </div>
-                    <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
-                        3h ago
-                    </p>
-                </li>
-                <li>
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="/img/user_2.png" class="ct_img_40" />
-                        <p class="mb-0">
-                            <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
-                                    Banner'</span></i>
-                        </p>
-                    </div>
-                    <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
-                        3h ago
-                    </p>
-                </li>
-                <li>
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="/img/user_2.png" class="ct_img_40" />
-                        <p class="mb-0">
-                            <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
-                                    Banner'</span></i>
-                        </p>
-                    </div>
-                    <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
-                        3h ago
-                    </p>
-                </li>
-                <li>
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="/img/user_2.png" class="ct_img_40" />
-                        <p class="mb-0">
-                            <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
-                                    Banner'</span></i>
-                        </p>
-                    </div>
-                    <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
-                        3h ago
-                    </p>
-                </li>
-                <li>
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="/img/user_2.png" class="ct_img_40" />
+                        <img src="/img/no_pro.png" class="ct_img_40" />
                         <p class="mb-0">
                             <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
                                     Banner'</span></i>
@@ -128,18 +83,17 @@
         <div class="ct_white_bg h-auto ct_27_40_38">
             <h4 class="ct_fs_18 mb-3">Team Manager</h4>
             <div class="ct_Members_info_sort gap-3 ct_d_align_center">
-                <img src="/img/user_2.png" alt="" class="ct_img_42 ct_flex_shrink_0" />
+                <img [src]="dashboardData?.team_admin_profile_image ? dashboardData?.team_admin_profile_image : '/img/no_pro.png'" alt="" class="ct_img_42 ct_flex_shrink_0" />
                 <div>
                     <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate" style="max-width: 100px">
-                        Sarah Johnson
+                        {{dashboardData?.team_admin_name}}
                     </h5>
                     <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate" style="max-width: 120px">
-                        sarahcompany.com
+                        {{dashboardData?.team_admin_email}}
                     </p>
                 </div>
             </div>
         </div>
-
         <div class="ct_white_bg h-auto ct_27_40_38 ct_mt_15">
             <h4 class="ct_fs_18 mb-3 ct_ff_Matter_Medium">
                 Quick Stats
@@ -150,7 +104,7 @@
                         <p class="mb-0 ct_text_787885">Members</p>
                     </div>
                     <p class="mb-0 ct_text_787885 ct_white_nowrap">
-                        12
+                        {{dashboardData?.total_members}}
                     </p>
                 </li>
                 <li class="ct_mt_15">
@@ -158,7 +112,7 @@
                         <p class="mb-0 ct_text_787885">Active Boards</p>
                     </div>
                     <p class="mb-0 ct_text_787885 ct_white_nowrap">
-                        5
+                        {{dashboardData?.total_boards}}
                     </p>
                 </li>
                 <li class="ct_mt_15">
@@ -168,7 +122,7 @@
                         </p>
                     </div>
                     <p class="mb-0 ct_text_787885 ct_white_nowrap">
-                        23
+                        {{dashboardData?.urgent_tasks}}
                     </p>
                 </li>
             </ul>

@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../../../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { startWith, Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-phases',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule, DragDropModule],
   templateUrl: './phases.component.html',
   styleUrl: './phases.component.css'
 })
@@ -39,14 +40,6 @@ export class PhasesComponent {
     this.initForm();
     this.getPhaes();
     this.getBoards();
-    // this.service.refresh$
-    //   .pipe(
-    //     startWith(null),
-    //     takeUntil(this.destroy$)
-    //   )
-    //   .subscribe(() => {
-    //     this.getBoards();
-    //   });
   }
 
   ngOnDestroy() {
@@ -141,7 +134,6 @@ export class PhasesComponent {
             this.closeModalAdd.nativeElement.click();
             this.getPhaes();
             this.phaseId = null;
-            // this.service.triggerRefresh();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;
@@ -197,10 +189,56 @@ export class PhasesComponent {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
         this.getPhaes();
-        // this.service.triggerRefresh();
       },
       error: error => {
         console.log(error.message);
+      }
+    });
+  }
+
+
+  drop(event: CdkDragDrop<any[]>) {
+    if (event.previousIndex === event.currentIndex) return;
+
+    // Reorder array
+    moveItemInArray(
+      this.filteredData,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    // Call API with updated sequence
+    this.updatePhasePosition();
+  }
+
+  updatePhasePosition() {
+    this.loading = true;
+
+    const payload = {
+      phases: this.filteredData.map((item, index) => ({
+        phase_id: item.id,
+        sequence: index + 1
+      }))
+    };
+
+    this.service.post(
+      'user/updatePhaseSequence',
+      payload
+    ).subscribe({
+      next: (resp: any) => {
+        if (resp.success) {
+          this.toastr.success(resp.message);
+        } else {
+          this.toastr.warning(resp.message);
+          this.getPhaes();
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        this.toastr.error('Something went wrong');
+        console.error(err);
+        this.loading = false;
+        this.getPhaes();
       }
     });
   }

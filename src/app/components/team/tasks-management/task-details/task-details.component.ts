@@ -86,7 +86,7 @@ export class TaskDetailsComponent {
       is_urgent: new FormControl(false),
     },
       {
-        validators: this.dateRangeValidator as any   // <-- FIX
+        validators: this.dateRangeValidator as any
       }
     );
   }
@@ -142,7 +142,7 @@ export class TaskDetailsComponent {
       formURlData.append('estimated_hours', this.Form.value.estimatedHours);
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
-      formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
 
       this.service.post(`user/editTaskById?id=${this.taskId}`, formURlData.toString()).subscribe({
         next: (resp: any) => {
@@ -172,9 +172,9 @@ export class TaskDetailsComponent {
   dateValidation() {
     const today = new Date();
     const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Ensure two-digit month
-    const day = today.getDate().toString().padStart(2, '0'); // Ensure two-digit day
-    this.minDate = `${year}-${month}-${day}`; // Format as YYYY-MM-DD
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    this.minDate = `${year}-${month}-${day}`;
   }
 
   dateRangeValidator(group: FormGroup) {
@@ -253,7 +253,6 @@ export class TaskDetailsComponent {
             this.closeModalAddNotes.nativeElement.click();
             this.getNotes();
             // this.boardId = null;
-            // this.service.triggerRefresh();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;

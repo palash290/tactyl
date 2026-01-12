@@ -27,9 +27,11 @@ export class TactylCompassComponent {
   searchText: string = '';
   selectedTeam: string = '';
   selectedBoard: string = '';
+  selectedPhase: string = '';
 
   teams: any[] = [];
   boards: any[] = [];
+  phases: any[] = [];
   completeForm!: FormGroup;
   userType: any;
   @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
@@ -51,6 +53,7 @@ export class TactylCompassComponent {
 
     this.service.get('user/fetchTeamsByTeamAdminId').subscribe((res: any) => this.teams = res.data);
     this.service.get('user/fetchTotalBoards').subscribe((res: any) => this.boards = res.data);
+    this.service.get('user/fetchIndividualUserPhasesByUserId').subscribe((res: any) => this.phases = res.data);
 
     this.getDetails();
 
@@ -193,6 +196,7 @@ export class TactylCompassComponent {
         !this.searchText ||
         task.title?.toLowerCase().includes(this.searchText.toLowerCase()) ||
         task.board_name?.toLowerCase().includes(this.searchText.toLowerCase());
+        task.phase_name?.toLowerCase().includes(this.searchText.toLowerCase());
 
       const teamMatch =
         !this.selectedTeam || task.team_id == this.selectedTeam;
@@ -200,7 +204,10 @@ export class TactylCompassComponent {
       const boardMatch =
         !this.selectedBoard || task.board_id == this.selectedBoard;
 
-      return searchMatch && teamMatch && boardMatch;
+      const phaseMatch =
+        !this.selectedPhase || task.phase_id == this.selectedPhase;
+
+      return searchMatch && teamMatch && boardMatch && phaseMatch;
     });
 
     this.buildCompass(this.filteredList);

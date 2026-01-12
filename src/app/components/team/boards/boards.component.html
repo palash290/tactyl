@@ -15,11 +15,11 @@
                                 [ngModelOptions]="{standalone: true}" />
                             <img src="/img/search_icon.svg" class="ct_input_icon_left" />
                         </div>
-                        <div class="ct_w_100_575">
-                            <!-- <select class="form-control ct_input ct_grey_select ct_w_100_575">
-                        <option value="">All Teams</option>
-                    </select> -->
-                        </div>
+                        <!-- <div class="ct_w_100_575">
+                            <select class="form-control ct_input ct_grey_select ct_w_100_575">
+                                <option value="">Completed</option>
+                            </select>
+                        </div> -->
                     </div>
 
                     <div class="ct_w_100_767" *ngIf="userType == 'individual'">
@@ -64,7 +64,8 @@
                                 <td>{{item.totalTasks}}</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
-                                        <a routerLink="/individual/view-board">
+                                        <a [routerLink]="['/individual/view-board']"
+                                            [queryParams]="{ boardId: item.id, boardName: item.board_name }">
                                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                                         </a>
                                         <a href="javascript:void(0)" data-bs-target="#ct_add_board_modal"
@@ -107,9 +108,15 @@
                         <h1 class="modal-title ct_fs_20 ct_ff_Matter_SemiBold mb-0" id="exampleModalLabel">
                             {{ boardId ? 'Update Board' : 'Create Board' }}
                         </h1>
+                        @if(userType == 'team'){
                         <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
                             Set up a new board to organize your team's tasks
                         </p>
+                        } @else {
+                        <p class="mb-0 ct_fs_14 ct_text_clr_4B5563 ct_text_op_08">
+                            Set up a new board to organize your tasks
+                        </p>
+                        }
                     </div>
                 </div>
                 <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
@@ -121,7 +128,7 @@
                     <div class="form-group ct_mb_22">
                         <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Name</label>
                         <input type="text" class="form-control ct_input" formControlName="title"
-                            placeholder="Website Redesign" va />
+                            placeholder="Enter board name" />
                         <div *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched" class="err_msg">
                             <div *ngIf="Form.controls['title'].errors?.['required']">Please enter
                                 board name.</div>
@@ -129,8 +136,8 @@
                     </div>
                     <div class="form-group ct_mb_22">
                         <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description</label>
-                        <textarea type="text" class="form-control ct_input"
-                            placeholder="UI/UX improvements and new features" formControlName="description"></textarea>
+                        <textarea type="text" class="form-control ct_input" placeholder="Enter description"
+                            formControlName="description"></textarea>
                     </div>
 
                     <div class="form-group ct_mb_22">

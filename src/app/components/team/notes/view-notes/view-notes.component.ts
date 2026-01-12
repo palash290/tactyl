@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { CommonService } from '../../../../services/common.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -77,8 +77,6 @@ export class ViewNotesComponent {
             this.loading = false;
             this.closeModalAdd.nativeElement.click();
             this.getNotes();
-            // this.boardId = null;
-            // this.service.triggerRefresh();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;

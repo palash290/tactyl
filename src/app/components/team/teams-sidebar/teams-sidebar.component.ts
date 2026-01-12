@@ -19,7 +19,7 @@ export class TeamsSidebarComponent {
   @Output() toggleEvent = new EventEmitter<boolean>();
 
   toggleMenu() {
-    this.toggleEvent.emit(false); // Emit event to parent component
+    this.toggleEvent.emit(false);
   }
 
 

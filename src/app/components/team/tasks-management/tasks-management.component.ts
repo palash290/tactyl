@@ -72,11 +72,10 @@ export class TasksManagementComponent {
     }
 
     // params.append('is_private', this.showPrivateTask ? '1' : '0');
-    // 🔥 All / Private logic
     if (this.taskVisibility === 'private') {
       params.append('is_private', '1');
     } else {
-      params.append('is_private', '0'); // or omit param if API supports
+      params.append('is_private', '0');
     }
 
 
@@ -256,7 +255,7 @@ export class TasksManagementComponent {
       formURlData.append('due_date', this.Form.value.endDate);
       formURlData.append('priority', this.Form.value.priority);
       formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
-      formURlData.append('goal_relavent', this.Form.value.isGoalRevelant ? '1' : '0');
+      formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
       formURlData.append('estimated_hours', this.Form.value.estimatedHours);
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
@@ -311,8 +310,7 @@ export class TasksManagementComponent {
     if (!this.taskList || this.taskList.length === 0) {
       return;
     }
-
-    // CSV Header
+    
     const headers = [
       'S.No',
       'Task Title',

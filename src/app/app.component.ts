@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LoaderService } from './services/loader.service';
+import { FcmService } from './services/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,9 @@ export class AppComponent {
   title = 'setup';
   showLoader = false;
   private subscription!: Subscription;
-  constructor(private router: Router, private loaderService: LoaderService) {
+  constructor(private router: Router, private loaderService: LoaderService, private fcmService: FcmService) {
+    this.fcmService.listenForMessages();
+    this.getFcmToken();
   }
   ngOnInit() {
     this.subscription = this.loaderService.showLoader$.subscribe(value => {
@@ -32,4 +35,16 @@ export class AppComponent {
       }
     });
   }
+
+  getFcmToken() {
+    this.fcmService.requestPermissionAndGetToken().then(token => {
+      if (token) {
+        console.log('Token:', token);
+        //this.fcmToken = token;
+        localStorage.setItem('fcmNari', token);
+      }
+    });
+  }
+
+
 }
