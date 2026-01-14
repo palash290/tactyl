@@ -2,7 +2,8 @@
     <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
         <div class="ct_dash_card">
             <div class="ct_dash_card_title">
-                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.total_tasks ? dashboardData.total_tasks : 0}}
+                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.total_tasks ? dashboardData.total_tasks :
+                    0}}
                 </h5>
                 <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
                     Total Tasks
@@ -16,7 +17,8 @@
     <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
         <div class="ct_dash_card">
             <div class="ct_dash_card_title">
-                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.completed_tasks ? dashboardData.completed_tasks : 0}}
+                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.completed_tasks ?
+                    dashboardData.completed_tasks : 0}}
                 </h5>
                 <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
                     Completed Tasks
@@ -30,7 +32,8 @@
     <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mb-4">
         <div class="ct_dash_card">
             <div class="ct_dash_card_title">
-                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.overdue_tasks ? dashboardData.overdue_tasks : 0}}
+                <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold">{{dashboardData?.overdue_tasks ? dashboardData.overdue_tasks
+                    : 0}}
                 </h5>
                 <p class="mb-0 ct_text_clr_4B5563 ct_fs_20">
                     Overdue Tasks
@@ -64,18 +67,29 @@
                 Recent Activity
             </h4>
             <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
-                <li>
+                @if (taskList?.length > 0) {
+                <li *ngFor="let item of taskList">
                     <div class="d-flex align-items-center gap-3">
-                        <img src="/img/no_pro.png" class="ct_img_40" />
+                        <img [src]="profile_image ? profile_image : '/img/no_pro.png'" class="ct_img_40" />
+
                         <p class="mb-0">
-                            <i>Rohan Kumar created task <span class="ct_text_purple">'Homepage
-                                    Banner'</span></i>
+                            <i>
+                                {{ item.created_by_name }} created task
+                                <span class="ct_text_purple">'{{ item.title }}'</span>
+                            </i>
                         </p>
                     </div>
+
                     <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
-                        3h ago
+                        {{ getTimeAgo(item.created_at) }}
                     </p>
                 </li>
+                } @else {
+                <li class="ct_no_task">
+                    <p class="mb-0 text-center">No tasks available</p>
+                </li>
+                }
+
             </ul>
         </div>
     </div>
@@ -83,7 +97,8 @@
         <div class="ct_white_bg h-auto ct_27_40_38">
             <h4 class="ct_fs_18 mb-3">Team Manager</h4>
             <div class="ct_Members_info_sort gap-3 ct_d_align_center">
-                <img [src]="dashboardData?.team_admin_profile_image ? dashboardData?.team_admin_profile_image : '/img/no_pro.png'" alt="" class="ct_img_42 ct_flex_shrink_0" />
+                <img [src]="dashboardData?.team_admin_profile_image ? dashboardData?.team_admin_profile_image : '/img/no_pro.png'"
+                    alt="" class="ct_img_42 ct_flex_shrink_0" />
                 <div>
                     <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate" style="max-width: 100px">
                         {{dashboardData?.team_admin_name}}

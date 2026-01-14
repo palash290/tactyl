@@ -27,10 +27,18 @@
                         <h4 class="ct_fs_22 ct_ff_Matter_SemiBold mb-0">Overall Team Score</h4>
                     </div>
                     <div id="chart">
-                        <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
+                        <!-- <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
                             [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
                             [markers]="chartOptions1.markers" [colors]="chartOptions1.colors"
-                            [title]="chartOptions1.title"></apx-chart>
+                            [title]="chartOptions1.title"></apx-chart> -->
+
+                        <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
+                            [xaxis]="chartOptions1.xaxis" [yaxis]="chartOptions1.yaxis"
+                            [plotOptions]="chartOptions1.plotOptions" [dataLabels]="chartOptions1.dataLabels"
+                            [colors]="chartOptions1.colors" [tooltip]="chartOptions1.tooltip"
+                            [legend]="chartOptions1.legend" [grid]="chartOptions1.grid">
+                        </apx-chart>
+
                     </div>
                 </div>
                 <div class="ct_light_blue_bg_2 ct_mt_40 h-auto">
@@ -40,42 +48,51 @@
                     </div>
                     <div class="mt-4 row">
                         <div class="col-xl-4 col-lg-6 mb-4">
-                            <div class="ct_white_bg_2 ct_border_light_blue ct_py_25_px_22">
-                                <div class="ct_icon_48 ct_mb_15" style="background-color: #DCFCE7;">
-                                    <img src="/img/trophy_icon.svg" alt="">
-                                </div>
+                            <div class="ct_white_bg_2 ct_border_light_blue ct_py_25_px_22 h-100 d-grid">
                                 <div>
-                                    <h4 class="ct_fs_16 ct_text_clr_334155 ct_ff_Matter_Medium ct_mb_30">
-                                        {{performance_insights0?.message}}</h4>
-                                    <p class="mb-0 ct_fs_14 ct_text_clr_64748B">{{performance_insights0?.suggestion}}
-                                    </p>
+                                    <div class="ct_icon_48 ct_mb_15" style="background-color: #DCFCE7;">
+                                        <img src="/img/trophy_icon.svg" alt="">
+                                    </div>
+                                    <div>
+                                        <h4 class="ct_fs_16 ct_text_clr_334155 ct_ff_Matter_Medium ct_mb_30">
+                                            {{performance_insights0?.message}}</h4>
+                                    </div>
                                 </div>
+                                <p class="mb-0 ct_fs_14 ct_text_clr_64748B mt-auto">
+                                    {{performance_insights0?.suggestion}}
+                                </p>
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-6 mb-4">
-                            <div class="ct_white_bg_2 ct_border_light_blue ct_py_25_px_22">
-                                <div class="ct_icon_48 ct_mb_15" style="background-color: #FEF3C7;">
-                                    <img src="/img/bulb_icon.svg" alt="">
-                                </div>
+                            <div class="ct_white_bg_2 ct_border_light_blue ct_py_25_px_22 d-grid h-100">
                                 <div>
-                                    <h4 class="ct_fs_16 ct_text_clr_334155 ct_ff_Matter_Medium ct_mb_30">
-                                        {{performance_insights1?.message}}</h4>
-                                    <p class="mb-0 ct_fs_14 ct_text_clr_64748B">{{performance_insights1?.suggestion}}
-                                    </p>
+                                    <div class="ct_icon_48 ct_mb_15" style="background-color: #FEF3C7;">
+                                        <img src="/img/bulb_icon.svg" alt="">
+                                    </div>
+                                    <div>
+                                        <h4 class="ct_fs_16 ct_text_clr_334155 ct_ff_Matter_Medium ct_mb_30">
+                                            {{performance_insights1?.message}}</h4>
+                                    </div>
                                 </div>
+                                <p class="mb-0 ct_fs_14 ct_text_clr_64748B mt-auto">
+                                    {{performance_insights1?.suggestion}}
+                                </p>
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-6 mb-4">
-                            <div class="ct_white_bg_2 ct_border_light_blue ct_py_25_px_22">
-                                <div class="ct_icon_48 ct_mb_15" style="background-color: #DBEAFE;">
-                                    <img src="/img/plain.svg" alt="">
-                                </div>
+                            <div class="ct_white_bg_2 ct_border_light_blue ct_py_25_px_22 h-100 d-grid">
                                 <div>
-                                    <h4 class="ct_fs_16 ct_text_clr_334155 ct_ff_Matter_Medium ct_mb_30">
-                                        {{performance_insights2?.message}}</h4>
-                                    <p class="mb-0 ct_fs_14 ct_text_clr_64748B">{{performance_insights1?.suggestion}}
-                                    </p>
+                                    <div class="ct_icon_48 ct_mb_15" style="background-color: #DBEAFE;">
+                                        <img src="/img/plain.svg" alt="">
+                                    </div>
+                                    <div>
+                                        <h4 class="ct_fs_16 ct_text_clr_334155 ct_ff_Matter_Medium ct_mb_30">
+                                            {{performance_insights2?.message}}</h4>
+                                    </div>
                                 </div>
+                                <p class="mb-0 ct_fs_14 ct_text_clr_64748B mt-auto">
+                                    {{performance_insights1?.suggestion}}
+                                </p>
                             </div>
                         </div>
                     </div>

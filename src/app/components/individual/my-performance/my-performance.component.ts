@@ -36,7 +36,6 @@ export class MyPerformanceComponent {
           ? resp.data.graph_data
           : [resp.data.graph_data];
 
-
         // 📊 Map API data
         const months = this.graph_data.map((m: any) => m.month);
 
@@ -47,8 +46,6 @@ export class MyPerformanceComponent {
         const remainingRates = this.graph_data.map(
           (m: any) => 100 - Number(m.completion_rate)
         );
-
-
 
         this.chartOptions1 = {
           chart: {
@@ -75,7 +72,21 @@ export class MyPerformanceComponent {
               columnWidth: '45%',
               borderRadius: 10,
               borderRadiusApplication: 'end',
-              borderRadiusWhenStacked: 'last'
+              borderRadiusWhenStacked: 'last',
+              dataLabels: {
+                position: 'center'
+              }
+            }
+          },
+
+          dataLabels: {
+            enabled: true,
+            formatter: (val: number, opts: any) => {
+              return opts.seriesIndex === 0 ? `${val}%` : '';
+            },
+            style: {
+              fontSize: '12px',
+              fontWeight: '600'
             }
           },
 
@@ -96,14 +107,10 @@ export class MyPerformanceComponent {
             strokeDashArray: 6
           },
 
-          dataLabels: {
-            enabled: false
-          },
-
           legend: {
             show: false
           },
-
+          
           tooltip: {
             custom: ({ dataPointIndex }: any) => {
               const monthData = this.graph_data[dataPointIndex];
@@ -139,10 +146,6 @@ export class MyPerformanceComponent {
             }
           }
         };
-
-
-
-
       },
       error: (error) => {
         console.log(error.message);

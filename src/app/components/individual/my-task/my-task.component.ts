@@ -114,12 +114,15 @@ export class MyTaskComponent {
   }
 
   getTasks() {
+    this.loading = true;
     this.service.get(`user/fetchIndividualUserPhasesWithTaskByUserId`).subscribe({
       next: (resp: any) => {
         this.boardTasks = resp.data;
-        this.filterList()
+        this.filterList();
+        this.loading = false;
       },
       error: (error) => {
+        this.loading = false;
         console.log(error.message);
       }
     });

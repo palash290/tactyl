@@ -171,14 +171,17 @@ export class IndividualPhasesComponent {
       this.toastr.warning('Please select phase first.');
       return
     }
+    this.loading = true;
     this.service.get(`user/deletePhaseByThereId?id=${this.id}&team_id=${0}&aasignPhaseId=${this.selectedPhaseId}&isTaskExists=${this.isTaskExists ? 1 : 0}`).subscribe({
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
         this.getPhaes();
+        this.loading = false;
         // this.service.triggerRefresh();
       },
       error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });

@@ -81,7 +81,6 @@ export class TactylCompassComponent {
         console.log(err)
         this.loading = false;
       }
-
     });
   }
 

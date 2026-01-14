@@ -7,6 +7,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { HttpInterceptorService } from './interceptors/http.interceptor';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDeJErx-QtoxonqHjWbEtwz6RTEI8gmUZQ",
@@ -27,6 +28,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
+    provideMessaging(() => getMessaging()),
     provideRouter(routes, withInMemoryScrolling(scrollConfig)),
     provideAnimations(),
     provideHttpClient(

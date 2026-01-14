@@ -112,12 +112,15 @@ export class ViewBoardComponent {
   phaseList: any;
 
   getPhaes() {
+    this.loading = true;
     this.service.get(this.userType == 'invited' ? 'user/fetchIndividualUserPhasesByUserId' : `user/fetchPhasesByThereBoardId?team_id=${this.teamId}&board_id=${this.boardId}`).subscribe({
       next: (resp: any) => {
+        this.loading = false;
         this.phaseList = resp.data;
         this.filterList()
       },
       error: (error) => {
+        this.loading = false;
         console.log(error.message);
       }
     });
@@ -160,12 +163,14 @@ export class ViewBoardComponent {
       // }
 
       // ✅ Completed / Incompleted filter
-      if (this.taskVisibility == 'hide') {
+    if (this.taskVisibility == 'hide') {
         // Hide completed → show only incomplete
         tasks = tasks.filter(task => task.status == 0);
-      } else {
+      } else if (this.taskVisibility == 'show') {
         // If you want ONLY completed, use:
         tasks = tasks.filter(task => task.status == 1);
+      } else {
+
       }
 
       return {

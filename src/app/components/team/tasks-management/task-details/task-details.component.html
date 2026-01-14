@@ -136,7 +136,7 @@
                                         <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedBy.name}}</p>
                                     </div>
                                 </div>
-                                
+
                                 @if(taskDetails?.status){
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Time</p>
@@ -167,6 +167,13 @@
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
                                         style="background-color: #2222220A; color: #222222;">No</span>
                                     }
+                                </div>
+
+                                <div>
+                                    <p class="ct_fs_18 ct_ff_Matter_Medium">Board Name</p>
+                                    <div class="ct_d_align_center gap-2">
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.board_name}}</p>
+                                    </div>
                                 </div>
 
                             </div>
