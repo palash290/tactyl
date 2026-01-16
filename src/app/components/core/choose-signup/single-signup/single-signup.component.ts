@@ -53,24 +53,13 @@ export class SingleSignupComponent {
     // }
 
     // return
-    
-    // if (!this.type) {
-    //   console.warn("Type missing, redirecting to default...");
-    //   return;
-    // }
 
     this.Form.markAllAsTouched();
     if (this.Form.valid) {
       this.loading = true;
       const formURlData = new URLSearchParams();
       formURlData.set('fullName', this.Form.value.name);
-      if (this.type == 'individual') {
-        formURlData.set('role', '1');
-      }
-      if (this.type == 'team') {
-        formURlData.set('role', '2');
-      }
-      // formURlData.set('Designation', this.Form.value.designation);
+
       formURlData.set('password', this.Form.value.new_password);
       formURlData.set('email', this.Form.value.email);
 

@@ -41,8 +41,8 @@ export class LogInComponent {
     //   console.warn("Type missing, redirecting to default...");
     //   return;
     // }
-    this.router.navigate(['/pricing-plan']);
-    return
+    // this.router.navigate(['/pricing-plan']);
+    // return
 
     this.Form.markAllAsTouched();
 
@@ -51,17 +51,7 @@ export class LogInComponent {
       const formURlData = new URLSearchParams();
       formURlData.set('email', this.Form.value.email);
       formURlData.set('password', this.Form.value.password);
-      if (this.type == 'individual') {
-        formURlData.set('role', '1');
-        formURlData.set('isIndividualLogin', '1');
-      }
-      if (this.type == 'invited') {
-        formURlData.set('role', '1');
-        formURlData.set('isIndividualLogin', '2');
-      }
-      if (this.type == 'team') {
-        formURlData.set('role', '2');
-      }
+
       this.service.post('user/signIn', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {

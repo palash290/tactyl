@@ -42,8 +42,6 @@ export class VerifyEmailComponent {
 
 
   onSubmit() {
-    // this.route.navigateByUrl('/individual/dashboard');
-    // return
     this.Form.markAllAsTouched()
     if (this.Form.valid) {
       this.loading = true;
@@ -57,15 +55,7 @@ export class VerifyEmailComponent {
             if (resp.success == true) {
               this.loading = false;
               this.toastr.success(resp.message);
-              if (this.type == 'individual') {
-                this.router.navigateByUrl('/choose-login');
-              }
-              if (this.type == 'team') {
-                this.router.navigate(['/create-team'], {
-                  queryParams: { managerId: resp.data }
-                });
-              }
-
+              this.router.navigateByUrl('/login');
             } else {
               this.loading = false;
               this.toastr.warning(resp.message);
