@@ -99,13 +99,20 @@
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <div class="ct_white_bg">
                     <div class="ct_d_align_center justify-content-between gap-3 ct_flex_col_575 ">
-                        <h4 class="ct_fs_22 ct_ff_Matter_SemiBold mb-0">Task Distribution by phase</h4>
+                        <h4 class="ct_fs_22 ct_ff_Matter_SemiBold mb-0">Task Distribution by Phase</h4>
                     </div>
                     <div id="chart" class="ct_mt_30">
+                        @if(hasChartData){
                         <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
                             [labels]="chartOptions1.labels" [colors]="chartOptions1.colors"
                             [legend]="chartOptions1.legend" [plotOptions]="chartOptions1.plotOptions"
                             [dataLabels]="chartOptions1.dataLabels"></apx-chart>
+                        }
+                        <!-- No Data Message -->
+                        <div *ngIf="!hasChartData" class="text-center">
+                            <p>No task data available</p>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -116,54 +123,40 @@
                     </div>
                     <ul class="ct_mt_30 ct_recent_task_lists ct_para_scroll ct_custom_scroll"
                         style="max-height: 383px;">
-                        <li>
+                        @if (taskList?.length > 0) {
+                        <li *ngFor="let item of taskList">
                             <div class="d-flex align-items-center justify-content-between gap-3">
                                 <div class="d-flex align-items-center gap-2">
                                     <img src="/img/check_icon.svg" alt="">
-                                    <p class="ct_fs_12 mb-0">Update documentation</p>
+                                    <p class="ct_fs_12 mb-0">{{ item.title }}</p>
                                 </div>
+
                                 <div>
+                                    @if (item?.priority === 'P1') {
                                     <span class="ct_custom_badge px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #FEFCE8; color: #EAB308;">P3</span>
+                                        style="background-color:#FEE2E2; color:#991B1B;">P1</span>
+                                    }
+                                    @if (item?.priority === 'P2') {
+                                    <span class="ct_custom_badge px-3 ct_ff_Matter_SemiBold"
+                                        style="background-color:#FFEDD5; color:#9A3412;">P2</span>
+                                    }
+                                    @if (item?.priority === 'P3') {
+                                    <span class="ct_custom_badge px-3 ct_ff_Matter_SemiBold"
+                                        style="background-color:#DCFCE7; color:#166534;">P3</span>
+                                    }
+                                    @if (item?.priority === 'P4') {
+                                    <span class="ct_custom_badge px-3 ct_ff_Matter_SemiBold"
+                                        style="background-color:#2222220A; color:#222222;">P4</span>
+                                    }
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="d-flex align-items-center justify-content-between gap-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="/img/check_icon.svg" alt="">
-                                    <p class="ct_fs_12 mb-0">Landing Page Design</p>
-                                </div>
-                                <div>
-                                    <span class="ct_custom_badge px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #F9FAFB; color: #6B7280;">P3</span>
-                                </div>
-                            </div>
+                        } @else {
+                        <li class="ct_no_task">
+                            <p class="mb-0 text-center">No tasks available</p>
                         </li>
-                        <li>
-                            <div class="d-flex align-items-center justify-content-between gap-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="/img/check_icon.svg" alt="">
-                                    <p class="ct_fs_12 mb-0">Update documentation</p>
-                                </div>
-                                <div>
-                                    <span class="ct_custom_badge px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #EFF6FF; color: #3B82F6;">P3</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="d-flex align-items-center justify-content-between gap-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="/img/check_icon.svg" alt="">
-                                    <p class="ct_fs_12 mb-0">Update documentation</p>
-                                </div>
-                                <div>
-                                    <span class="ct_custom_badge px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #FEF2F2; color: #EF4444;">P3</span>
-                                </div>
-                            </div>
-                        </li>
+                        }
+
                     </ul>
                 </div>
             </div>

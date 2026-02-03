@@ -18,6 +18,7 @@ export class LogInComponent {
   Form: FormGroup;
   loading: boolean = false;
   isPasswordVisible: boolean = false;
+  fcmTactyl: any;
 
   constructor(private service: CommonService, private router: Router, private fb: FormBuilder, public validationErrorService: ValidationErrorService, private toastr: NzMessageService, private route: ActivatedRoute) {
     this.Form = this.fb.group({
@@ -29,6 +30,7 @@ export class LogInComponent {
   type: string = '';
 
   ngOnInit() {
+    this.fcmTactyl = localStorage.getItem('fcmTactyl');
     this.route.queryParams.subscribe(params => {
       this.type = params['type'] || '';
       console.log("Selected Type =", this.type);
@@ -51,6 +53,7 @@ export class LogInComponent {
       const formURlData = new URLSearchParams();
       formURlData.set('email', this.Form.value.email);
       formURlData.set('password', this.Form.value.password);
+      formURlData.set('fcmToken', this.fcmTactyl);
       if (this.type == 'individual') {
         formURlData.set('role', '1');
         formURlData.set('isIndividualLogin', '1');

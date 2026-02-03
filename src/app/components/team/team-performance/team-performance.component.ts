@@ -38,6 +38,7 @@ export class TeamPerformanceComponent {
           (t: any) => 100 - t.completion_rate
         );
 
+
         this.chartOptions1 = {
           chart: {
             type: 'bar',
@@ -63,7 +64,19 @@ export class TeamPerformanceComponent {
               columnWidth: '45%',
               borderRadius: 10,
               borderRadiusApplication: 'end',
-              borderRadiusWhenStacked: 'last'
+              borderRadiusWhenStacked: 'last',
+              dataLabels: {
+                position: 'center'
+              }
+            }
+          },
+
+          dataLabels: {
+            enabled: true,
+            formatter: (val: number) => `${val}%`,
+            style: {
+              fontSize: '12px',
+              fontWeight: '600'
             }
           },
 
@@ -80,43 +93,10 @@ export class TeamPerformanceComponent {
 
           colors: ['#6C63FF', '#ECEBFF'],
 
-          grid: {
-            strokeDashArray: 6
-          },
-
-          dataLabels: {
-            enabled: false
-          },
-
           legend: {
             show: false
-          },
-
-          tooltip: {
-            custom: ({ dataPointIndex }: any) => {
-              const team = this.graph_data[dataPointIndex];
-              return `
-        <div style="padding:10px">
-          <strong>${team.team_name}</strong>
-          <div style="margin-top:6px">
-            <span style="color:#6C63FF">●</span>
-            Completion Rate <b>${team.completion_rate}%</b>
-          </div>
-          <div style="margin-top:4px">
-            <span style="color:#6C63FF">●</span>
-            Completed Tasks <b>${team.completed_tasks}</b>
-          </div>
-          <div style="margin-top:4px">
-            <span style="color:#A5B4FC">●</span>
-            Total Tasks <b>${team.total_tasks}</b>
-          </div>
-        </div>
-      `;
-            }
           }
         };
-
-
 
       },
       error: (error) => {

@@ -294,13 +294,16 @@ export class TasksManagementComponent {
   }
 
   deleteTask() {
+    this.loading = true;
     this.service.get(`user/deleteTaskByThereId?id=${this.id}`).subscribe({
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
         this.getAllTasks();
+        this.loading = false;
       },
       error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });

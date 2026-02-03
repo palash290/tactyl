@@ -128,7 +128,7 @@
                     <div class="form-group ct_mb_22">
                         <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Board Name</label>
                         <input type="text" class="form-control ct_input" formControlName="title"
-                            placeholder="Enter board name" />
+                            placeholder="Enter board name here" />
                         <div *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched" class="err_msg">
                             <div *ngIf="Form.controls['title'].errors?.['required']">Please enter
                                 board name.</div>
@@ -136,7 +136,7 @@
                     </div>
                     <div class="form-group ct_mb_22">
                         <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Description</label>
-                        <textarea type="text" class="form-control ct_input" placeholder="Enter description"
+                        <textarea type="text" class="form-control ct_input" placeholder="Enter description here"
                             formControlName="description"></textarea>
                     </div>
 

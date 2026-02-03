@@ -86,9 +86,16 @@
                     </div>
                     <div id="chart">
                         <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
+                            [xaxis]="chartOptions1.xaxis" [yaxis]="chartOptions1.yaxis"
+                            [plotOptions]="chartOptions1.plotOptions" [dataLabels]="chartOptions1.dataLabels"
+                            [colors]="chartOptions1.colors" [tooltip]="chartOptions1.tooltip"
+                            [legend]="chartOptions1.legend" [grid]="chartOptions1.grid">
+                        </apx-chart>
+
+                               <!-- <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
                             [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
                             [markers]="chartOptions1.markers" [colors]="chartOptions1.colors"
-                            [title]="chartOptions1.title"></apx-chart>
+                            [title]="chartOptions1.title"></apx-chart> -->
                     </div>
                 </div>
                 <div class="ct_light_blue_bg_2 ct_mt_40 h-auto">

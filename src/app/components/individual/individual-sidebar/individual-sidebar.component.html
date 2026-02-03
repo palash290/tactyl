@@ -3,7 +3,7 @@
         <i class="fa-solid fa-xmark"></i>
     </div>
     <div class="ct_admin_logo ct_cursor_pointer">
-        <img src="/img/logo.svg" alt="">
+        <img src="/img/tactylLogo.svg" alt="">
     </div>
     <ul>
         <li>
@@ -18,8 +18,9 @@
         </li>
 
         @if(userType == 'invited'){
-            <li>
-            <a routerLink="/individual/task-management" [ngClass]="{ 'active': isActive('/individual/task-management')}">
+        <li>
+            <a routerLink="/individual/task-management"
+                [ngClass]="{ 'active': isActive('/individual/task-management')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 1H8V5H16V1Z" fill="#787885" />
                     <path d="M3 3H6V7H18V3H21V23H3V3Z" fill="#787885" />
@@ -28,7 +29,7 @@
             </a>
         </li>
         } @else {
-            <li>
+        <li>
             <a routerLink="/individual/my-task" [ngClass]="{ 'active': isActive('/individual/my-task')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 1H8V5H16V1Z" fill="#787885" />
@@ -39,7 +40,7 @@
         </li>
         }
 
-        
+
 
         @if(userType == 'invited'){
         <li>

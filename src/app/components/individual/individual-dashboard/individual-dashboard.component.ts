@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { CommonService } from '../../../services/common.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-individual-dashboard',
-  imports: [NgApexchartsModule, RouterLink],
+  imports: [NgApexchartsModule, RouterLink, CommonModule],
   templateUrl: './individual-dashboard.component.html',
   styleUrl: './individual-dashboard.component.css'
 })
@@ -14,12 +15,16 @@ export class IndividualDashboardComponent {
   chartOptions1: any;
   dashboardData: any;
   userType: any;
+  taskList: any;
+  hasChartData = false;
+
 
   constructor(private service: CommonService) { }
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
     this.getDashboard();
+    this.getDetails();
   }
 
   getDashboard() {
@@ -30,6 +35,8 @@ export class IndividualDashboardComponent {
         const total = this.dashboardData.total_tasks || 0;
         const completed = this.dashboardData.completed_tasks || 0;
         const pending = this.dashboardData.pending_tasks || 0;
+
+        this.hasChartData = total > 0 || completed > 0 || pending > 0;
 
         this.chartOptions1 = {
           chart: {
@@ -71,6 +78,17 @@ export class IndividualDashboardComponent {
       },
       error: (error) => {
         console.log(error.message);
+      }
+    });
+  }
+
+  getDetails() {
+    this.service.get(`user/fetchTasksForCompass?user_type=${this.userType}`).subscribe({
+      next: (resp: any) => {
+        this.taskList = (resp.data || []).reverse().slice(0, 5);
+      },
+      error: (err) => {
+        console.log(err)
       }
     });
   }

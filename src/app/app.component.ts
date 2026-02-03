@@ -14,11 +14,11 @@ export class AppComponent {
   title = 'setup';
   showLoader = false;
   private subscription!: Subscription;
-  constructor(private router: Router, private loaderService: LoaderService, private fcmService: FcmService) {
+  constructor(private router: Router, private loaderService: LoaderService, private fcmService: FcmService) {} 
+  
+  ngOnInit() {
     this.fcmService.listenForMessages();
     this.getFcmToken();
-  }
-  ngOnInit() {
     this.subscription = this.loaderService.showLoader$.subscribe(value => {
       this.showLoader = value;
     });
@@ -41,10 +41,20 @@ export class AppComponent {
       if (token) {
         console.log('Token:', token);
         //this.fcmToken = token;
-        localStorage.setItem('fcmNari', token);
+        localStorage.setItem('fcmTactyl', token);
       }
     });
   }
+
+  // getFcmToken() {
+  //   this.fcmService.requestPermission().then((token: any) => {
+  //     if (token) {
+  //       console.log('Token:', token);
+  //       //this.fcmToken = token;
+  //       localStorage.setItem('fcmTactyl', token);
+  //     }
+  //   });
+  // }
 
 
 }
