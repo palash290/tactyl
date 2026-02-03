@@ -4,8 +4,8 @@ import { getAnalytics } from "firebase/analytics";
 
 export const environment = {
       production: false,
-      baseUrl: 'https://tactyl-dev.online/api/',
-      //baseUrl: 'https://tactyl.online/api/',
+      //baseUrl: 'https://tactyl-dev.online/api/',
+      baseUrl: 'https://tactyl.online/api/',
       //baseUrl: 'http://192.168.1.34:4009/api/',
 
       // Your web app's Firebase configuration
