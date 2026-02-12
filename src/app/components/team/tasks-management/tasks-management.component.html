@@ -18,7 +18,7 @@
                 </div>
             </label>
         </div> -->
-        @if(userType == 'team'){
+        <!-- @if(userType == 'team'){ -->
         <div class="ct_d_align_center gap-3">
             <p class="ct_fs_20 ct_ff_Matter_Medium ct_text_clr_4B5563 mb-0 ct_white_nowrap">
                 Tasks
@@ -67,7 +67,7 @@
                 </li>
             </ul>
         </div>
-        }
+        <!-- } -->
     </div>
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
@@ -103,18 +103,18 @@
                             <select class="form-control ct_input" [(ngModel)]="selectedTeamId" (change)="getAllTasks()">
                                 <option value="" disabled>Select Team</option>
                                 <option value="">All</option>
-                                <option *ngFor="let agent of teamList" [value]="agent.id">
+                                <option *ngFor="let agent of teamList" [value]="agent.team_id">
                                     {{ agent.team_name }}
                                 </option>
                             </select>
                         </div>
                     </div>
-                    @if(userType == 'team'){
+                    <!-- @if(userType == 'team'){ -->
                     <button class="ct_purple_btn ct_w_100_1199 ct_h_60" data-bs-target="#ct_add_create_modal"
                         data-bs-toggle="modal" (click)="reset()">
                         <img src="img/plus-circle.svg" alt="" class="me-2">Create Task
                     </button>
-                    }
+                    <!-- } -->
                 </div>
             </div>
         </div>
@@ -140,8 +140,8 @@
                                 <td>
                                     <span class="ct_overlay_text d-inline-block">{{item.title}}</span>
                                 </td>
-                                <td>{{item.team_name}}</td>
-                                <td>{{item.created_by_name}}</td>
+                                <td>{{item.team.team_name}}</td>
+                                <td>{{item.assigned_by.full_name}}</td>
                                 <td>
                                     @if(item.priority == 'P1'){
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
@@ -166,13 +166,13 @@
                                     }
                                 </td>
                                 <td>
-                                    {{item.phase_name}}
+                                    {{item.phase.phase_name}}
                                 </td>
                                 <td>{{item.created_at | date:'dd-MMM-yyyy'}}</td>
                                 <!-- <td>82</td> -->
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
-                                        @if(userType == 'team'){
+                                        <!-- @if(userType == 'team'){
                                         <a [routerLink]="['/team/task-details']"
                                             [queryParams]="{ taskId: item.id, teamId: item.team_id, boardId: item.board_id }">
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
@@ -181,8 +181,14 @@
                                         <a [routerLink]="['/invited/task-details']" [queryParams]="{ taskId: item.id }">
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
                                         </a>
-                                        }
-                                        @if(userType == 'team'){
+                                        } -->
+
+                                        <a [routerLink]="['/team/task-details']"
+                                            [queryParams]="{ taskId: item.task_id, teamId: item.team_id, boardId: item.board_id }">
+                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
+                                        </a>
+
+                                        <!-- @if(userType == 'team'){
                                         <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
                                             data-bs-toggle="modal" (click)="fetchPhaseDetails(item)">
                                             <img src="img/edit_green_icon.png" class="ct_icon_24" alt="">
@@ -191,7 +197,17 @@
                                             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
                                             <img src="img/Delete_icon.svg" class="ct_icon_24" alt="">
                                         </a>
-                                        }
+                                        } -->
+
+                                        <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
+                                            data-bs-toggle="modal" (click)="fetchPhaseDetails(item)">
+                                            <img src="img/edit_green_icon.png" class="ct_icon_24" alt="">
+                                        </a>
+                                        <a href="javascript:void(0)" (click)="getId(item.id)"
+                                            data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
+                                            <img src="img/Delete_icon.svg" class="ct_icon_24" alt="">
+                                        </a>
+
                                     </div>
                                 </td>
                             </tr>
@@ -310,7 +326,7 @@
                                 <select class="form-control ct_input" formControlName="selectedTeamId"
                                     (change)="onTeamChange($event)">
                                     <option value="" disabled>Select Team</option>
-                                    <option *ngFor="let agent of teamList" [value]="agent.id">
+                                    <option *ngFor="let agent of teamList" [value]="agent.team_id">
                                         {{ agent.team_name }}
                                     </option>
                                 </select>
@@ -327,7 +343,7 @@
                                 <select class="form-control ct_input" formControlName="memberId">
                                     <option value="" disabled>Select Member</option>
                                     <option *ngFor="let member of membersList" [value]="member.user_id">
-                                        {{ member.name }}
+                                        {{ member.full_name }}
                                     </option>
                                 </select>
                                 <div *ngIf="Form.controls['memberId'].invalid && Form.controls['memberId'].touched"
@@ -357,7 +373,7 @@
                             <div class="form-group ct_mb_22">
                                 <select class="form-control ct_input" formControlName="phaseId">
                                     <option value="" disabled>Select Phase</option>
-                                    <option *ngFor="let member of phaseList" [value]="member.id">
+                                    <option *ngFor="let member of phaseList" [value]="member.phase_id">
                                         {{ member.phase_name }}
                                     </option>
                                 </select>

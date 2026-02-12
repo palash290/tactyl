@@ -5,11 +5,11 @@
             View and organize all teams under your workspace.
         </p>
     </div>
-    @if(userType == 'team'){
+    <!-- @if(userType == 'team'){ -->
     <button class="ct_purple_btn ct_w_100_575" (click)="openModal()">
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button>
-    }
+    <!-- } -->
 
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
@@ -45,7 +45,7 @@
                                 {{item.team_name}}
                             </h4>
                             <p class="ct_fs_14 ct_text_clr_f9f9f9 ct_ff_Matter_Medium mb-0">
-                                {{ item.members }} {{ item.members > 1 ? 'Members' : 'Member' }}
+                                {{ item.team_users?.length }} {{ item.team_users?.length > 1 ? 'Members' : 'Member' }}
                             </p>
                         </div>
                         <div class="ct_team_card_body">
@@ -69,28 +69,28 @@
                                     class="d-flex align-items-center gap-xxl-5 gap-4 ct_w_100_1199 justify-content-between">
                                     <div class="text-center">
                                         <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                            style="background-color: #F1F2FF;">{{item.totalTasks}}</span>
+                                            style="background-color: #F1F2FF;">{{item.total_tasks}}</span>
                                         <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Total Tasks</p>
                                     </div>
                                     <div class="text-center">
                                         <span class=" ct_custom_badge ct_fs_18 ct_ff_Matter_SemiBold"
-                                            style="background-color: #7EFFA1;">{{item.totalCompletedTasks}}</span>
+                                            style="background-color: #7EFFA1;">{{item.completed_tasks}}</span>
                                         <p class="mb-0 ct_text_787885 ct_fs_14 mt-2">Completed Tasks</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="ct_mt_20">
                                 <h4 class="ct_fs_18 ct_ff_Matter_Medium ct_mb_15">Members</h4>
-                                <ul class="ct_grid_2  ct_grid_3_1199"
-                                    *ngIf="item.limitedMembers?.length > 0; else noMembers">
-                                    <li class="mb-2" *ngFor="let member of item.limitedMembers">
+                                <ul class="ct_grid_2 ct_grid_3_1199"
+                                    *ngIf="item.team_users?.length > 0; else noMembers">
+                                    <li class="mb-2" *ngFor="let member of item.team_users">
                                         <div class="ct_Members_info_sort gap-2 ct_d_align_center">
-                                            <img [src]="member.profile_images ? member.profile_images : '/img/no_pro.png'"
+                                            <img [src]="member.profile_image ? member.profile_image : '/img/no_pro.png'"
                                                 alt="" class="ct_img_42 ct_flex_shrink_0">
                                             <div>
                                                 <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium ct_overlay_text"
                                                     style="width: 140px;">
-                                                    {{member?.name}}
+                                                    {{member?.full_name}}
                                                 </h5>
                                                 <p class="ct_fs_12 ct_text_787885 mb-0 ct_overlay_text"
                                                     style="width: 140px;">
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class=" text-center mt-auto">
-                        @if(userType == 'team'){
+                        <!-- @if(userType == 'team'){
                         <a [routerLink]="['/team/team-overview']"
                             [queryParams]="{ teamId: item.id, teamName: item.team_name }"
                             class="ct_purple_link ct_ff_Matter_Medium">View
@@ -116,7 +116,13 @@
                             [queryParams]="{ teamId: item.id, teamName: item.team_name }"
                             class="ct_purple_link ct_ff_Matter_Medium">View
                             Details</a>
-                        }
+                        } -->
+
+                        <a [routerLink]="['/team/team-overview']"
+                            [queryParams]="{ teamId: item.team_id, teamName: item.team_name }"
+                            class="ct_purple_link ct_ff_Matter_Medium">View
+                            Details</a>
+
                     </div>
                 </div>
             </div>
@@ -190,13 +196,14 @@
                                         *ngFor="let item of filteredData">
 
                                         <div class="form-check ct_custom_check2">
-                                            <input type="checkbox" (change)="toggleMember(item.email, $event)"
+                                            <input type="checkbox" (change)="toggleMember(item.user_id, $event)"
                                                 class="form-check-input" id="flexCheckDefault">
                                         </div>
                                         <img [src]="item.profile_image ? item.profile_image : '/img/no_pro.png'" alt=""
                                             class="ct_img_42 ct_flex_shrink_0">
                                         <div>
-                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate">{{item.name}}
+                                            <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate">
+                                                {{item.full_name}}
                                             </h5>
                                             <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
                                                 {{item.email}}</p>
@@ -250,7 +257,7 @@
 
 
 <!-- invite Team Modal S -->
-<div class="modal fade ct_custom_modal  modal-lg" id="ct_invite_team_modal" tabindex="-1"
+<div class="modal fade ct_custom_modal modal-lg" id="ct_invite_team_modal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

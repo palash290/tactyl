@@ -22,7 +22,7 @@ export class TeamOverviewComponent {
   teamId: any;
   loading: boolean = false;
   userEmail: any;
-  userType: any;
+  //userType: any;
   dashboardData: any;
   activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
   activeSettingsTab: 'users' | 'permissions' | 'phases' = 'users';
@@ -33,7 +33,7 @@ export class TeamOverviewComponent {
   constructor(private location: Location, private service: CommonService, private route: ActivatedRoute, private router: Router, private toastr: NzMessageService) { }
 
   ngOnInit() {
-    this.userType = localStorage.getItem('userType');
+    //this.userType = localStorage.getItem('userType');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.route.queryParams.subscribe(params => {
       this.teamName = params['teamName'];
@@ -59,10 +59,10 @@ export class TeamOverviewComponent {
     if (this.Form.valid) {
       this.loading = true;
       const formURlData = new URLSearchParams();
-      formURlData.append('teamId', this.teamId);
+      // formURlData.append('teamId', this.teamId);
       formURlData.append('team_name', this.Form.value.name);
 
-      this.service.post('user/editTeamByTeamId', formURlData.toString()).subscribe({
+      this.service.patch(`user/teams/${this.teamId}`, formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -96,7 +96,7 @@ export class TeamOverviewComponent {
   }
 
   deleteTeam() {
-    this.service.get(`user/deleteTeamByTeamId?teamId=${this.teamId}`).subscribe({
+    this.service.delete(`user/teams/${this.teamId}`).subscribe({
       next: (resp: any) => {
         this.router.navigateByUrl('/team/teams');
         this.closeModalDelete.nativeElement.click();

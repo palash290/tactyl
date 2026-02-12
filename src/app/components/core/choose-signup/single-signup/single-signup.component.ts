@@ -58,12 +58,11 @@ export class SingleSignupComponent {
     if (this.Form.valid) {
       this.loading = true;
       const formURlData = new URLSearchParams();
-      formURlData.set('fullName', this.Form.value.name);
-
+      formURlData.set('full_name', this.Form.value.name);
       formURlData.set('password', this.Form.value.new_password);
       formURlData.set('email', this.Form.value.email);
 
-      this.service.post('user/signUp', formURlData.toString()).subscribe({
+      this.service.post('public/signUp', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.service.setToken(resp.data);

@@ -33,7 +33,7 @@ export class HeaderComponent {
   }
 
   getProfile() {
-    this.apiService.get('user/getUserProfile').subscribe({
+    this.apiService.get('user/profile').subscribe({
       next: (resp: any) => {
         this.userData = resp.data;
         localStorage.setItem('teamEmail', resp.data.email);

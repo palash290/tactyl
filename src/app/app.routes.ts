@@ -15,6 +15,14 @@ export const routes: Routes = [
             loadComponent: () => import('./components/core/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
       },
       {
+            path: 'verify-otp',
+            loadComponent: () => import('./components/core/verify-otp/verify-otp.component').then(m => m.VerifyOtpComponent)
+      },
+      {
+            path: 'reset-password',
+            loadComponent: () => import('./components/core/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
+      },
+      {
             path: 'choose-login',
             loadComponent: () => import('./components/core/log-in/choose-login/choose-login.component').then(m => m.ChooseLoginComponent)
       },

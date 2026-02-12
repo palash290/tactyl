@@ -28,7 +28,7 @@ export class TeamsManagementComponent {
   filteredTeamData: any[] = [];
   p: any = 1;
   userEmail: any;
-  userType: any;
+  //userType: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
 
@@ -38,15 +38,17 @@ export class TeamsManagementComponent {
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('teamEmail');
-    this.userType = localStorage.getItem('userType');
+    //this.userType = localStorage.getItem('userType');
     this.getUsers();
     this.getAllTeams();
   }
 
   getUsers() {
-    this.service.get('user/fetchAllIndividualsMembers').subscribe({
+    this.service.get('user/users/verified').subscribe({
       next: (resp: any) => {
-        this.individualMembers = resp.data;
+        this.individualMembers = resp.data.filter(
+          (user: any) => user.email !== this.userEmail
+        );
         this.filterTable();
       },
       error: (error) => {
@@ -57,18 +59,16 @@ export class TeamsManagementComponent {
 
   getAllTeams() {
     this.service.get(
-      this.userType === 'invited'
-        ? 'user/fetchTeamsByUsersIds'
-        : 'user/fetchTeamsByTeamAdminId?isTeamListShowed=0'
+      'user/teams'
     ).subscribe({
       next: (resp: any) => {
         this.allTeamsList = resp.data.map((team: any) => {
-          const totalTasks = team.totalTasks || 0;
-          const completedTasks = team.totalCompletedTasks || 0;
+          const total_tasks = team.total_tasks || 0;
+          const completed_tasks = team.completed_tasks || 0;
 
           const progress =
-            totalTasks > 0
-              ? Math.round((completedTasks / totalTasks) * 100)
+            total_tasks > 0
+              ? Math.round((completed_tasks / total_tasks) * 100)
               : 0;
 
           return {
@@ -111,7 +111,6 @@ export class TeamsManagementComponent {
 
     this.filteredTeamData = filtered;
   }
-
 
 
   openModal() {
@@ -174,11 +173,21 @@ export class TeamsManagementComponent {
   }
 
   // Capture checkbox selection
-  toggleMember(email: string, event: any) {
+  // toggleMember(email: string, event: any) {
+  //   if (event.target.checked) {
+  //     this.selectedMembers.push(email);
+  //   } else {
+  //     this.selectedMembers = this.selectedMembers.filter(e => e !== email);
+  //   }
+  // }
+  toggleMember(memberId: any, event: any) {
+    if (!memberId) {
+      return;
+    }
     if (event.target.checked) {
-      this.selectedMembers.push(email);
+      this.selectedMembers.push(memberId);
     } else {
-      this.selectedMembers = this.selectedMembers.filter(e => e !== email);
+      this.selectedMembers = this.selectedMembers.filter(e => e !== memberId);
     }
   }
 
@@ -191,26 +200,54 @@ export class TeamsManagementComponent {
       return;
     }
 
-    const allEmails = [...new Set([
-      ...this.selectedMembers,
-      ...this.selectedDrEmail
-    ])];
+    // const allEmails = [...new Set([
+    //   ...this.selectedMembers,
+    //   ...this.selectedDrEmail
+    // ])];
 
-    if (allEmails.length === 0) {
+    // if (allEmails.length === 0) {
+    //   this.toastr.warning('Please add or select at least one member email');
+    //   return;
+    // }
+
+    this.loading = true;
+
+    const uniqueUserIds = [...new Set(this.selectedMembers)];
+    const uniqueEmails = [...new Set(this.selectedDrEmail)];
+
+    if (uniqueUserIds.length === 0 && uniqueEmails.length === 0) {
       this.toastr.warning('Please add or select at least one member email');
       return;
     }
 
-    this.loading = true;
+    // const payload = {
+    //   team_name: trimmedTeamName,
+    //   members: allEmails.map(email => ({
+    //     email: email
+    //   }))
+    // };
 
-    const payload = {
-      team_name: trimmedTeamName,
-      members: allEmails.map(email => ({
-        email: email
-      }))
+
+    // const payload = {
+    //   team_name: trimmedTeamName,
+    //   user_ids: uniqueUserIds,
+    //   emails: uniqueEmails
+    // };
+
+    const payload: any = {
+      team_name: trimmedTeamName
     };
 
-    this.service.post('user/postLoginCreateTeam', payload).subscribe({
+    if (uniqueUserIds.length > 0) {
+      payload.user_ids = uniqueUserIds;
+    }
+
+    if (uniqueEmails.length > 0) {
+      payload.emails = uniqueEmails;
+    }
+
+
+    this.service.post('user/teams', payload).subscribe({
       next: (resp: any) => {
         this.loading = false;
 

@@ -26,7 +26,7 @@ export class TaskDetailsComponent {
   teamMembersList: any;
   phaseList: any;
   boardId: any;
-  userType: any;
+  //userType: any;
   taskName: any;
   actualTime: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
@@ -40,7 +40,7 @@ export class TaskDetailsComponent {
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.boardId = this.route.snapshot.queryParamMap.get('boardId');
-    this.userType = localStorage.getItem('userType');
+    //this.userType = localStorage.getItem('userType');
     this.getTaskDetails(this.taskId);
     this.getAllMembers();
     this.getNotes();
@@ -93,12 +93,14 @@ export class TaskDetailsComponent {
 
   getAllMembers() {
     this.service
-      .get(`user/fetchTeamMembersByTeamId?teamId=${this.teamId}`)
+      .get(`user/teams/${this.teamId}`)
       .subscribe({
         next: (resp: any) => {
           // keep only team members
-          this.teamMembersList = (resp.data || []).filter(
-            (member: any) => member.is_team_member === 1
+          const teamUsers = resp.data.team_users || [];
+
+          this.teamMembersList = teamUsers.filter(
+            (member: any) => member.status === 'Accepted'
           );
         },
         error: (error) => {
@@ -108,7 +110,7 @@ export class TaskDetailsComponent {
   }
 
   getPhaes() {
-    this.service.get(`user/fetchPhasesByThereBoardId?team_id=${this.teamId}&board_id=${this.boardId}`).subscribe({
+    this.service.get(`user/phases?team_id=${this.teamId}`).subscribe({
       next: (resp: any) => {
         this.phaseList = resp.data;
       },
@@ -133,10 +135,10 @@ export class TaskDetailsComponent {
       formURlData.append('title', title);
       formURlData.append('description', this.Form.value.description);
       formURlData.append('team_id', this.teamId);
-      formURlData.append('user_id', this.Form.value.memberId);
+      formURlData.append('assign_to', this.Form.value.memberId);
       formURlData.append('phase_id', this.Form.value.phaseId);
-      formURlData.append('start_date', this.Form.value.startDate);
-      formURlData.append('due_date', this.Form.value.endDate);
+      formURlData.append('start_date', this.formatDateTime(this.Form.value.startDate));
+      formURlData.append('due_date', this.formatDateTime(this.Form.value.endDate));
       formURlData.append('priority', this.Form.value.priority);
       formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('estimated_hours', this.Form.value.estimatedHours);
@@ -144,7 +146,7 @@ export class TaskDetailsComponent {
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
       formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
 
-      this.service.post(`user/editTaskById?id=${this.taskId}`, formURlData.toString()).subscribe({
+      this.service.patch(`user/tasks/${this.taskId}`, formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.getTaskDetails(this.taskId);
@@ -169,6 +171,21 @@ export class TaskDetailsComponent {
     }
   }
 
+  private formatDateTime(value: string): string {
+    if (!value) return '';
+
+    const date = new Date(value);
+
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const hh = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+    const ss = '00';
+
+    return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+  }
+
   dateValidation() {
     const today = new Date();
     const year = today.getFullYear();
@@ -190,7 +207,7 @@ export class TaskDetailsComponent {
 
   getTaskDetails(taskId: any) {
     this.loading = true;
-    this.service.get(`user/fetchTaskByThereId?id=${taskId}`).subscribe({
+    this.service.get(`user/tasks/${taskId}`).subscribe({
       next: (resp: any) => {
         this.taskDetails = resp.data;
         this.taskName = resp.data.title;
@@ -200,8 +217,8 @@ export class TaskDetailsComponent {
           description: resp.data.description || '',
           phaseId: resp.data.phase_id,
           priority: resp.data.priority,
-          startDate: resp.data.start_date,
-          endDate: resp.data.due_date,
+          startDate: this.toDateOnly(resp.data.start_date),
+          endDate: this.toDateOnly(resp.data.due_date),
           memberId: resp.data.user_id,
           isGoalRevelant: resp.data.goal_relevant,
           is_urgent: resp.data.is_urgent,
@@ -218,8 +235,14 @@ export class TaskDetailsComponent {
     });
   }
 
+  private toDateOnly(value: string): string {
+    if (!value) return '';
+    return value.split('T')[0]; // YYYY-MM-DD
+  }
+
+
   getNotes() {
-    this.service.get(`user/fetchNotesByTaskId?task_id=${this.taskId}`).subscribe({
+    this.service.get(`user/notes?task_id=${this.taskId}`).subscribe({
       next: (resp: any) => {
         this.noteList = resp.data;
       },
@@ -245,7 +268,7 @@ export class TaskDetailsComponent {
       formURlData.append('description', this.notesForm.value.description);
       formURlData.append('task_id', this.taskId);
 
-      this.service.post('user/createNotes', formURlData.toString()).subscribe({
+      this.service.post('user/notes', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -301,19 +324,19 @@ export class TaskDetailsComponent {
 
     const { actualHours, actualMinutes } = this.completeForm.value;
 
-    const formURlData = new URLSearchParams();
+    const formURlData: any = new URLSearchParams();
     formURlData.set('actual_hours', actualHours);
     formURlData.set('actual_minutes', actualMinutes);
-    formURlData.set('task_id', this.taskId);
+    formURlData.set('task_id', Number(this.taskId));
 
-    this.service.post('user/changeTaskStatus', formURlData.toString()).subscribe({
+    this.service.post('user/task-complete', formURlData.toString()).subscribe({
       next: (resp: any) => {
         this.loading = false;
         this.closeModalComplete.nativeElement.click();
         resp.success
           ? this.toastr.success(resp.message)
           : this.toastr.warning(resp.message);
-          this.getTaskDetails(this.taskId);
+        this.getTaskDetails(this.taskId);
       },
       error: (error) => {
         this.loading = false;

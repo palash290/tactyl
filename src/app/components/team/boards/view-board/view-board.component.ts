@@ -19,7 +19,7 @@ export class ViewBoardComponent {
   boardId: any;
   teamId: any;
   minDate: any;
-  userType: any;
+  //userType: any;
   boardName: any;
   taskVisibility: 'show' | 'hide' = 'hide';
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
@@ -29,7 +29,7 @@ export class ViewBoardComponent {
   ) { }
 
   ngOnInit() {
-    this.userType = localStorage.getItem('userType');
+    //this.userType = localStorage.getItem('userType');
     this.boardName = this.route.snapshot.queryParamMap.get('boardName');
     this.boardId = this.route.snapshot.queryParamMap.get('boardId');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
@@ -76,12 +76,14 @@ export class ViewBoardComponent {
 
   getAllMembers() {
     this.service
-      .get(`user/fetchTeamMembersByTeamId?teamId=${this.teamId}`)
+      .get(`user/teams/${this.teamId}`)
       .subscribe({
         next: (resp: any) => {
-          // keep only team members
-          this.teamMembersList = (resp.data || []).filter(
-            (member: any) => member.is_team_member === 1
+          // this.teamMembersList = (resp.data.team_users || [])
+          const teamUsers = resp.data.team_users || [];
+
+          this.teamMembersList = teamUsers.filter(
+            (member: any) => member.status === 'Accepted'
           );
         },
         error: (error) => {
@@ -112,9 +114,9 @@ export class ViewBoardComponent {
   phaseList: any;
 
   getPhaes() {
-    this.service.get(this.userType == 'invited' ? 'user/fetchIndividualUserPhasesByUserId' : `user/fetchPhasesByThereBoardId?team_id=${this.teamId}&board_id=${this.boardId}`).subscribe({
+    this.service.get(`user/boards/${this.boardId}`).subscribe({
       next: (resp: any) => {
-        this.phaseList = resp.data;
+        this.phaseList = resp.data.phases;
         this.filterList()
       },
       error: (error) => {
@@ -130,9 +132,9 @@ export class ViewBoardComponent {
 
   filterList() {
     this.filteredData = this.phaseList.map((phase: any) => {
-      let tasks = [...phase.taskList];
+      let tasks = [...phase.tasks];
 
-      // 🔍 Search filter
+      // Search filter
       if (this.searchText.trim()) {
         const keyword = this.searchText.toLowerCase();
         tasks = tasks.filter(task =>
@@ -141,7 +143,7 @@ export class ViewBoardComponent {
         );
       }
 
-      // 🎯 Priority filter
+      // Priority filter
       if (this.selectedPriority) {
         tasks = tasks.filter(
           task => task.priority === this.selectedPriority
@@ -160,17 +162,18 @@ export class ViewBoardComponent {
       // }
 
       // ✅ Completed / Incompleted filter
-      if (this.taskVisibility == 'hide') {
-        // Hide completed → show only incomplete
-        tasks = tasks.filter(task => task.status == 0);
-      } else {
-        // If you want ONLY completed, use:
-        tasks = tasks.filter(task => task.status == 1);
+      if (this.taskVisibility === 'show') {
+        // Show only completed
+        tasks = tasks.filter(task => task.status === 'Completed');
+      }
+      else if (this.taskVisibility === 'hide') {
+        // Show only pending
+        tasks = tasks.filter(task => task.status === 'Pending');
       }
 
       return {
         ...phase,
-        taskList: tasks,
+        tasks: tasks,
         taskCount: tasks.length,
         isTaskExists: tasks.length > 0
       };
@@ -192,18 +195,18 @@ export class ViewBoardComponent {
       formURlData.append('title', title);
       formURlData.append('description', this.Form.value.description);
       formURlData.append('team_id', this.teamId);
-      formURlData.append('user_id', this.Form.value.memberId);
+      formURlData.append('assign_to', this.Form.value.memberId);
       formURlData.append('phase_id', this.Form.value.phaseId);
-      formURlData.append('start_date', this.Form.value.startDate);
-      formURlData.append('due_date', this.Form.value.endDate);
+      formURlData.append('start_date', this.formatDateTime(this.Form.value.startDate));
+      formURlData.append('due_date', this.formatDateTime(this.Form.value.endDate));
       formURlData.append('priority', this.Form.value.priority);
-      formURlData.append('is_private', '0');
+      formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
       formURlData.append('estimated_hours', this.Form.value.estimatedHours);
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
       formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
 
-      this.service.post('user/createTask', formURlData.toString()).subscribe({
+      this.service.post('user/tasks', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -228,6 +231,22 @@ export class ViewBoardComponent {
       this.toastr.warning('Please check all the fields!');
     }
   }
+
+  private formatDateTime(value: string): string {
+    if (!value) return '';
+
+    const date = new Date(value);
+
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const hh = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+    const ss = '00';
+
+    return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+  }
+
 
   reset() {
     this.Form.patchValue({
@@ -261,7 +280,7 @@ export class ViewBoardComponent {
   }
 
   get connectedDropLists(): string[] {
-    return this.phaseList.map((p: any) => `phase-${p.id}`);
+    return this.phaseList.map((p: any) => `phase-${p.phase_id}`);
   }
 
   drop(event: CdkDragDrop<any[]>, targetPhase: any) {
@@ -291,8 +310,8 @@ export class ViewBoardComponent {
     movedTask.phase_id = targetPhase.id;
 
     this.updateTaskPhase(
-      movedTask.id,
-      targetPhase.id,
+      movedTask.task_id,
+      targetPhase.phase_id,
       previousList,
       currentList,
       event
@@ -307,10 +326,10 @@ export class ViewBoardComponent {
     event: CdkDragDrop<any[]>
   ) {
     const formURlData = new URLSearchParams();
-    formURlData.append('task_id', String(taskId));
+    // formURlData.append('task_id', String(taskId));
     formURlData.append('phase_id', String(phaseId));
 
-    this.service.post('user/changePhasesTaskByDragAndDrop', formURlData.toString())
+    this.service.patch(`user/tasks/${taskId}`, formURlData.toString())
       .subscribe({
         next: (resp: any) => {
           if (!resp.success) {
@@ -344,15 +363,15 @@ export class ViewBoardComponent {
   }
 
   openTask(task: any) {
-    if (this.userType == 'team') {
-      this.router.navigate(['/team/task-details'], {
-        queryParams: { taskId: task.id, teamId: this.teamId, boardId: this.boardId }
-      });
-    } else {
-      this.router.navigate(['/invited/task-details'], {
-        queryParams: { taskId: task.id, teamId: this.teamId, boardId: this.boardId }
-      });
-    }
+    // if (this.userType == 'team') {
+    this.router.navigate(['/team/task-details'], {
+      queryParams: { taskId: task.task_id, teamId: this.teamId, boardId: this.boardId }
+    });
+    // } else {
+    //   this.router.navigate(['/invited/task-details'], {
+    //     queryParams: { taskId: task.id, teamId: this.teamId, boardId: this.boardId }
+    //   });
+    // }
 
   }
 

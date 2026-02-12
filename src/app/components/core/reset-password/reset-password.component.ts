@@ -1,67 +1,70 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-change-password',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './change-password.component.html',
-  styleUrl: './change-password.component.css'
+  selector: 'app-reset-password',
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.css'
 })
-export class ChangePasswordComponent {
+export class ResetPasswordComponent {
 
-  form!: FormGroup;
+  Form!: FormGroup;
   passwordMismatch = false;
   loading: boolean = false;
-  isPasswordVisible1: boolean = false;
   isPasswordVisible2: boolean = false;
   isPasswordVisible3: boolean = false;
+  forgot_code: any;
 
-  constructor(private service: CommonService, private toastr: NzMessageService) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private router: Router) { }
 
   ngOnInit() {
     this.initForm();
+    this.forgot_code = localStorage.getItem('forgot_code');
   }
 
   initForm() {
-    this.form = new FormGroup({
-      current_password: new FormControl('', Validators.required),
+    this.Form = new FormGroup({
       new_password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       confirm_password: new FormControl('', Validators.required),
     });
     //, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
-    this.form.get('confirm_password')?.setValidators([
+    this.Form.get('confirm_password')?.setValidators([
       Validators.required,
       this.passwordMatchValidator()
     ]);
   }
 
+  ngOnDestroy() {
+    localStorage.setItem('forgot_code', '');
+  }
+
   submitForm() {
-    this.form.markAllAsTouched();
+    this.Form.markAllAsTouched();
 
-    const currPassword = this.form.value.current_password?.trim();
-    const newPassword = this.form.value.new_password?.trim();
+    const newPassword = this.Form.value.new_password?.trim();
 
-    if (!currPassword || !newPassword) {
-      //this.toastr.warning('Passwords cannot be empty or just spaces.');
+    if (!newPassword) {
       return;
     }
 
-    if (this.form.valid && !this.passwordMismatch) {
+    if (this.Form.valid && !this.passwordMismatch) {
       this.loading = true;
       const formURlData = new URLSearchParams();
-      formURlData.set('old_password', this.form.value.current_password);
-      formURlData.set('new_password', this.form.value.new_password);
-      // formURlData.set('confirm_password', this.form.value.confirm_password);
-      this.service.postAPI('user/change-password', formURlData).subscribe({
+      formURlData.set('newPassword', this.Form.value.new_password);
+      formURlData.set('forgot_code', this.forgot_code);
+      this.service.post('public/reset-password', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success) {
             this.toastr.success(resp.message);
-            console.log(resp.message)
-            this.form.reset();
+            console.log(resp.message);
+            this.Form.reset();
             this.loading = false;
+            this.router.navigateByUrl('/');
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;
@@ -69,7 +72,7 @@ export class ChangePasswordComponent {
         },
         error: (error) => {
           this.loading = false;
-          this.toastr.warning( error.message);
+          this.toastr.warning(error.message);
           console.error('Login error:', error.message);
         }
       });
@@ -78,7 +81,7 @@ export class ChangePasswordComponent {
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const password = this.form.get('new_password')?.value;
+      const password = this.Form.get('new_password')?.value;
       const confirmPassword = control.value;
       if (password !== confirmPassword) {
         this.passwordMismatch = true;
@@ -90,16 +93,9 @@ export class ChangePasswordComponent {
     };
   }
 
-
-  togglePasswordVisibility1() {
-    this.isPasswordVisible1 = !this.isPasswordVisible1;
-  }
-
-
   togglePasswordVisibility2() {
     this.isPasswordVisible2 = !this.isPasswordVisible2;
   }
-
 
   togglePasswordVisibility3() {
     this.isPasswordVisible3 = !this.isPasswordVisible3;

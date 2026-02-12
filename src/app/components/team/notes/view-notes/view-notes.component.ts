@@ -40,12 +40,12 @@ export class ViewNotesComponent {
   }
 
   getNotes() {
-    this.service.get(`user/fetchNotesByThereId?id=${this.noteId}`).subscribe({
+    this.service.get(`user/notes/${this.noteId}`).subscribe({
       next: (resp: any) => {
         this.noteDetails = resp.data;
         this.Form.patchValue({
-          title: resp.data.notes_title,
-          description: resp.data.notes_description,
+          title: resp.data.title,
+          description: resp.data.description,
         });
       },
       error: (error) => {
@@ -68,9 +68,9 @@ export class ViewNotesComponent {
       const formURlData: any = new URLSearchParams();
       formURlData.append('title', title);
       formURlData.append('description', this.Form.value.description);
-      formURlData.append('task_id', this.taskId);
+      // formURlData.append('task_id', this.taskId);
 
-      this.service.post(`user/editNotesById?id=${this.noteId}`, formURlData.toString()).subscribe({
+      this.service.patch(`user/notes/${this.noteId}`, formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -100,8 +100,7 @@ export class ViewNotesComponent {
   }
 
   deleteTeam() {
-
-    this.service.delete(`user/deleteNotesByThereId?id=${this.noteId}`).subscribe({
+    this.service.delete(`user/notes/${this.noteId}`).subscribe({
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);

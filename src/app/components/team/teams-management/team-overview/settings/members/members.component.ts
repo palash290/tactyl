@@ -26,27 +26,28 @@ export class MembersComponent {
   loading: boolean = false;
   memberId: any;
   userEmail: any;
-  userType: any;
+  //userType: any;
   p: any = 1;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
+  @ViewChild('closeModalInv') closeModalInv!: ElementRef;
 
   constructor(private service: CommonService, private toastr: NzMessageService, private route: ActivatedRoute) { }
 
 
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
-    this.userType = localStorage.getItem('userType');
+    // this.userType = localStorage.getItem('userType');
     this.userEmail = localStorage.getItem('teamEmail');
     this.getTeamMembers();
     // this.getAllMembers();
   }
 
   getTeamMembers() {
-    this.service.get(`user/fetchTeamsMembersByTeamIdForIndividual?teamId=${this.teamId}`).subscribe({
+    this.service.get(`user/teams/${this.teamId}`).subscribe({
       next: (resp: any) => {
-        this.teamMembers = resp.data;
+        this.teamMembers = resp.data.team_users;
         this.filterTable();
       },
       error: (error) => {
@@ -56,9 +57,14 @@ export class MembersComponent {
   }
 
   getAllMembers() {
-    this.service.get(`user/fetchTeamMembersByTeamId?teamId=${this.teamId}&isTeamMembers=0`).subscribe({
+    this.service.get(`user/users/verified?team_id=${this.teamId}`).subscribe({
       next: (resp: any) => {
         this.individualMembers = resp.data;
+
+        this.selectedMembers = [
+          ...new Set(this.teamMembers.map((item: any) => item.user_id))
+        ];
+
         this.filterAllTable();
       },
       error: (error) => {
@@ -95,11 +101,11 @@ export class MembersComponent {
   }
 
   // Capture checkbox selection
-  toggleMember(email: string, event: any) {
+  toggleMember(user_id: string, event: any) {
     if (event.target.checked) {
-      this.selectedMembers.push(email);
+      this.selectedMembers.push(user_id);
     } else {
-      this.selectedMembers = this.selectedMembers.filter(e => e !== email);
+      this.selectedMembers = this.selectedMembers.filter(e => e !== user_id);
     }
   }
 
@@ -142,26 +148,44 @@ export class MembersComponent {
 
   submitForm() {
 
-    const allEmails = [...new Set([
-      ...this.selectedMembers,
-      ...this.selectedDrEmail
-    ])];
+    // const allEmails = [...new Set([
+    //   ...this.selectedMembers,
+    //   ...this.selectedDrEmail
+    // ])];
 
-    if (allEmails.length === 0) {
+    // if (allEmails.length === 0) {
+    //   this.toastr.warning('Please add or select at least one member email');
+    //   return;
+    // }
+
+    this.loading = true;
+
+    const uniqueUserIds = [...new Set(this.selectedMembers)];
+    const uniqueEmails = [...new Set(this.selectedDrEmail)];
+
+    if (uniqueUserIds.length === 0 && uniqueEmails.length === 0) {
       this.toastr.warning('Please add or select at least one member email');
       return;
     }
 
-    this.loading = true;
+    // const payload = {
+    //   team_id: this.teamId,
+    //   members: allEmails.map(email => ({
+    //     email: email
+    //   }))
+    // };
+    // 🔥 Build payload dynamically
+    const payload: any = {};
 
-    const payload = {
-      team_id: this.teamId,
-      members: allEmails.map(email => ({
-        email: email
-      }))
-    };
+    if (uniqueUserIds.length > 0) {
+      payload.user_ids = uniqueUserIds;
+    }
 
-    this.service.post('user/newAddMembersInTeams', payload).subscribe({
+    if (uniqueEmails.length > 0) {
+      payload.emails = uniqueEmails;
+    }
+
+    this.service.patch(`user/teams/${this.teamId}`, payload).subscribe({
       next: (resp: any) => {
         this.loading = false;
 
@@ -194,16 +218,38 @@ export class MembersComponent {
   }
 
   removeMem() {
+    this.loading = true;
     const formURlData = new URLSearchParams();
-    formURlData.set('teamId', this.teamId);
+    formURlData.set('team_id', this.teamId);
     formURlData.set('user_id', this.memberId);
-    this.service.post(`user/removeTeamMember`, formURlData.toString()).subscribe({
+    this.service.post(`user/teams/remove-member`, formURlData.toString()).subscribe({
       next: (resp: any) => {
+        this.loading = false;
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
         this.getTeamMembers();
       },
       error: error => {
+        this.loading = false;
+        console.log(error.message);
+      }
+    });
+  }
+
+  reInviteMem() {
+    this.loading = true;
+    const formURlData = new URLSearchParams();
+    formURlData.set('team_id', this.teamId);
+    formURlData.set('user_id', this.memberId);
+    this.service.post(`user/teams/reinvite-member`, formURlData.toString()).subscribe({
+      next: (resp: any) => {
+        this.loading = false;
+        this.closeModalInv.nativeElement.click();
+        this.toastr.success(resp.message);
+        this.getTeamMembers();
+      },
+      error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });

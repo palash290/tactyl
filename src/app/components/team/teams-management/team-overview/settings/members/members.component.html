@@ -12,7 +12,7 @@
         </div> -->
     </div>
 
-    <div class="ct_w_100_767" *ngIf="userType == 'team'">
+    <div class="ct_w_100_767">
         <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="getAllMembers()" data-bs-target="#ct_add_user_modal"
             data-bs-toggle="modal">
             <img src="/img/plus-circle.svg" alt="" class="me-2" />Invite Members
@@ -35,26 +35,26 @@
             <tr *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                 <td>{{(p - 1) * 10 + i + 1}}</td>
                 <td>
-                    <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'" class="ct_img_40" />
+                    <img [src]="item.profile_image ? item.profile_image : '/img/no_pro.png'" class="ct_img_40" />
                 </td>
-                <td>{{item.name}}</td>
+                <td>{{item.full_name}}</td>
                 <td>{{item.email}}</td>
-                <td>{{item.Designation ? item.Designation : '-'}}</td>
+                <td>{{item.designation ? item.designation : '-'}}</td>
                 <!-- <td>{{item.is_team_member}}</td> -->
                 <td>
-                    @if(item.is_team_member == 0){
+                    @if(item.status == 'Pending'){
                     <span class="ct_orange_text">Pending</span>
                     }
-                    @if(item.is_team_member == 1){
+                    @if(item.status == 'Accepted'){
                     <span class="ct_green_text">Accepted</span>
                     }
-                    @if(item.is_team_member == 2){
+                    @if(item.status == 'Rejected'){
                     <span class="ct_red_text">Rejected</span>
                     }
                 </td>
                 <td>
                     <div class="d-flex align-items-center gap-3">
-                        @if (userType == 'team') {
+                        <!-- @if (userType == 'team') {
                         <a [routerLink]="['/team/view-team-member']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
@@ -64,17 +64,29 @@
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
-                        }
+                        } -->
 
+                        <a [routerLink]="['/team/view-team-member']"
+                            [queryParams]="{ memberId: item.user_id, teamId: teamId }">
+                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                        </a>
 
                         <a href="javascript:void(0)" (click)="getId(item.user_id)" data-bs-target="#ct_delete_member"
-                            data-bs-toggle="modal" *ngIf="userType == 'team'">
+                            data-bs-toggle="modal">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
                         </a>
 
-                        <a href="javascript:void(0)" routerLink="/team/user-permissions" *ngIf="userType == 'team'">
+                        <a href="javascript:void(0)" routerLink="/team/user-permissions">
                             <img src="/img/permission.svg" class="ct_icon_24" alt="" />
                         </a>
+
+                        @if(item.status == 'Rejected'){
+                        <a href="javascript:void(0)" (click)="getId(item.user_id)" data-bs-target="#ct_reinvite_member"
+                            data-bs-toggle="modal">
+                            <img src="/img/re_invite.png" class="ct_icon_24" alt="" />
+                        </a>
+                        }
+
                     </div>
                 </td>
             </tr>
@@ -139,14 +151,14 @@
 
                                 <!-- <input type="checkbox" (change)="toggleMember(item.email, $event)"> -->
                                 <div class="form-check ct_custom_check2">
-                                    <input type="checkbox" (change)="toggleMember(item.email, $event)"
+                                    <input type="checkbox" (change)="toggleMember(item.user_id, $event)"
                                         class="form-check-input" id="flexCheckDefault">
                                 </div>
 
-                                <img [src]="item.profile_images ? item.profile_images : '/img/no_pro.png'" alt=""
+                                <img [src]="item.profile_image ? item.profile_image : '/img/no_pro.png'" alt=""
                                     class="ct_img_42 ct_flex_shrink_0">
                                 <div>
-                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate">{{item.name}}</h5>
+                                    <h5 class="ct_fs_16 mb-0 ct_ff_Matter_Medium text-truncate">{{item.full_name}}</h5>
                                     <p class="ct_fs_12 ct_text_787885 mb-0 text-truncate">
                                         {{item.email}}</p>
                                 </div>
@@ -198,7 +210,7 @@
 </div>
 <!--  Add user Modal E -->
 
-<!-- Delete  Modal S -->
+<!-- Delete Modal S -->
 <div class="modal fade ct_custom_modal" id="ct_delete_member" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -223,6 +235,39 @@
                         No
                     </button>
                     <button (click)="removeMem()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Yes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ReInvite Modal S -->
+<div class="modal fade ct_custom_modal" id="ct_reinvite_member" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div>
+                    <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
+                        Re-Invite Member
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        Are you sure you want to re-invite this member.
+                    </p>
+                </div>
+                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
+                    <button #closeModalInv type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
+                        No
+                    </button>
+                    <button (click)="reInviteMem()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
                         Yes
                     </button>
                 </div>

@@ -41,7 +41,10 @@ export class LogInComponent {
     //   console.warn("Type missing, redirecting to default...");
     //   return;
     // }
+
     // this.router.navigate(['/pricing-plan']);
+
+    // this.router.navigate(['/free-trial']);
     // return
 
     this.Form.markAllAsTouched();
@@ -52,29 +55,17 @@ export class LogInComponent {
       formURlData.set('email', this.Form.value.email);
       formURlData.set('password', this.Form.value.password);
 
-      this.service.post('user/signIn', formURlData.toString()).subscribe({
+      this.service.post('public/login', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
-            this.service.setToken(resp.data.jwt_token);
-
-            this.loading = false;
-
-            if (this.type == 'team') {
-              this.router.navigate(['/team/dashboard']);
-              this.toastr.success(resp.message);
-            } else if (this.type === 'individual') {
-              this.router.navigate(['/individual/dashboard']);
-              this.toastr.success(resp.message);
-            } else if (this.type == 'invited') {
-              if (resp.data.isForgotPassword == '0') {
-                this.router.navigate(['/set-password'], {
-                  queryParams: { oldPassword: this.Form.value.password, email: this.Form.value.email }
-                });
-              } else {
-                this.router.navigate(['/pricing-plan']);
-              }
-
+            this.service.setToken(resp.data.token);
+            localStorage.setItem('free_trial', resp.data.user.free_trial);
+            if (resp.data.user.free_trial == 'Inactivated') {
+              this.router.navigate(['/free-trial']);
+            } else {
+              this.router.navigateByUrl('/team/dashboard');
             }
+            this.loading = false;
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;

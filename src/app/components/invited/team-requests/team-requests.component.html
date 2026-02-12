@@ -1,9 +1,7 @@
 <div class="ct_inner_header_bg ct_mt_30 ct_px_30 ct_d_align_center justify-content-between gap-3 ct_flex_col_575">
     <div>
         <h4 class="ct_fs_35 mb-0 ct_ff_Matter_Medium">Team Request</h4>
-
     </div>
-
 </div>
 
 
@@ -25,22 +23,22 @@
 
                             </div>
                         </div>
-                        @if(item.is_team_member == 0){
+                        @if(item.status == 'Pending'){
                         <div class="d-flex gap-3 ms-auto ct_flex_col_575 ct_w_100_575">
                             <a class="ct_outline_btn ct_outline_btn_purple ct_w_100_575 ct_h_40 px-3 ct_ff_Matter_Medium"
-                                (click)="getId(item.id)" data-bs-target="#ct_accept_modal" data-bs-toggle="modal">
+                                (click)="getId(item.team_user_id)" data-bs-target="#ct_accept_modal" data-bs-toggle="modal">
                                 Accept
                             </a>
 
                             <a class="ct_outline_btn ct_outline_btn_purple ct_w_100_575  ct_h_40 px-3 ct_ff_Matter_Medium"
-                                (click)="getId(item.id)" data-bs-target="#ct_reject_modal" data-bs-toggle="modal">
+                                (click)="getId(item.team_user_id)" data-bs-target="#ct_reject_modal" data-bs-toggle="modal">
                                 Reject
                             </a>
                         </div>
                         } @else {
-                        @if(item.is_team_member == 1){
+                        @if(item.status == 'Accepted'){
                         <span class="ct_status_badge ms-auto ct_status_accepted ">Accepted</span>
-                        } @else {
+                        } @else if(item.status == 'Rejected') {
                         <span class="ct_status_badge ms-auto ct_status_rejected ">Rejected</span>
                         }
 

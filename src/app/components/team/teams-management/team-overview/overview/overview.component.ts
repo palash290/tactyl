@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonService } from '../../../../../services/common.service';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-overview',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
 })
@@ -24,7 +25,7 @@ export class OverviewComponent {
   }
 
   getTeamDashboard() {
-    this.service.get(`user/teamOverviewByTeamId?team_id=${this.teamId}`).subscribe({
+    this.service.get(`user/teams/${this.teamId}/dashboard`).subscribe({
       next: (resp: any) => {
         this.dashboardData = resp.data;
         // this.getLogs();
@@ -35,16 +36,16 @@ export class OverviewComponent {
     });
   }
 
-  getLogs() {
-    this.service.get(`user/fetchLogsByTeamId?team_id=${this.teamId}`).subscribe({
-      next: (resp: any) => {
-        this.activeLogs = resp.data;
-      },
-      error: (error) => {
-        console.log(error.message);
-      }
-    });
-  }
+  // getLogs() {
+  //   this.service.get(`user/fetchLogsByTeamId?team_id=${this.teamId}`).subscribe({
+  //     next: (resp: any) => {
+  //       this.activeLogs = resp.data;
+  //     },
+  //     error: (error) => {
+  //       console.log(error.message);
+  //     }
+  //   });
+  // }
 
 
 }

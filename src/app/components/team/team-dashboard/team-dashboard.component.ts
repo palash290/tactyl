@@ -53,7 +53,7 @@ export class TeamDashboardComponent {
   }
 
   getDashboard() {
-    this.service.get(`user/teamAdminDashboard`).subscribe({
+    this.service.get(`user/dashboard`).subscribe({
       next: (resp: any) => {
         this.dashboardData = resp.data;
 

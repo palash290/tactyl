@@ -26,7 +26,7 @@ export class PhasesComponent {
   p: any = 1;
   selectedPhaseId: any = '';
   phaseId: any;
-  userType: any;
+  //userType: any;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
@@ -36,7 +36,7 @@ export class PhasesComponent {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
-    this.userType = localStorage.getItem('userType');
+    //this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getPhaes();
     this.getBoards();
@@ -74,7 +74,7 @@ export class PhasesComponent {
   }
 
   getPhaes() {
-    this.service.get(`user/fetchPhaseByTeamId?team_id=${this.teamId}`).subscribe({
+    this.service.get(`user/phases?team_id=${this.teamId}`).subscribe({
       next: (resp: any) => {
         this.phaseList = resp.data;
         this.filterTable();
@@ -99,7 +99,7 @@ export class PhasesComponent {
   }
 
   getBoards() {
-    this.service.get(`user/fetchBoardsByTeamId?team_id=${this.teamId}`).subscribe({
+    this.service.get(`user/boards?team_id=${this.teamId}`).subscribe({
       next: (resp: any) => {
         this.boardList = resp.data;
       },
@@ -122,11 +122,11 @@ export class PhasesComponent {
       this.loading = true;
       const formURlData = new URLSearchParams();
       formURlData.append('phase_name', title);
-      formURlData.append('description', this.Form.value.description);
+      formURlData.append('phase_description', this.Form.value.description);
       formURlData.append('board_id', this.Form.value.boardId);
-      formURlData.append('team_id', this.teamId);
+      // formURlData.append('team_id', this.teamId);
 
-      this.service.post(this.phaseId ? `user/editPhaseById?id=${this.phaseId}` : 'user/createPhases', formURlData.toString()).subscribe({
+      this.service.post(this.phaseId ? `user/phases/${this.phaseId}` : 'user/phases', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -161,14 +161,14 @@ export class PhasesComponent {
   // }
 
   getId(item: any) {
-    this.id = item.id;
-    this.isTaskExists = item.isTaskExists;
+    this.id = item.phase_id;
+    this.isTaskExists = item.total_tasks > 0 ? true : false;
 
     this.service.get(`user/fetchPhaseByTeamId?team_id=${this.teamId}`).subscribe({
       next: (resp: any) => {
 
         this.reassignPhasedList = resp.data.filter(
-          (board: any) => board.id !== this.id
+          (board: any) => board.phase_id !== this.id
         );
 
         this.filterTable();
@@ -184,7 +184,11 @@ export class PhasesComponent {
       this.toastr.warning('Please select phase first.');
       return
     }
-    this.service.get(`user/deletePhaseByThereId?id=${this.id}&team_id=${this.teamId}&aasignPhaseId=${this.selectedPhaseId}&isTaskExists=${this.isTaskExists ? 1 : 0}`).subscribe({
+
+    const formURlData = new URLSearchParams();
+    formURlData.append('assign_phase_id', this.selectedPhaseId);
+
+    this.service.post(`user/delete-phases?id=${this.id}`, formURlData.toString()).subscribe({
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);

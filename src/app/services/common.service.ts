@@ -28,6 +28,10 @@ export class CommonService {
     return this.http.post<T>(this.baseUrl + url, data)
   };
 
+  patch<T, U>(url: string, data: U): Observable<T> {
+    return this.http.patch<T>(this.baseUrl + url, data)
+  };
+
   postAPI(url: any, data: any): Observable<any> {
     const authToken = localStorage.getItem('austriaAdminToken');
     const headers = new HttpHeaders({
@@ -44,6 +48,7 @@ export class CommonService {
   delete<T>(url: string): Observable<T> {
     return this.http.delete<T>(this.baseUrl + url);
   };
+
 
   setToken(token: string) {
     localStorage.setItem('tactylToken', token)

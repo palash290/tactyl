@@ -29,7 +29,7 @@ export class TasksManagementComponent {
   selectedTeamId: string = '';
   searchText: string = '';
   taskVisibility: 'all' | 'private' = 'all';
-  userType: any;
+  //userType: any;
   // showPrivateTask: boolean = false;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
@@ -37,11 +37,12 @@ export class TasksManagementComponent {
   constructor(private service: CommonService, private toastr: NzMessageService) { }
 
   ngOnInit() {
-    this.userType = localStorage.getItem('userType');
+    //this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getTeams();
     this.getAllTasks()
     this.dateValidation();
+    // this.getPhaes();
   }
 
   dateValidation() {
@@ -60,7 +61,7 @@ export class TasksManagementComponent {
     }
 
     if (this.selectedRecent) {
-      params.append('recent', this.selectedRecent);
+      params.append('order', this.selectedRecent);
     }
 
     if (this.searchText?.trim()) {
@@ -72,14 +73,14 @@ export class TasksManagementComponent {
     }
 
     // params.append('is_private', this.showPrivateTask ? '1' : '0');
-    if (this.taskVisibility === 'private') {
+    if (this.taskVisibility == 'private') {
       params.append('is_private', '1');
     } else {
       params.append('is_private', '0');
     }
 
 
-    this.service.get(this.userType == 'invited' ? `user/fetchInvitedUsersTaskByTherUserId?${params.toString()}` : `user/fetchTotalTask?${params.toString()}`).subscribe({
+    this.service.get(`user/tasks?${params.toString()}`).subscribe({
       next: (resp: any) => {
         this.taskList = resp.data;
       },
@@ -128,23 +129,28 @@ export class TasksManagementComponent {
 
 
   fetchPhaseDetails(item: any) {
-    this.taskId = item.id;
+    this.taskId = item.task_id;
     this.onTeamChange('', item.team_id)
     this.Form.patchValue({
       title: item.title,
       description: item.description || '',
       selectedTeamId: item.team_id,
-      memberId: item.user_id,
+      memberId: item.assigned_to.user_id,
       phaseId: item.phase_id,
       priority: item.priority,
-      startDate: item.start_date,
-      endDate: item.due_date,
+      startDate: this.toDateOnly(item.start_date),
+      endDate: this.toDateOnly(item.due_date),
       isPrivate: item.is_private,
       isGoalRevelant: item.goal_relevant,
       estimatedMinutes: item.estimated_minutes,
       estimatedHours: item.estimated_hours,
       is_urgent: item.is_urgent,
     });
+  }
+
+  private toDateOnly(value: string): string {
+    if (!value) return '';
+    return value.split('T')[0]; // YYYY-MM-DD
   }
 
   reset() {
@@ -178,7 +184,7 @@ export class TasksManagementComponent {
   }
 
   getTeams() {
-    this.service.get(this.userType == 'invited' ? 'user/fetchTeamsByUsersIds' : 'user/fetchTeamsByTeamAdminId').subscribe({
+    this.service.get('user/teams').subscribe({
       next: (resp: any) => {
         this.teamList = resp.data
       },
@@ -190,6 +196,7 @@ export class TasksManagementComponent {
 
   onTeamChange(event: any, itamId?: any) {
     if (!itamId) {
+      // debugger
       const selectedTeamId = event.target.value;
       if (selectedTeamId) {
         this.getMembers(selectedTeamId);
@@ -213,9 +220,14 @@ export class TasksManagementComponent {
   }
 
   getMembers(selectedTeamId: any) {
-    this.service.get(`user/fetchAcceptedMembersByThereTeamsId?team_id=${selectedTeamId}`).subscribe({
+    this.service.get(`user/teams/${selectedTeamId}`).subscribe({
       next: (resp: any) => {
-        this.membersList = resp.data;
+        // this.membersList = resp.data;
+        const teamUsers = resp.data.team_users || [];
+
+        this.membersList = teamUsers.filter(
+          (member: any) => member.status === 'Accepted'
+        );
       },
       error: (error) => {
         console.log(error.message);
@@ -224,7 +236,7 @@ export class TasksManagementComponent {
   }
 
   getPhaes(selectedTeamId: any) {
-    this.service.get(`user/fetchPhaseByTeamId?team_id=${selectedTeamId}`).subscribe({
+    this.service.get(`user/phases?team_id=${selectedTeamId}`).subscribe({
       next: (resp: any) => {
         this.phaseList = resp.data;
       },
@@ -249,7 +261,7 @@ export class TasksManagementComponent {
       formURlData.append('title', title);
       formURlData.append('description', this.Form.value.description);
       formURlData.append('team_id', this.Form.value.selectedTeamId);
-      formURlData.append('user_id', this.Form.value.memberId);
+      formURlData.append('assign_to', this.Form.value.memberId);
       formURlData.append('phase_id', this.Form.value.phaseId);
       formURlData.append('start_date', this.Form.value.startDate);
       formURlData.append('due_date', this.Form.value.endDate);
@@ -260,7 +272,7 @@ export class TasksManagementComponent {
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
-      this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({
+      this.service.post(this.taskId ? `user/tasks/${this.taskId}` : 'user/tasks', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -294,7 +306,7 @@ export class TasksManagementComponent {
   }
 
   deleteTask() {
-    this.service.get(`user/deleteTaskByThereId?id=${this.id}`).subscribe({
+    this.service.get(`user/tasks/${this.id}`).subscribe({
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
@@ -310,7 +322,7 @@ export class TasksManagementComponent {
     if (!this.taskList || this.taskList.length === 0) {
       return;
     }
-    
+
     const headers = [
       'S.No',
       'Task Title',

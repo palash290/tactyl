@@ -25,7 +25,7 @@ export class TeamRequestsComponent {
   }
 
   getAllRequests() {
-    this.service.get('user/fetchAllRequestedTeams').subscribe({
+    this.service.get('user/invitations').subscribe({
       next: (resp: any) => {
         this.allRequests = resp.data;
         // this.filterTable();
@@ -44,9 +44,9 @@ export class TeamRequestsComponent {
   accept() {
     this.loading = true;
     const formURlData = new URLSearchParams();
-    formURlData.set('team_id', this.id);
-    formURlData.set('isAccepted', '1');
-    this.service.post(`user/acceptAndRejectInvitation`, formURlData.toString()).subscribe({
+    formURlData.set('team_user_id', this.id);
+    formURlData.set('action', 'accept');
+    this.service.post(`user/invitations/respond`, formURlData.toString()).subscribe({
       next: (resp: any) => {
         this.closeModalAccept.nativeElement.click();
         this.toastr.success(resp.message);
@@ -63,9 +63,9 @@ export class TeamRequestsComponent {
   reject() {
     this.loading = true;
     const formURlData = new URLSearchParams();
-    formURlData.set('team_id', this.id);
-    formURlData.set('isAccepted', '2');
-    this.service.post(`user/acceptAndRejectInvitation`, formURlData.toString()).subscribe({
+    formURlData.set('team_user_id', this.id);
+    formURlData.set('action', 'reject');
+    this.service.post(`user/invitations/respond`, formURlData.toString()).subscribe({
       next: (resp: any) => {
         this.closeModalReject.nativeElement.click();
         this.toastr.success(resp.message);

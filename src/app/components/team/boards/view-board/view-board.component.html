@@ -66,14 +66,14 @@
                             </select>
                         </div>
                     </div>
-                    @if (userType == 'team') {
+                    <!-- @if (userType == 'team') { -->
                     <div class="ct_w_100_767">
                         <button class="ct_purple_btn ct_h_60 ct_w_100_767" data-bs-target="#ct_add_create_modal"
                             data-bs-toggle="modal">
                             <img src="/img/plus-circle.svg" alt="" class="me-2">Create Task
                         </button>
                     </div>
-                    }
+                    <!-- } -->
 
                 </div>
 
@@ -86,19 +86,19 @@
                                     {{ phase.phase_name }}
                                 </h4>
                                 <div class="ct_icon_32_grey ct_ff_Matter_SemiBold">
-                                    {{ phase.taskList.length }}
+                                    {{ phase.tasks.length }}
                                 </div>
                             </div>
                         </div>
                         <!-- Drop zone -->
-                        <div class="ct_task_design_body ct_custom_scroll" cdkDropList [id]="'phase-' + phase.id"
-                            [cdkDropListData]="phase.taskList" [cdkDropListConnectedTo]="connectedDropLists"
+                        <div class="ct_task_design_body ct_custom_scroll" cdkDropList [id]="'phase-' + phase.phase_id"
+                            [cdkDropListData]="phase.tasks" [cdkDropListConnectedTo]="connectedDropLists"
                             (cdkDropListDropped)="drop($event, phase)">
-                            <p *ngIf="!phase.taskList.length" class="text-muted ct_fs_14 text-center ct_fw_600">
+                            <p *ngIf="!phase.tasks.length" class="text-muted ct_fs_14 text-center ct_fw_600">
                                 Drop tasks here
                             </p>
                             <!-- Draggable Task -->
-                            <div *ngFor="let task of phase.taskList" cdkDrag class="ct_task_design_inner_card"
+                            <div *ngFor="let task of phase.tasks" cdkDrag class="ct_task_design_inner_card"
                                 (click)="openTask(task)">
                                 <div>
                                     <div class="d-flex align-items-start gap-3">
@@ -275,7 +275,7 @@
                                 <select class="form-control ct_input" formControlName="memberId">
                                     <option value="" disabled>Select Member</option>
                                     <option *ngFor="let member of teamMembersList" [value]="member.user_id">
-                                        {{ member.name }}
+                                        {{ member.full_name }}
                                     </option>
                                 </select>
                                 <div *ngIf="Form.controls['memberId'].invalid && Form.controls['memberId'].touched"
@@ -306,7 +306,7 @@
                             <div class="form-group ct_mb_22">
                                 <select class="form-control ct_input" formControlName="phaseId">
                                     <option value="" disabled>Select Phase</option>
-                                    <option *ngFor="let member of phaseList" [value]="member.id">
+                                    <option *ngFor="let member of phaseList" [value]="member.phase_id">
                                         {{ member.phase_name }}
                                     </option>
                                 </select>
@@ -340,7 +340,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="ct_para_scroll ct_custom_scroll">
-                                <!-- <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
                                     <div class="ct_d_align_center gap-3">
                                         <img src="img/lucide_lock.svg" alt="" class=" ct_flex_shrink_0">
                                         <div>
@@ -362,7 +362,7 @@
                                             </div>
                                         </label>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div
                                     class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
                                     <div class="ct_d_align_center gap-3">

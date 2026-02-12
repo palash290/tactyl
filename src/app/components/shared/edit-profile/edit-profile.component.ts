@@ -35,22 +35,22 @@ export class EditProfileComponent {
       name: new FormControl('', Validators.required),
       designation: new FormControl('', Validators.required),
       email: new FormControl({ value: this.userEmail, disabled: true }),
-      company_name: new FormControl({ value: this.userEmail, disabled: true }),
+      // company_name: new FormControl({ value: this.userEmail, disabled: true }),
     });
   }
 
   loadUserProfile() {
-    this.service.get('user/getUserProfile').subscribe({
+    this.service.get('user/profile').subscribe({
       next: (resp: any) => {
         this.userEmail = resp.data.email;
-        this.first_name = resp.data.name;
-        this.designation = resp.data.Designation;
+        this.first_name = resp.data.full_name;
+        this.designation = resp.data.designation;
         this.profileImg = resp.data.profile_image;
         this.profileForm.patchValue({
           name: this.first_name,
           designation: this.designation,
           email: this.userEmail,
-          company_name: resp.data.company_name
+          // company_name: resp.data.company_name
         });
       },
       error: (error) => {
@@ -63,23 +63,23 @@ export class EditProfileComponent {
     this.profileForm.markAllAsTouched();
 
     const first_name = this.profileForm.value.name?.trim();
-    const designation = this.profileForm.value.designation?.trim();
+    // const designation = this.profileForm.value.designation?.trim();
 
-    if (!first_name || !designation) {
+    if (!first_name) {
       return;
     }
 
     if (this.profileForm.valid) {
       this.loading = true;
       const formURlData = new FormData();
-      formURlData.append('name', this.profileForm.value.name);
-      formURlData.append('Designation', this.profileForm.value.designation);
+      formURlData.append('full_name', this.profileForm.value.name);
+      formURlData.append('designation', this.profileForm.value.designation);
 
       if (this.selectedFile) {
         formURlData.append('profile_image', this.selectedFile);
       }
 
-      this.service.post('user/editProfile', formURlData).subscribe({
+      this.service.patch('user/profile', formURlData).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
