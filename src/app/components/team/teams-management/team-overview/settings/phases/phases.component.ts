@@ -27,6 +27,7 @@ export class PhasesComponent {
   selectedPhaseId: any = '';
   phaseId: any;
   //userType: any;
+  is_admin: any;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
@@ -36,6 +37,7 @@ export class PhasesComponent {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
+    this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     //this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getPhaes();

@@ -6,10 +6,19 @@
         </p>
     </div>
     <!-- @if(userType == 'team'){ -->
+    <!-- <button class="ct_purple_btn ct_w_100_575" (click)="openModal()">
+        <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
+    </button> -->
+    <!-- } -->
+    @if(is_free_trial_expired){
+    <button class="ct_purple_btn ct_w_100_575" (click)="openSubs()">
+        <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
+    </button>
+    } @else {
     <button class="ct_purple_btn ct_w_100_575" (click)="openModal()">
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button>
-    <!-- } -->
+    }
 
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
@@ -19,7 +28,7 @@
                 <div class="ct_search_box_bg ct_flex_col_575">
                     <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
                         <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                            placeholder="Search teams by name or manager…" [(ngModel)]="searchTeamText"
+                            placeholder="Search teams by name…" [(ngModel)]="searchTeamText"
                             (input)="filterTeamList()" [ngModelOptions]="{standalone: true}" />
                         <img src="/img/search_icon.svg" class="ct_input_icon_left" />
                     </div>
@@ -119,7 +128,7 @@
                         } -->
 
                         <a [routerLink]="['/team/team-overview']"
-                            [queryParams]="{ teamId: item.team_id, teamName: item.team_name }"
+                            [queryParams]="{ teamId: item.team_id, teamName: item.team_name, is_admin: item.is_admin }"
                             class="ct_purple_link ct_ff_Matter_Medium">View
                             Details</a>
 
@@ -364,7 +373,7 @@
 </div>
 
 
-
+<app-subscription-modal></app-subscription-modal>
 
 
 <div class="ct_loader_main" *ngIf="loading">

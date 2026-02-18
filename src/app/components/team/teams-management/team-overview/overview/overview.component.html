@@ -66,7 +66,7 @@
             <h4 class="ct_fs_22 ct_ff_Matter_Medium mb-4 ct_pe_36">
                 Recent Activity
             </h4>
-            <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
+            <!-- <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
                 <li *ngFor="let item of dashboardData.recent_tasks">
                     <div class="d-flex align-items-center gap-3">
                         <img src="/img/no_pro.png" class="ct_img_40" />
@@ -79,6 +79,32 @@
                         3h ago
                     </p>
                 </li>
+            </ul> -->
+            <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
+                @if (dashboardData.recent_tasks?.length > 0) {
+                <li *ngFor="let item of dashboardData?.recent_tasks">
+                    <div class="d-flex align-items-center gap-3">
+                        <img [src]="item.assigned_by.profile_image ? item.assigned_by.profile_image : '/img/no_pro.png'"
+                            class="ct_img_40" />
+
+                        <p class="mb-0">
+                            <i>
+                                {{ item.assigned_by.full_name }} created task
+                                <span class="ct_text_purple">'{{ item.title }}'</span>
+                            </i>
+                        </p>
+                    </div>
+
+                    <p class="mb-0 ct_text_clr_4B5563 ct_white_nowrap">
+                        {{ getTimeAgo(item.created_at) }}
+                    </p>
+                </li>
+                } @else {
+                <div class="ct_no_task">
+                    <p class="mb-0 text-center">No tasks available</p>
+                </div>
+                }
+
             </ul>
         </div>
     </div>

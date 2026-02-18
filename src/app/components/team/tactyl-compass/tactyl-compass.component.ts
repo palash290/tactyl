@@ -51,9 +51,9 @@ export class TactylCompassComponent {
       Validators.max(60),
     ];
 
-    this.service.get('user/fetchTeamsByTeamAdminId').subscribe((res: any) => this.teams = res.data);
-    this.service.get('user/fetchTotalBoards').subscribe((res: any) => this.boards = res.data);
-    this.service.get('user/fetchIndividualUserPhasesByUserId').subscribe((res: any) => this.phases = res.data);
+    this.service.get('user/teams').subscribe((res: any) => this.teams = res.data);
+    this.service.get('user/boards').subscribe((res: any) => this.boards = res.data);
+    this.service.get('user/phases').subscribe((res: any) => this.phases = res.data);
 
     this.getDetails();
 
@@ -67,7 +67,7 @@ export class TactylCompassComponent {
 
   getDetails() {
     this.loading = true;
-    this.service.get(`user/fetchTasksForCompass?user_type=${this.userType}`).subscribe({
+    this.service.get(`user/tasks`).subscribe({
       next: (resp: any) => {
         this.list = resp.data || [];
         this.filteredList = [...this.list];

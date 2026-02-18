@@ -11,75 +11,43 @@
                         d="M9.44444 23.0208C10.7431 23.0208 11.8056 21.9583 11.8056 20.6597H7.08333C7.08333 21.9583 8.13403 23.0208 9.44444 23.0208ZM16.5278 15.9375V10.0347C16.5278 6.41042 14.5917 3.37639 11.2153 2.57361V1.77083C11.2153 0.790972 10.4243 0 9.44444 0C8.46458 0 7.67361 0.790972 7.67361 1.77083V2.57361C4.28542 3.37639 2.36111 6.39861 2.36111 10.0347V15.9375L0 18.2986V19.4792H18.8889V18.2986L16.5278 15.9375Z"
                         fill="#787885" />
                 </svg>
-                <span>12</span>
+                @if(unread_count > 0){
+                <span>{{unread_count}}</span>
+                }
             </a>
             <div class="dropdown-menu ct_notification_dropdown" aria-labelledby="dropdownMenuButton1">
                 <div class="d-flex align-items-center justify-content-between gap-2 ct_mb_30">
-                    <h4 class="mb-0 ct_fs_20 ct_fw_600">Notifications(4)</h4>
-                    <p class="mb-0 ct_text_purple ct_ff_Matter_SemiBold ct_fs_14">Mark as read</p>
+                    <h4 class="mb-0 ct_fs_20 ct_fw_600">Notifications</h4>
+                    <!-- <p class="mb-0 ct_text_purple ct_ff_Matter_SemiBold ct_fs_14">Mark as read</p> -->
+                    @if(unread_count > 0){
+                    <p (click)="markNotificationAsRead()"
+                        class="mb-0 ct_text_purple ct_ff_Matter_SemiBold ct_fs_14 ct_cursor_pointer">Mark as read</p>
+                    }
                 </div>
 
-                <div>
+                <div class="notification-content ct_custom_scroll">
                     <div>
-                        <div class="d-flex align-items-start justify-content-between gap-2">
-                            <div>
-                                <h6 class="ct_fs_16 ct_ff_Matter_SemiBold">Task Deadline Reminder</h6>
-                                <p class="ct_fs_14 mb-1 ct_text_clr_4B5563">our task “Fix Dashboard UI Bugs”
-                                    is due tomorrow. </p>
+                        <div class="d-flex align-items-start justify-content-between gap-2"
+                            *ngFor="let item of notifications">
+                            <div class="mb-2">
+                                <h6 class="ct_fs_16 ct_ff_Matter_SemiBold mb-0">{{item.title}}</h6>
+                                <p class="ct_fs_14 mb-1 ct_text_clr_4B5563">{{item.body}}</p>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center d-flex gap-2 flex-nowrap">
                                 <p class="ct_fs_12 ct_text_929292 ct_ff_Matter_Medium mb-0 ct_white_nowrap">
-                                    3m</p>
+                                    {{ getTimeAgo(item.created_at) }}</p>
+                                @if(item.is_read == 0){
                                 <span class="ct_dot_8 mt-2"></span>
-
+                                }
                             </div>
-
                         </div>
-                        <div class="d-flex align-items-start justify-content-between gap-2 ct_mt_15">
-                            <div>
-                                <h6 class="ct_fs_16 ct_ff_Matter_SemiBold">Task Deadline Reminder</h6>
-                                <p class="ct_fs_14 mb-1 ct_text_clr_4B5563">our task “Fix Dashboard UI Bugs”
-                                    is due tomorrow. </p>
-                            </div>
-                            <div class="text-center">
-                                <p class="ct_fs_12 ct_text_929292 ct_ff_Matter_Medium mb-0 ct_white_nowrap">
-                                    3m</p>
-                                <span class="ct_dot_8 mt-2"></span>
-
-                            </div>
-
-                        </div>
-                        <div class="d-flex align-items-start justify-content-between gap-2 ct_mt_15">
-                            <div>
-                                <h6 class="ct_fs_16 ct_ff_Matter_SemiBold">Task Deadline Reminder</h6>
-                                <p class="ct_fs_14 mb-1 ct_text_clr_4B5563">our task “Fix Dashboard UI Bugs”
-                                    is due tomorrow. </p>
-                            </div>
-                            <div class="text-center">
-                                <p class="ct_fs_12 ct_text_929292 ct_ff_Matter_Medium mb-0 ct_white_nowrap">
-                                    3m</p>
-                                <span class="ct_dot_8 mt-2"></span>
-
-                            </div>
-
-                        </div>
-                        <div class="d-flex align-items-start justify-content-between gap-2 ct_mt_15">
-                            <div>
-                                <h6 class="ct_fs_16 ct_ff_Matter_SemiBold">Task Deadline Reminder</h6>
-                                <p class="ct_fs_14 mb-1 ct_text_clr_4B5563">our task “Fix Dashboard UI Bugs”
-                                    is due tomorrow. </p>
-                            </div>
-                            <div class="text-center">
-                                <p class="ct_fs_12 ct_text_929292 ct_ff_Matter_Medium mb-0 ct_white_nowrap">
-                                    3m</p>
-                                <span class="ct_dot_8 mt-2"></span>
-
-                            </div>
-
+                    </div>
+                    <div class="col-md-12">
+                        <div class="ct_no_recod_found_bg" *ngIf="notifications?.length == 0">
+                            <p class="text-center mb-0 ct_fs_20">Notifications Not Found</p>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="ct_right_dropdown dropdown">

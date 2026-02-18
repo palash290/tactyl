@@ -13,10 +13,10 @@
                         <img [src]="allMembers?.profile_image ? allMembers?.profile_image : '/img/no_pro.png'"
                             class="ct_img_w_88" />
                         <div>
-                            <h5 class="ct_fs_24 ct_ff_Matter_SemiBold">{{allMembers?.name}}</h5>
+                            <h5 class="ct_fs_24 ct_ff_Matter_SemiBold">{{allMembers?.full_name}}</h5>
                             <ul>
                                 <li>Team Member</li>
-                                <li>{{allMembers?.Designation ? allMembers?.Designation : '-'}}</li>
+                                <li>{{allMembers?.designation ? allMembers?.designation : '-'}}</li>
                                 <li>{{allMembers?.email}}</li>
                             </ul>
                         </div>
@@ -31,7 +31,7 @@
                                 <tr>
                                     <th>S.No</th>
                                     <th>Task Title</th>
-                                    <th>Team</th>
+                                    <!-- <th>Team</th> -->
                                     <th>Priority</th>
                                     <th>Phase</th>
                                     <th>Created At</th>
@@ -39,12 +39,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of taskList; let i = index">
+                                <tr *ngFor="let item of allMembers?.tasks; let i = index">
                                     <td>{{i+1}}</td>
                                     <td>
                                         <span class="ct_overlay_text d-inline-block">{{item.title}}</span>
                                     </td>
-                                    <td>{{item.team_name}}</td>
+                                    <!-- <td>{{item.team_name}}</td> -->
                                     <td>
                                         @if(item.priority == 'P1'){
                                         <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
@@ -68,7 +68,7 @@
                                             style="background-color: #2222220A; color: #222222;">P4</span>
                                         }
                                     </td>
-                                    <td>{{item.phase_name}}</td>
+                                    <td>{{item.phase_details.phase_name}}</td>
                                     <td>{{item.created_at | date:'dd-MMM-yyyy'}}</td>
                                     <td>
                                         <!-- <div class="d-flex align-items-center gap-2">
@@ -76,16 +76,16 @@
                                             <p class="mb-0 ct_fs_16 ct_text_374151">Sarah</p>
                                         </div> -->
                                         <div class="d-flex align-items-center gap-2">
-                                            <img [src]="item.task_creator.profile_image ? item.task_creator.profile_image : '/img/np_pro.png'"
+                                            <img [src]="item.assigned_by.profile_image ? item.assigned_by.profile_image : '/img/np_pro.png'"
                                                 class="ct_img_w_24">
-                                            <p class="mb-0 ct_fs_16 ct_text_374151">{{item.task_creator.name}}</p>
+                                            <p class="mb-0 ct_fs_16 ct_text_374151">{{item.assigned_by.full_name}}</p>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="col-md-12">
-                            <div class="ct_no_recod_found_bg" *ngIf="taskList?.length == 0">
+                            <div class="ct_no_recod_found_bg" *ngIf="allMembers?.tasks?.length == 0">
                                 <p class="text-center mb-0 ct_fs_20">No tasks found</p>
                             </div>
                         </div>

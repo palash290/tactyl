@@ -12,12 +12,15 @@
         </div> -->
     </div>
 
+    @if(is_admin == '1'){
     <div class="ct_w_100_767">
         <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="getAllMembers()" data-bs-target="#ct_add_user_modal"
             data-bs-toggle="modal">
             <img src="/img/plus-circle.svg" alt="" class="me-2" />Invite Members
         </button>
     </div>
+    }
+
 </div>
 
 <div class="table-responsive ct_mt_20">
@@ -40,18 +43,26 @@
                 <td>{{item.full_name}}</td>
                 <td>{{item.email}}</td>
                 <td>{{item.designation ? item.designation : '-'}}</td>
-                <!-- <td>{{item.is_team_member}}</td> -->
                 <td>
-                    @if(item.status == 'Pending'){
+
+                    @if(item.user_id == userId){
+                    <span class="ct_text_blue ct_fw_600">Group Admin</span>
+                    }
+
+                    @else if(item.status == 'Pending'){
                     <span class="ct_orange_text">Pending</span>
                     }
-                    @if(item.status == 'Accepted'){
+
+                    @else if(item.status == 'Accepted'){
                     <span class="ct_green_text">Accepted</span>
                     }
-                    @if(item.status == 'Rejected'){
+
+                    @else if(item.status == 'Rejected'){
                     <span class="ct_red_text">Rejected</span>
                     }
+
                 </td>
+
                 <td>
                     <div class="d-flex align-items-center gap-3">
                         <!-- @if (userType == 'team') {
@@ -65,28 +76,23 @@
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
                         } -->
-
                         <a [routerLink]="['/team/view-team-member']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
-
-                        <a href="javascript:void(0)" (click)="getId(item.user_id)" data-bs-target="#ct_delete_member"
-                            data-bs-toggle="modal">
+                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="getId(item.user_id)"
+                            data-bs-target="#ct_delete_member" data-bs-toggle="modal">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
                         </a>
-
-                        <a href="javascript:void(0)" routerLink="/team/user-permissions">
+                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" routerLink="/team/user-permissions">
                             <img src="/img/permission.svg" class="ct_icon_24" alt="" />
                         </a>
-
                         @if(item.status == 'Rejected'){
-                        <a href="javascript:void(0)" (click)="getId(item.user_id)" data-bs-target="#ct_reinvite_member"
-                            data-bs-toggle="modal">
+                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="getId(item.user_id)"
+                            data-bs-target="#ct_reinvite_member" data-bs-toggle="modal">
                             <img src="/img/re_invite.png" class="ct_icon_24" alt="" />
                         </a>
                         }
-
                     </div>
                 </td>
             </tr>

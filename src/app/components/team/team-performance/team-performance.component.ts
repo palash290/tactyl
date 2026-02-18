@@ -24,7 +24,7 @@ export class TeamPerformanceComponent {
   }
 
   getTeams() {
-    this.service.get('user/teamPerformanceByTeamId').subscribe({
+    this.service.get('user/teams/performance').subscribe({
       next: (resp: any) => {
         this.performanceData = resp.data.team_performance;
         this.performance_insights0 = resp.data.performance_insights[0];
@@ -32,11 +32,32 @@ export class TeamPerformanceComponent {
         this.performance_insights2 = resp.data.performance_insights[2];
         this.graph_data = resp.data.graph_data;
 
-        const teamNames = this.graph_data.map((t: any) => t.team_name);
-        const completionRates = this.graph_data.map((t: any) => t.completion_rate);
-        const remainingRates = this.graph_data.map(
+        // 🚫 Remove teams with no task data
+        const filteredGraphData = this.graph_data.filter(
+          (t: any) =>
+            Number(t.total_tasks) > 0 ||
+            Number(t.completed_tasks) >= 0 ||
+            Number(t.completion_rate) > 0
+        );
+
+        // If no valid data → hide chart completely
+        if (!filteredGraphData.length) {
+          this.chartOptions1 = null;
+          return;
+        }
+
+        const teamNames = filteredGraphData.map((t: any) => t.team_name);
+        const completionRates = filteredGraphData.map((t: any) => t.completion_rate);
+        const remainingRates = filteredGraphData.map(
           (t: any) => 100 - t.completion_rate
         );
+
+
+        // const teamNames = this.graph_data.map((t: any) => t.team_name);
+        // const completionRates = this.graph_data.map((t: any) => t.completion_rate);
+        // const remainingRates = this.graph_data.map(
+        //   (t: any) => 100 - t.completion_rate
+        // );
 
         this.chartOptions1 = {
           chart: {
@@ -115,8 +136,6 @@ export class TeamPerformanceComponent {
             }
           }
         };
-
-
 
       },
       error: (error) => {

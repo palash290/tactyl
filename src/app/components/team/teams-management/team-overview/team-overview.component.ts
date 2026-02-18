@@ -23,6 +23,7 @@ export class TeamOverviewComponent {
   loading: boolean = false;
   userEmail: any;
   //userType: any;
+  is_admin: any;
   dashboardData: any;
   activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
   activeSettingsTab: 'users' | 'permissions' | 'phases' = 'users';
@@ -34,6 +35,7 @@ export class TeamOverviewComponent {
 
   ngOnInit() {
     //this.userType = localStorage.getItem('userType');
+    this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.route.queryParams.subscribe(params => {
       this.teamName = params['teamName'];

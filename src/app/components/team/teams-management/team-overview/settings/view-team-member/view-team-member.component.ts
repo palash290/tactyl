@@ -14,7 +14,7 @@ export class ViewTeamMemberComponent {
   allMembers: any;
   memberId: any;
   teamId: any;
-  taskList: any;
+  // taskList: any;
 
   constructor(private location: Location, private service: CommonService, private route: ActivatedRoute) { }
 
@@ -25,10 +25,10 @@ export class ViewTeamMemberComponent {
   }
 
   getUsers() {
-    this.service.get(`user/fetchMembersDetailsByThereIds?member_id=${this.memberId}`).subscribe({
+    this.service.get(`user/teams/${this.teamId}/user-details?user_id=${this.memberId}`).subscribe({
       next: (resp: any) => {
-        this.allMembers = resp.data;
-        this.getUsertasks();
+        this.allMembers = resp.data.users[0];
+        // this.getUsertasks();
       },
       error: (error) => {
         console.log(error.message);
@@ -36,16 +36,16 @@ export class ViewTeamMemberComponent {
     });
   }
 
-  getUsertasks() {
-    this.service.get(`user/fetchUsersTaskByTherUserId?team_id=${this.teamId}&user_id=${this.memberId}`).subscribe({
-      next: (resp: any) => {
-        this.taskList = resp.data.users_tasks || [];
-      },
-      error: (error) => {
-        console.log(error.message);
-      }
-    });
-  }
+  // getUsertasks() {
+  //   this.service.get(`user/fetchUsersTaskByTherUserId?team_id=${this.teamId}&user_id=${this.memberId}`).subscribe({
+  //     next: (resp: any) => {
+  //       this.taskList = resp.data.users_tasks || [];
+  //     },
+  //     error: (error) => {
+  //       console.log(error.message);
+  //     }
+  //   });
+  // }
 
   backClicked() {
     this.location.back();

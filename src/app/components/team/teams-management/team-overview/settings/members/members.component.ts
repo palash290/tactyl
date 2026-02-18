@@ -27,6 +27,8 @@ export class MembersComponent {
   memberId: any;
   userEmail: any;
   //userType: any;
+  is_admin: any;
+  userId: any;
   p: any = 1;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
@@ -38,6 +40,7 @@ export class MembersComponent {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
+    this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     // this.userType = localStorage.getItem('userType');
     this.userEmail = localStorage.getItem('teamEmail');
     this.getTeamMembers();
@@ -48,6 +51,7 @@ export class MembersComponent {
     this.service.get(`user/teams/${this.teamId}`).subscribe({
       next: (resp: any) => {
         this.teamMembers = resp.data.team_users;
+        this.userId = resp.data.user_id;
         this.filterTable();
       },
       error: (error) => {

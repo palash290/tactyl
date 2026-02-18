@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-trial-page',
-  imports: [RouterLink],
+  imports: [CommonModule],
   templateUrl: './trial-page.component.html',
   styleUrl: './trial-page.component.css'
 })

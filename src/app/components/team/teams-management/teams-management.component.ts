@@ -5,11 +5,13 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonService } from '../../../services/common.service';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
+import { ModalService } from '../../../services/modal.service';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-teams-management',
-  imports: [RouterLink, CommonModule, FormsModule, NgxPaginationModule],
+  imports: [RouterLink, CommonModule, FormsModule, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './teams-management.component.html',
   styleUrl: './teams-management.component.css'
 })
@@ -28,19 +30,26 @@ export class TeamsManagementComponent {
   filteredTeamData: any[] = [];
   p: any = 1;
   userEmail: any;
+  is_free_trial_expired: any;
   //userType: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
 
 
-  constructor(private service: CommonService, private router: Router, private fb: FormBuilder, private toastr: NzMessageService) { }
+  constructor(private service: CommonService, private modalService: ModalService, private fb: FormBuilder, private toastr: NzMessageService) { }
 
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('teamEmail');
+    debugger
+    this.is_free_trial_expired = localStorage.getItem('is_free_trial_expired');
     //this.userType = localStorage.getItem('userType');
     this.getUsers();
     this.getAllTeams();
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   getUsers() {
@@ -58,9 +67,7 @@ export class TeamsManagementComponent {
   }
 
   getAllTeams() {
-    this.service.get(
-      'user/teams'
-    ).subscribe({
+    this.service.get('user/teams').subscribe({
       next: (resp: any) => {
         this.allTeamsList = resp.data.map((team: any) => {
           const total_tasks = team.total_tasks || 0;

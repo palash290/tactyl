@@ -3,8 +3,6 @@
         <h4 class="ct_fs_35 mb-0 ct_ff_Matter_Medium">Team Request</h4>
     </div>
 </div>
-
-
 <div class="ct_px_30 ct_mt_30 pb-4">
     <div class="container-fluid">
         <div class="row ">
@@ -20,18 +18,19 @@
                                 <img src="/img/calander_icon.svg">
                                 <p class="mb-0 ct_text_clr_6E6F76 ct_white_nowrap">{{item.created_at |
                                     date:'dd-MMM-yyyy'}}</p>
-
                             </div>
                         </div>
                         @if(item.status == 'Pending'){
                         <div class="d-flex gap-3 ms-auto ct_flex_col_575 ct_w_100_575">
                             <a class="ct_outline_btn ct_outline_btn_purple ct_w_100_575 ct_h_40 px-3 ct_ff_Matter_Medium"
-                                (click)="getId(item.team_user_id)" data-bs-target="#ct_accept_modal" data-bs-toggle="modal">
+                                (click)="getId(item.team_user_id)" data-bs-target="#ct_accept_modal"
+                                data-bs-toggle="modal">
                                 Accept
                             </a>
 
                             <a class="ct_outline_btn ct_outline_btn_purple ct_w_100_575  ct_h_40 px-3 ct_ff_Matter_Medium"
-                                (click)="getId(item.team_user_id)" data-bs-target="#ct_reject_modal" data-bs-toggle="modal">
+                                (click)="getId(item.team_user_id)" data-bs-target="#ct_reject_modal"
+                                data-bs-toggle="modal">
                                 Reject
                             </a>
                         </div>
@@ -41,13 +40,14 @@
                         } @else if(item.status == 'Rejected') {
                         <span class="ct_status_badge ms-auto ct_status_rejected ">Rejected</span>
                         }
-
                         }
                     </div>
                 </div>
-                <tr *ngIf="allRequests.length == 0">
-                    <td colspan="8" class="text-center">No request found</td>
-                </tr>
+                <div class="col-md-12">
+                    <div class="ct_no_recod_found_bg" *ngIf="allRequests.length == 0">
+                        <p class="text-center mb-0 ct_fs_20">No request found</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

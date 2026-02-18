@@ -6,7 +6,8 @@
             </div>
             <div class="text-center mx-auto" style="max-width: 373px;">
                 <h4 class="ct_fs_44 ct_text_clr_f9f9f9 ct_mb_20 ct_ff_Matter_Light">One Login, Everything in Flow</h4>
-                <p class="ct_text_clr_f9f9f9 ct_fs_18 mb-0">Everything you need to plan, prioritize, and execute – your way.</p>
+                <p class="ct_text_clr_f9f9f9 ct_fs_18 mb-0">Everything you need to plan, prioritize, and execute – your
+                    way.</p>
             </div>
         </div>
         <div class="ct_login_bottom_img mt-auto">
@@ -32,13 +33,16 @@
                 <nz-flex nzVertical>
                     <nz-input-otp formControlName="otp" [nzLength]="4" [nzSize]="'default'">
                     </nz-input-otp>
+                    <span class="ct_text_red mt-2 text-center">
+                        {{ validationErrorService.getErrorMessage('OTP', Form.get('otp')) }}
+                    </span>
                 </nz-flex>
             </nz-flex>
 
 
             <div class="ct_mt_35">
                 <button type="button" (click)="onSubmit()" class="ct_2d_purple_btn w-100">Verify OTP
-                    </button>
+                </button>
             </div>
             <p class="mb-0 text-center ct_fs_14 ct_mt_15">Didn’t receive the OTP? <a class="ct_text_purple"
                     (click)="resendOtp()">Resend

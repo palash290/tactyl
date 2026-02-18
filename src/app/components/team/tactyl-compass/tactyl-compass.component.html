@@ -37,41 +37,41 @@
                                 placeholder="Search..." [(ngModel)]="searchText" (input)="applyFilters()" />
                             <img src="img/search_icon.svg" class="ct_input_icon_left" />
                         </div>
-                        @if(userType == 'team'){
+                        <!-- @if(userType == 'team'){ -->
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedTeam"
                                 (change)="applyFilters()">
                                 <option value="">All Teams</option>
-                                <option *ngFor="let team of teams" [value]="team.id">
+                                <option *ngFor="let team of teams" [value]="team.team_id">
                                     {{ team.team_name }}
                                 </option>
                             </select>
                         </div>
-                        }
+                        <!-- } -->
 
-                        @if(userType == 'team' || userType == 'individual'){
+                        <!-- @if(userType == 'team' || userType == 'individual'){ -->
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedBoard"
                                 (change)="applyFilters()">
                                 <option value="">All Boards</option>
-                                <option *ngFor="let board_name of boards" [value]="board_name.id">
+                                <option *ngFor="let board_name of boards" [value]="board_name.board_id">
                                     {{ board_name.board_name }}
                                 </option>
                             </select>
                         </div>
-                        }
+                        <!-- } -->
 
-                        @if(userType == 'individual'){
+                        <!-- @if(userType == 'individual'){ -->
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedPhase"
                                 (change)="applyFilters()">
                                 <option value="">All Phases</option>
-                                <option *ngFor="let phase_name of phases" [value]="phase_name.id">
+                                <option *ngFor="let phase_name of phases" [value]="phase_name.phase_id">
                                     {{ phase_name.phase_name }}
                                 </option>
                             </select>
                         </div>
-                        }
+                        <!-- } -->
 
                     </div>
                 </div>
@@ -100,9 +100,9 @@
                         <div class="ct_compass_white_card mb-3" style="border-color: #FEE2E2;"
                             *ngFor="let task of doNow">
                             <div class="ct_d_align_center justify-content-between gap-3">
-                                @if(userType == 'team'){
+                                <!-- @if(userType == 'team'){ -->
                                 <div class="ct_cursor_pointer" [routerLink]="['/team/task-details']"
-                                    [queryParams]="{ taskId: task.id, teamId: task.team_id, boardId: task.board_id }">
+                                    [queryParams]="{ taskId: task.task_id, teamId: task.team_id, boardId: task.board_id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
                                         {{ task.title }}
                                         @if(task.isNotesExists){
@@ -126,7 +126,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                } @else if (userType == 'invited') {
+                                <!-- } @else if (userType == 'invited') {
                                 <div class="ct_cursor_pointer" [routerLink]="['/invited/task-details']"
                                     [queryParams]="{ taskId: task.id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
@@ -172,16 +172,16 @@
                                         }
                                     </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                        <img [src]="task.assigned_to.profile_image ? task.assigned_to.profile_image : 'img/no_pro.png'"
                                             class="ct_img_w_24 ct_flex_shrink_0">
                                         <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
-                                            {{ task.assignee_name }}
+                                            {{ task.assigned_to.full_name }}
                                         </p>
                                     </div>
                                 </div>
-                                }
+                                } -->
                                 <div class="text-end">
-                                    @if(task?.status){
+                                    @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
@@ -229,7 +229,7 @@
                         <div class="ct_compass_white_card mb-3" style="border-color: #DBEAFE;"
                             *ngFor="let task of doNext">
                             <div class="ct_d_align_center justify-content-between gap-3">
-                                @if(userType == 'team'){
+                                <!-- @if(userType == 'team'){ -->
                                 <div class="ct_cursor_pointer" [routerLink]="['/team/task-details']"
                                     [queryParams]="{ taskId: task.id, teamId: task.team_id, boardId: task.board_id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
@@ -248,14 +248,14 @@
                                         }
                                     </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                        <img [src]="task.assigned_to.profile_image ? task.assigned_to.profile_image : 'img/no_pro.png'"
                                             class="ct_img_w_24 ct_flex_shrink_0">
                                         <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
-                                            {{ task.assignee_name }}
+                                            {{ task.assigned_to.full_name }}
                                         </p>
                                     </div>
                                 </div>
-                                } @else if (userType == 'invited') {
+                                <!-- } @else if (userType == 'invited') {
                                 <div class="ct_cursor_pointer" [routerLink]="['/invited/task-details']"
                                     [queryParams]="{ taskId: task.id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
@@ -307,9 +307,9 @@
                                         </p>
                                     </div>
                                 </div>
-                                }
+                                } -->
                                 <div class="text-end">
-                                    @if(task?.status){
+                                    @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
@@ -356,9 +356,9 @@
                         <div class="ct_compass_white_card mb-3" style="border-color: #FEF3C7;"
                             *ngFor="let task of doLater">
                             <div class="ct_d_align_center justify-content-between gap-3">
-                                @if(userType == 'team'){
+                                <!-- @if(userType == 'team'){ -->
                                 <div class="ct_cursor_pointer" [routerLink]="['/team/task-details']"
-                                    [queryParams]="{ taskId: task.id, teamId: task.team_id, boardId: task.board_id }">
+                                    [queryParams]="{ taskId: task.task_id, teamId: task.team_id, boardId: task.board_id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
                                         {{ task.title }}
                                         @if(task.isNotesExists){
@@ -375,14 +375,14 @@
                                         }
                                     </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                        <img [src]="task.assigned_to.profile_image ? task.assigned_to.profile_image : 'img/no_pro.png'"
                                             class="ct_img_w_24 ct_flex_shrink_0">
                                         <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
-                                            {{ task.assignee_name }}
+                                            {{ task.assigned_to.full_name }}
                                         </p>
                                     </div>
                                 </div>
-                                } @else if (userType == 'invited') {
+                                <!-- } @else if (userType == 'invited') {
                                 <div class="ct_cursor_pointer" [routerLink]="['/invited/task-details']"
                                     [queryParams]="{ taskId: task.id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
@@ -434,9 +434,9 @@
                                         </p>
                                     </div>
                                 </div>
-                                }
+                                } -->
                                 <div class="text-end">
-                                    @if(task?.status){
+                                    @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
@@ -483,7 +483,7 @@
                         <div class="ct_compass_white_card mb-3" style="border-color: #E5E7EB;"
                             *ngFor="let task of doLast">
                             <div class="ct_d_align_center justify-content-between gap-3">
-                                @if(userType == 'team'){
+                                <!-- @if(userType == 'team'){ -->
                                 <div class="ct_cursor_pointer" [routerLink]="['/team/task-details']"
                                     [queryParams]="{ taskId: task.id, teamId: task.team_id, boardId: task.board_id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
@@ -502,14 +502,14 @@
                                         }
                                     </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                        <img [src]="task.assigned_to.profile_image ? task.assigned_to.profile_image : 'img/no_pro.png'"
                                             class="ct_img_w_24 ct_flex_shrink_0">
                                         <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
-                                            {{ task.assignee_name }}
+                                            {{ task.assigned_to.full_name }}
                                         </p>
                                     </div>
                                 </div>
-                                } @else if (userType == 'invited') {
+                                <!-- } @else if (userType == 'invited') {
                                 <div class="ct_cursor_pointer" [routerLink]="['/invited/task-details']"
                                     [queryParams]="{ taskId: task.id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
@@ -561,9 +561,9 @@
                                         </p>
                                     </div>
                                 </div>
-                                }
+                                } -->
                                 <div class="text-end">
-                                    @if(task?.status){
+                                    @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>

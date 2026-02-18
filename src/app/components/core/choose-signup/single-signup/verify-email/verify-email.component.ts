@@ -6,6 +6,7 @@ import { CommonService } from '../../../../../services/common.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NzFlexDirective } from 'ng-zorro-antd/flex';
+import { ValidationErrorService } from '../../../../../services/validation-error.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -26,7 +27,7 @@ export class VerifyEmailComponent {
   type: any;
 
   constructor(private fb: FormBuilder, private toastr: NzMessageService,
-    private service: CommonService, private router: Router, private route: ActivatedRoute
+    private service: CommonService, private router: Router, private route: ActivatedRoute, public validationErrorService: ValidationErrorService
   ) {
     this.Form = this.fb.group({
       otp: ['', Validators.required],
