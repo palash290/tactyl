@@ -8,11 +8,8 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
-
   <div class="pt-4">
     <div>
       <div class="ct_feature_white_shape2 mx-auto mb-3">
@@ -25,7 +22,6 @@
               d="M7.32603 8.49219C7.11509 8.58594 7.05259 8.69141 7.03306 8.99609L7.01353 9.27344L6.86509 9.30469C6.16978 9.44922 5.50962 10.1602 5.38462 10.9062C5.2479 11.6953 5.89634 12.6328 6.76353 12.8945L7.03306 12.9766V13.8477C7.03306 14.6992 7.03306 14.7188 6.95493 14.6992C6.71665 14.6367 6.32993 14.125 6.32993 13.8672C6.32993 13.7266 6.19712 13.5312 6.05259 13.4531C5.78697 13.3164 5.42368 13.4883 5.369 13.7773C5.32993 13.9766 5.41197 14.3164 5.57603 14.6484C5.81822 15.1484 6.30259 15.5469 6.83384 15.6797L7.01353 15.7266L7.03306 16.0039C7.04868 16.2266 7.07212 16.3008 7.14634 16.3828C7.34947 16.5977 7.65415 16.5977 7.85728 16.3828C7.9315 16.3008 7.95493 16.2266 7.97056 16.0039L7.99009 15.7266L8.17759 15.6797C8.70493 15.5469 9.1815 15.1523 9.4315 14.6484C9.70493 14.0859 9.70884 13.6914 9.4354 13.1406C9.18931 12.6328 8.75962 12.2617 8.24009 12.1055L7.97056 12.0234V11.1484C7.97056 10.668 7.98228 10.2734 8.00181 10.2734C8.04478 10.2734 8.20884 10.3867 8.35728 10.5234C8.50181 10.6602 8.67368 10.9844 8.67368 11.1328C8.67368 11.2695 8.8065 11.4688 8.94321 11.543C9.10728 11.625 9.26353 11.6172 9.41978 11.5117C9.65806 11.3516 9.69712 11.1719 9.59165 10.7617C9.40806 10.0625 8.78696 9.4375 8.14243 9.30469L7.99009 9.27344L7.97056 8.99609C7.94712 8.6875 7.88462 8.58203 7.66978 8.49219C7.51743 8.42578 7.47446 8.42578 7.32603 8.49219ZM7.01743 11.9453C6.98618 11.9727 6.75181 11.8125 6.61509 11.6719C6.48228 11.5312 6.33384 11.2383 6.32993 11.1133C6.32993 10.8867 6.63072 10.4727 6.89634 10.3359L7.01353 10.2734L7.02525 11.1016C7.02915 11.5547 7.02525 11.9336 7.01743 11.9453ZM8.12681 13.1133C8.41196 13.3008 8.67368 13.6719 8.67368 13.8867C8.67368 14.125 8.27525 14.6406 8.04868 14.6992C7.97056 14.7188 7.97056 14.6992 7.97056 13.8828C7.97056 13.4219 7.98228 13.0469 8.00181 13.0469C8.01743 13.0469 8.07603 13.0742 8.12681 13.1133Z"
               fill="#7F4EEC" />
           </svg>
-
           <span>Pricing Plan</span>
         </p>
       </div>
@@ -33,29 +29,23 @@
       <p class="ct_text_clr_888D97 ct_fs_16 text-center mx-auto" style="max-width: 575px;"> Select a plan to unlock
         Tactyl’s features and start organizing your work your way.</p>
     </div>
-
     <div class="container pt-3 pb-5">
       <div class="row gx-xl-5 align-items-center">
         <div class="col-lg-4 mb-4 mb-lg-0">
           <div class="pricing-card">
             <div class="d-flex align-items-center justify-content-between gap-2">
               <div class="pricing-badge">Individual</div>
-
               <div class="pricing-icon">
                 <img src="img/crown_icon_1.svg" alt="">
               </div>
             </div>
-
             <h2 class="price ct_ff_Matter_SemiBold">$5.99 <span class="ct_ff_Matter_SemiBold">/ month</span></h2>
-
             <p class="pricing-desc">
               Perfect for solo professionals managing their own tasks and goals.
             </p>
-
-            <button class="btn btn-primary pricing-btn">
+            <button (click)="activateTrial('2')" class="btn btn-primary pricing-btn">
               Get Started
             </button>
-
             <ul class="pricing-list">
               <li>Personal task & phase management</li>
               <li>Tactyl Compass (priority & action score based)</li>
@@ -64,29 +54,22 @@
               <li>No team collaboration features</li>
             </ul>
           </div>
-
-
         </div>
         <div class="col-lg-4 mb-4 mb-lg-0">
           <div class="pricing-card py-5">
             <div class="d-flex align-items-center justify-content-between gap-2">
               <div class="pricing-badge">Team Manager Access</div>
-
               <div class="pricing-icon">
                 <img src="img/crown_icon_2.svg" alt="">
               </div>
             </div>
-
             <h2 class="price ct_ff_Matter_SemiBold">$14.99 <span class="ct_ff_Matter_SemiBold">/ month</span></h2>
-
             <p class="pricing-desc">
               Best for professionals who work solo and with teams—without switching accounts.
             </p>
-
-            <button class="btn btn-primary pricing-btn">
+            <button (click)="activateTrial('4')" class="btn btn-primary pricing-btn">
               Get Started
             </button>
-
             <ul class="pricing-list">
               <li>Everything in Silver</li>
               <li>Individual + Team work under the same email</li>
@@ -96,30 +79,22 @@
               <li>Unified reports across personal & team tasks</li>
             </ul>
           </div>
-
-
         </div>
-
         <div class="col-lg-4 mb-4 mb-lg-0">
           <div class="pricing-card">
             <div class="d-flex align-items-center justify-content-between gap-2">
               <div class="pricing-badge">Personal + Team</div>
-
               <div class="pricing-icon">
                 <img src="img/crown_icon_3.svg" alt="">
               </div>
             </div>
-
             <h2 class="price ct_ff_Matter_SemiBold">$9.99 <span class="ct_ff_Matter_SemiBold">/ month</span></h2>
-
             <p class="pricing-desc">
               Built for teams to collaborate, assign work, and track progress together.
             </p>
-
-            <button class="btn btn-primary pricing-btn">
+            <button (click)="activateTrial('3')" class="btn btn-primary pricing-btn">
               Get Started
             </button>
-
             <ul class="pricing-list">
               <li>Everything in Bronze</li>
               <li>Team workspaces & boards</li>
@@ -129,12 +104,19 @@
               <li>Private tasks (visible only to owner)</li>
             </ul>
           </div>
-
-
         </div>
       </div>
-
     </div>
   </div>
+</div>
 
+<div class="ct_loader_main" *ngIf="loading">
+      <div class="loader-con">
+            <div style="--i: 0;" class="pfile"></div>
+            <div style="--i: 1;" class="pfile"></div>
+            <div class="pfile" style="--i: 2;"></div>
+            <div class="pfile" style="--i: 3;"></div>
+            <div class="pfile" style="--i: 4;"></div>
+            <div class="pfile" style="--i: 5;"></div>
+      </div>
 </div>

@@ -14,15 +14,16 @@ export class HeaderComponent {
   userData: any;
   notifications: any;
   unread_count: any;
+  current_plan: any;
 
   constructor(private router: Router, private apiService: CommonService) { }
 
   @ViewChild('closeModal') closeModal!: ElementRef;
 
-
   userType: any;
 
   ngOnInit() {
+    this.current_plan = localStorage.getItem('current_plan');
     this.apiService.refreshSidebar$.subscribe(() => {
       this.getProfile();
     });
@@ -42,7 +43,7 @@ export class HeaderComponent {
         this.userData = resp.data;
         localStorage.setItem('teamEmail', resp.data.email);
         localStorage.setItem('userId', resp.data.user_id);
-        localStorage.setItem('is_free_trial_expired', resp.data.is_free_trial_expired);
+        localStorage.setItem('current_plan', JSON.stringify(resp.data.current_plan));
       },
       error: (error) => {
         console.log(error.message);

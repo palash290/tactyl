@@ -10,12 +10,12 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class IndividualSidebarComponent {
 
-  userType: any;
+  // userType: any;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.userType = localStorage.getItem('userType');
+    // this.userType = localStorage.getItem('userType');
   }
 
   isActive(route: string): boolean {

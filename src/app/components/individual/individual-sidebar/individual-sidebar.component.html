@@ -17,8 +17,8 @@
             </a>
         </li>
 
-        @if(userType == 'invited'){
-            <li>
+        <!-- @if(userType == 'invited'){ -->
+            <!-- <li>
             <a routerLink="/individual/task-management" [ngClass]="{ 'active': isActive('/individual/task-management')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 1H8V5H16V1Z" fill="#787885" />
@@ -26,8 +26,8 @@
                 </svg>
                 My Tasks
             </a>
-        </li>
-        } @else {
+        </li> -->
+       <!-- } @else { -->
             <li>
             <a routerLink="/individual/my-task" [ngClass]="{ 'active': isActive('/individual/my-task')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,12 +37,10 @@
                 My Tasks
             </a>
         </li>
-        }
+        <!-- }  -->
 
-        
-
-        @if(userType == 'invited'){
-        <li>
+        <!-- @if(userType == 'invited'){ -->
+        <!-- <li>
             <a routerLink="/individual/my-teams" [ngClass]="{ 'active': isActive('/individual/my-teams')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_367_1864)">
@@ -58,12 +56,12 @@
                 </svg>
                 My Teams
             </a>
-        </li>
-        }
+        </li> -->
+        <!-- } -->
 
 
-        @if(userType == 'invited'){
-        <li>
+        <!-- @if(userType == 'invited'){ -->
+        <!-- <li>
             <a routerLink="/individual/team-requests" [ngClass]="{ 'active': isActive('/individual/team-requests')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -75,11 +73,11 @@
                 </svg>
                 Team Requests
             </a>
-        </li>
-        }
+        </li> -->
+        <!-- } -->
 
 
-        @if(userType == 'individual'){
+        <!-- @if(userType == 'individual'){ -->
         <li>
             <a routerLink="/individual/boards" [ngClass]="{ 'active': isActive('/individual/boards')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,7 +106,7 @@
                 Phases
             </a>
         </li>
-        }
+        <!-- } -->
 
         <li>
             <a routerLink="/individual/tactyl-compass" [ngClass]="{ 'active': isActive('/individual/tactyl-compass')}">

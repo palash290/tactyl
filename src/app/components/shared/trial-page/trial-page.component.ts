@@ -17,9 +17,11 @@ export class TrialPageComponent {
 
   ngOnInit() { }
 
-  activateTrial() {
+  activateTrial(planId: any) {
     this.loading = true;
-    this.service.post('user/free-trial-activated', '').subscribe({
+    const formURlData = new URLSearchParams();
+    formURlData.set('plan_id', planId);
+    this.service.post('user/purchase-subscription', formURlData.toString()).subscribe({
       next: (resp: any) => {
         this.loading = false;
         this.router.navigateByUrl('/team/dashboard');

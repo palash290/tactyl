@@ -12,6 +12,15 @@
         </div> -->
     </div>
 
+    @if(current_plan == 'null'){
+    @if(is_admin == '1'){
+    <div class="ct_w_100_767">
+        <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="openSubs()">
+            <img src="/img/plus-circle.svg" alt="" class="me-2" />Invite Members
+        </button>
+    </div>
+    }
+    } @else {
     @if(is_admin == '1'){
     <div class="ct_w_100_767">
         <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="getAllMembers()" data-bs-target="#ct_add_user_modal"
@@ -19,6 +28,7 @@
             <img src="/img/plus-circle.svg" alt="" class="me-2" />Invite Members
         </button>
     </div>
+    }
     }
 
 </div>
@@ -80,6 +90,20 @@
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
+
+                        @if(current_plan == 'null'){
+                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
+                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                        </a>
+                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
+                            <img src="/img/permission.svg" class="ct_icon_24" alt="" />
+                        </a>
+                        @if(item.status == 'Rejected'){
+                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
+                            <img src="/img/re_invite.png" class="ct_icon_24" alt="" />
+                        </a>
+                        }
+                        } @else {
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="getId(item.user_id)"
                             data-bs-target="#ct_delete_member" data-bs-toggle="modal">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
@@ -93,6 +117,8 @@
                             <img src="/img/re_invite.png" class="ct_icon_24" alt="" />
                         </a>
                         }
+                        }
+
                     </div>
                 </td>
             </tr>
@@ -281,6 +307,8 @@
         </div>
     </div>
 </div>
+
+<app-subscription-modal></app-subscription-modal>
 
 <div class="ct_loader_main" *ngIf="loading">
     <div class="loader-con">

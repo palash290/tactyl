@@ -10,7 +10,7 @@
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button> -->
     <!-- } -->
-    @if(is_free_trial_expired){
+    @if(current_plan == 'null'){
     <button class="ct_purple_btn ct_w_100_575" (click)="openSubs()">
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button>
@@ -28,8 +28,8 @@
                 <div class="ct_search_box_bg ct_flex_col_575">
                     <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
                         <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                            placeholder="Search teams by name…" [(ngModel)]="searchTeamText"
-                            (input)="filterTeamList()" [ngModelOptions]="{standalone: true}" />
+                            placeholder="Search teams by name…" [(ngModel)]="searchTeamText" (input)="filterTeamList()"
+                            [ngModelOptions]="{standalone: true}" />
                         <img src="/img/search_icon.svg" class="ct_input_icon_left" />
                     </div>
                     <div class="ct_w_100_575">

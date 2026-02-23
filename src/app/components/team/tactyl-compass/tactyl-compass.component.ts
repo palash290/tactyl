@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { RouterLink } from '@angular/router';
+import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-tactyl-compass',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, SubscriptionModalComponent],
   templateUrl: './tactyl-compass.component.html',
   styleUrl: './tactyl-compass.component.css'
 })
@@ -34,11 +36,13 @@ export class TactylCompassComponent {
   phases: any[] = [];
   completeForm!: FormGroup;
   userType: any;
+  current_plan: any;
   @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private modalService: ModalService) { }
 
   ngOnInit() {
+    this.current_plan = localStorage.getItem('current_plan');
     this.userType = localStorage.getItem('userType');
     const numberOnlyValidator = [
       Validators.required,
@@ -61,6 +65,10 @@ export class TactylCompassComponent {
       actualHours: new FormControl('', numberOnlyValidator),
       actualMinutes: new FormControl('', minutesRangeValidator)
     });
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   /* ================= API FETCH ================= */
@@ -196,7 +204,7 @@ export class TactylCompassComponent {
         !this.searchText ||
         task.title?.toLowerCase().includes(this.searchText.toLowerCase()) ||
         task.board_name?.toLowerCase().includes(this.searchText.toLowerCase());
-        task.phase_name?.toLowerCase().includes(this.searchText.toLowerCase());
+      task.phase_name?.toLowerCase().includes(this.searchText.toLowerCase());
 
       const teamMatch =
         !this.selectedTeam || task.team_id == this.selectedTeam;

@@ -37,7 +37,7 @@
           <small>Gold Plan Activated</small>
         </div>
       </div>
-      <button (click)="activateTrial()" class="ct_purple_btn w-100">Start Free Trial</button>
+      <button (click)="activateTrial('1')" class="ct_purple_btn w-100">Start Free Trial</button>
       <p class="footer-text">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_1464_585)">
@@ -69,12 +69,12 @@
 </div>
 
 <div class="ct_loader_main" *ngIf="loading">
-      <div class="loader-con">
-            <div style="--i: 0;" class="pfile"></div>
-            <div style="--i: 1;" class="pfile"></div>
-            <div class="pfile" style="--i: 2;"></div>
-            <div class="pfile" style="--i: 3;"></div>
-            <div class="pfile" style="--i: 4;"></div>
-            <div class="pfile" style="--i: 5;"></div>
-      </div>
+  <div class="loader-con">
+    <div style="--i: 0;" class="pfile"></div>
+    <div style="--i: 1;" class="pfile"></div>
+    <div class="pfile" style="--i: 2;"></div>
+    <div class="pfile" style="--i: 3;"></div>
+    <div class="pfile" style="--i: 4;"></div>
+    <div class="pfile" style="--i: 5;"></div>
+  </div>
 </div>

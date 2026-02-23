@@ -23,9 +23,9 @@ export class IndividualDashboardComponent {
   }
 
   getDashboard() {
-    this.service.get(this.userType == 'individual' ? `user/individualUserDashboard` : 'user/invitedTeamMemberDashboard').subscribe({
+    this.service.get(`user/dashboard`).subscribe({
       next: (resp: any) => {
-        this.dashboardData = resp.data[0];
+        this.dashboardData = resp.data;
 
         const total = this.dashboardData.total_tasks || 0;
         const completed = this.dashboardData.completed_tasks || 0;

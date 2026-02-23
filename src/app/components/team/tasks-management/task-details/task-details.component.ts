@@ -5,10 +5,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalService } from '../../../../services/modal.service';
+import { SubscriptionModalComponent } from '../../../shared/subscription-modal/subscription-modal.component';
 
 @Component({
   selector: 'app-task-details',
-  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './task-details.component.html',
   styleUrl: './task-details.component.css'
 })
@@ -29,14 +31,18 @@ export class TaskDetailsComponent {
   //userType: any;
   taskName: any;
   actualTime: any;
+  user_id: any;
+  current_plan: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
   @ViewChild('closeModalAddNotes') closeModalAddNotes!: ElementRef;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
 
-  constructor(private location: Location, private service: CommonService, private route: ActivatedRoute, private toastr: NzMessageService) { }
+  constructor(private location: Location, private modalService: ModalService, private service: CommonService, private route: ActivatedRoute, private toastr: NzMessageService) { }
 
   ngOnInit() {
+    this.current_plan = localStorage.getItem('current_plan');
+    this.user_id = localStorage.getItem('userId');
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.boardId = this.route.snapshot.queryParamMap.get('boardId');
@@ -89,6 +95,10 @@ export class TaskDetailsComponent {
         validators: this.dateRangeValidator as any
       }
     );
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   getAllMembers() {

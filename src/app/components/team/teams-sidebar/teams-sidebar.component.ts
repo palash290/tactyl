@@ -10,7 +10,15 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class TeamsSidebarComponent {
 
+  current_plan: any;
+
   constructor(private router: Router) { }
+
+  ngOnInit() {
+    const storedPlan = localStorage.getItem('current_plan');
+
+    this.current_plan = storedPlan ? JSON.parse(storedPlan) : null;
+  }
 
   isActive(route: string): boolean {
     return this.router.isActive(route, true);

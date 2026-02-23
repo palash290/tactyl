@@ -5,10 +5,12 @@ import { RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-tasks-management',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './tasks-management.component.html',
   styleUrl: './tasks-management.component.css'
 })
@@ -29,20 +31,28 @@ export class TasksManagementComponent {
   selectedTeamId: string = '';
   searchText: string = '';
   taskVisibility: 'all' | 'private' = 'all';
+  current_plan: any;
+  user_id: any;
   //userType: any;
-  // showPrivateTask: boolean = false;
+  //showPrivateTask: boolean = false;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private modalService: ModalService) { }
 
   ngOnInit() {
+    this.current_plan = localStorage.getItem('current_plan');
+    this.user_id = localStorage.getItem('userId');
     //this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getTeams();
     this.getAllTasks()
     this.dateValidation();
     // this.getPhaes();
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   dateValidation() {

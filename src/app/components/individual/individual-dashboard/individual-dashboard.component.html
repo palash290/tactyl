@@ -9,7 +9,7 @@
 <div class="ct_px_30 ct_mt_30 pb-4">
     <div class="container-fluid">
 
-        @if(userType == 'individual'){
+
         <div class="row gx-5">
             <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
                 [routerLink]="['/individual/my-task']" [queryParams]="{ status: '' }">
@@ -51,49 +51,7 @@
                 </div>
             </div>
         </div>
-        } @else {
-        <div class="row gx-5">
-            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
-                routerLink="/invited/task-management">
-                <div class="ct_dash_card justify-content-start gap-4">
-                    <div class="ct_icon_82" style="background-color: #F7BE4A;">
-                        <img src="/img/total_task_icon.svg" alt="">
-                    </div>
-                    <div class="ct_dash_card_title">
-                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Total Tasks</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F7BE4A;">
-                            {{dashboardData.total_tasks}}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
-                routerLink="/invited/task-management">
-                <div class="ct_dash_card justify-content-start gap-4">
-                    <div class="ct_icon_82" style="background-color: #19CE71;">
-                        <img src="/img/completed_task_icon.svg" alt="">
-                    </div>
-                    <div class="ct_dash_card_title">
-                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Completed</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #19CE71;">
-                            {{dashboardData.completed_tasks ? dashboardData.completed_tasks : '0'}}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 mb-4 ct_cursor_pointer"
-                routerLink="/invited/task-management">
-                <div class="ct_dash_card justify-content-start gap-4">
-                    <div class="ct_icon_82" style="background-color: #F24E1E;">
-                        <img src="/img/pending_task_icon.svg" alt="">
-                    </div>
-                    <div class="ct_dash_card_title">
-                        <p class="mb-0  ct_fs_18 ct_ff_Matter_Medium mb-1">Pending</p>
-                        <h5 class="ct_fs_32 mb-1 ct_ff_Matter_Bold" style="color: #F24E1E;">
-                            {{dashboardData.pending_tasks ? dashboardData.pending_tasks : '0'}}</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        }
+
 
         <div class="row ct_mt_15">
             <div class="col-lg-6 mb-4 mb-lg-0">

@@ -79,15 +79,12 @@
                                 <option value="no">No</option>
                             </select>
                         </div>
-
                     </div>
 
-                    @if(userType == 'individual'){
                     <button class="ct_purple_btn ct_w_100_1199 ct_h_60" data-bs-target="#ct_add_create_modal"
                         data-bs-toggle="modal">
                         <img src="/img/plus-circle.svg" alt="" class="me-2">Create Task
                     </button>
-                    }
 
                 </div>
             </div>
@@ -331,7 +328,7 @@
                             <div class="form-group ct_mb_22">
                                 <select class="form-control ct_input" formControlName="phaseId">
                                     <option value="" disabled>Select Phase</option>
-                                    <option *ngFor="let member of phaseList" [value]="member.id">
+                                    <option *ngFor="let member of phaseList" [value]="member.phase_id">
                                         {{ member.phase_name }}
                                     </option>
                                 </select>
@@ -368,7 +365,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="ct_para_scroll ct_custom_scroll">
-                                <!-- <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
+                                <div class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg">
                                     <div class="ct_d_align_center gap-3">
                                         <img src="img/lucide_lock.svg" alt="" class=" ct_flex_shrink_0">
                                         <div>
@@ -390,7 +387,7 @@
                                             </div>
                                         </label>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div
                                     class="ct_Members_info_sort gap-2 ct_d_align_center ct_mb_15 ct_light_grey_bg ct_mt_15">
                                     <div class="ct_d_align_center gap-3">

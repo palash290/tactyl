@@ -6,10 +6,12 @@ import { CommonService } from '../../../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Subject } from 'rxjs';
+import { ModalService } from '../../../../../services/modal.service';
+import { SubscriptionModalComponent } from '../../../../shared/subscription-modal/subscription-modal.component';
 
 @Component({
   selector: 'app-board',
-  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css'
 })
@@ -26,15 +28,17 @@ export class BoardComponent {
   boardId: any;
   selectedBoardId: any = '';
   //userType: any;
+  current_plan: any;
   is_admin: any;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService, private route: ActivatedRoute) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private modalService: ModalService, private route: ActivatedRoute) { }
 
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
+    this.current_plan = localStorage.getItem('current_plan');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     //this.userType = localStorage.getItem('userType');
@@ -56,6 +60,10 @@ export class BoardComponent {
       colour: new FormControl(''),
       description: new FormControl(''),
     });
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   fetchBoardDetails(id: any) {
@@ -180,17 +188,21 @@ export class BoardComponent {
       this.toastr.warning('Please select board first.');
       return
     }
-
+    this.loading = true;
     const formURlData = new URLSearchParams();
-    formURlData.append('assign_board_id', this.selectedBoardId);
+    if (this.selectedBoardId) {
+      formURlData.append('assign_board_id', this.selectedBoardId);
+    }
 
     this.service.post(`user/delete-boards/${this.id}`, formURlData.toString()).subscribe({
       next: (resp: any) => {
+        this.loading = false;
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
         this.getBoards();
       },
       error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });

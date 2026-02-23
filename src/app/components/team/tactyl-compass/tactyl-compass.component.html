@@ -181,6 +181,19 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
+                                    @if(current_plan == null){
+                                    @if(task?.status == 'Completed'){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    } @else {
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -193,6 +206,7 @@
                                         (click)="getTaskDet(task)">
                                         Mark As Done
                                     </span>
+                                    }
                                     }
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
@@ -231,7 +245,7 @@
                             <div class="ct_d_align_center justify-content-between gap-3">
                                 <!-- @if(userType == 'team'){ -->
                                 <div class="ct_cursor_pointer" [routerLink]="['/team/task-details']"
-                                    [queryParams]="{ taskId: task.id, teamId: task.team_id, boardId: task.board_id }">
+                                    [queryParams]="{ taskId: task.task_id, teamId: task.team_id, boardId: task.board_id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
                                         {{ task.title }}
                                         @if(task.isNotesExists){
@@ -309,6 +323,19 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
+                                    @if(current_plan == null){
+                                    @if(task?.status == 'Completed'){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    } @else {
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -321,6 +348,7 @@
                                         (click)="getTaskDet(task)">
                                         Mark As Done
                                     </span>
+                                    }
                                     }
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
@@ -436,6 +464,19 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
+                                    @if(current_plan == 'null'){
+                                    @if(task?.status == 'Completed'){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    } @else {
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -448,6 +489,7 @@
                                         (click)="getTaskDet(task)">
                                         Mark As Done
                                     </span>
+                                    }
                                     }
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
@@ -485,7 +527,7 @@
                             <div class="ct_d_align_center justify-content-between gap-3">
                                 <!-- @if(userType == 'team'){ -->
                                 <div class="ct_cursor_pointer" [routerLink]="['/team/task-details']"
-                                    [queryParams]="{ taskId: task.id, teamId: task.team_id, boardId: task.board_id }">
+                                    [queryParams]="{ taskId: task.task_id, teamId: task.team_id, boardId: task.board_id }">
                                     <h4 class="ct_fs_15 ct_ff_Matter_Medium ct_para_scroll ct_custom_scroll">
                                         {{ task.title }}
                                         @if(task.isNotesExists){
@@ -563,6 +605,19 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
+                                    @if(current_plan == null){
+                                    @if(task?.status == 'Completed'){
+                                    <div>
+                                        <span class="ct_outline_badge"
+                                            style="border-color: #008000; color: #008000;">Completed</span>
+                                    </div>
+                                    } @else {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
+                                    }
+                                    } @else {
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -575,6 +630,7 @@
                                         (click)="getTaskDet(task)">
                                         Mark As Done
                                     </span>
+                                    }
                                     }
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
@@ -698,6 +754,8 @@
     </div>
 </div>
 <!--  ct_complete_modal Modal E -->
+
+<app-subscription-modal></app-subscription-modal>
 
 <div class="ct_loader_main" *ngIf="loading">
     <div class="loader-con">

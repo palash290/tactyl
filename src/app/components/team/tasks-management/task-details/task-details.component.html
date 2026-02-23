@@ -6,6 +6,19 @@
     </div>
 
     <div class="d-flex align-items-center gap-3">
+        @if(current_plan == 'null'){
+        @if(taskDetails?.status == 'Completed'){
+        <div>
+            <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Completed</span>
+        </div>
+        } @else {
+        <div>
+            <span class="ct_outline_badge ct_cursor_pointer" style="border-color: #008000; color: #008000;"
+                (click)="openSubs()">Mark
+                As Done</span>
+        </div>
+        }
+        } @else {
         @if(taskDetails?.status == 'Completed'){
         <div>
             <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Completed</span>
@@ -17,7 +30,9 @@
                 As Done</span>
         </div>
         }
+        }
 
+        @if(current_plan !== 'null' && taskDetails?.user_id == user_id){
         <!-- @if(userType == 'team'){ -->
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
@@ -35,6 +50,8 @@
         <!-- } -->
 
         <!-- } -->
+        }
+
     </div>
 </div>
 <div class="ct_mt_30 ct_px_30 pb-4">
@@ -193,12 +210,17 @@
                 <div class="ct_white_bg_2 mt-5">
                     <div class="ct_d_align_center justify-content-between gap-3 ct_mb_30">
                         <h4 class="mb-0 ct_fs_26 ct_ff_Matter_SemiBold">Notes</h4>
-                        <!-- @if(userType == 'team'){ -->
+                        @if(current_plan == 'null'){
+                        <button class="ct_purple_btn ct_w_100_575" (click)="openSubs()">
+                            <img src="/img/plus-circle.svg" alt="" class="me-2">Add Note
+                        </button>
+                        } @else {
                         <button class="ct_purple_btn ct_w_100_575" data-bs-target="#ct_add_note_modal"
                             data-bs-toggle="modal">
                             <img src="/img/plus-circle.svg" alt="" class="me-2">Add Note
                         </button>
-                        <!-- } -->
+                        }
+
                     </div>
                     <div class="ct_para_scroll ct_custom_scroll">
                         <div class="ct_outline_bg" *ngFor="let item of noteList">
@@ -211,10 +233,17 @@
                                 </div>
                                 <div>
                                     <!-- @if (userType == 'team') { -->
+                                    @if(current_plan == 'null'){
+                                    <a (click)="openSubs()"
+                                        class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
+                                        Details</a>
+                                    } @else {
                                     <a [routerLink]="['/team/view-notes']"
                                         [queryParams]="{ noteId: item.note_id, taskId: taskId }"
                                         class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>
+                                    }
+
                                     <!-- } -->
                                     <!-- @if (userType == 'invited') {
                                     <a [routerLink]="['/invited/view-notes']"
@@ -729,6 +758,8 @@
     </div>
 </div>
 <!--  ct_complete_modal Modal E -->
+
+<app-subscription-modal></app-subscription-modal>
 
 <div class="ct_loader_main" *ngIf="loading">
     <div class="loader-con">

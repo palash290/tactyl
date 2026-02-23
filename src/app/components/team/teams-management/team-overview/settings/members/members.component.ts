@@ -5,10 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalService } from '../../../../../../services/modal.service';
+import { SubscriptionModalComponent } from '../../../../../shared/subscription-modal/subscription-modal.component';
 
 @Component({
   selector: 'app-members',
-  imports: [RouterLink, CommonModule, FormsModule, NgxPaginationModule],
+  imports: [RouterLink, CommonModule, FormsModule, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './members.component.html',
   styleUrl: './members.component.css'
 })
@@ -30,21 +32,27 @@ export class MembersComponent {
   is_admin: any;
   userId: any;
   p: any = 1;
+  current_plan: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalInv') closeModalInv!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService, private route: ActivatedRoute) { }
+  constructor(private service: CommonService, private modalService: ModalService, private toastr: NzMessageService, private route: ActivatedRoute) { }
 
 
   ngOnInit() {
+    this.current_plan = localStorage.getItem('current_plan');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     // this.userType = localStorage.getItem('userType');
     this.userEmail = localStorage.getItem('teamEmail');
     this.getTeamMembers();
     // this.getAllMembers();
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   getTeamMembers() {

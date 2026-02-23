@@ -30,7 +30,7 @@ export class TeamsManagementComponent {
   filteredTeamData: any[] = [];
   p: any = 1;
   userEmail: any;
-  is_free_trial_expired: any;
+  current_plan: any;
   //userType: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
@@ -41,8 +41,8 @@ export class TeamsManagementComponent {
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('teamEmail');
-    debugger
-    this.is_free_trial_expired = localStorage.getItem('is_free_trial_expired');
+
+    this.current_plan = localStorage.getItem('current_plan');
     //this.userType = localStorage.getItem('userType');
     this.getUsers();
     this.getAllTeams();

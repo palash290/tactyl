@@ -61,7 +61,7 @@ export class MyTaskComponent {
       priority: new FormControl('', Validators.required),
       startDate: new FormControl('', Validators.required),
       endDate: new FormControl('', Validators.required),
-      // isPrivate: new FormControl(false),
+      isPrivate: new FormControl(false),
       isGoalRevelant: new FormControl(false),
       is_urgent: new FormControl(false),
       // memberId: new FormControl('', Validators.required),
@@ -102,7 +102,7 @@ export class MyTaskComponent {
 
 
   getPhaes() {
-    this.service.get(`user/fetchIndividualUserPhasesByUserId`).subscribe({
+    this.service.get(`user/phases`).subscribe({
       next: (resp: any) => {
         this.phaseList = resp.data;
         // this.filterTable();
@@ -114,7 +114,7 @@ export class MyTaskComponent {
   }
 
   getTasks() {
-    this.service.get(`user/fetchIndividualUserPhasesWithTaskByUserId`).subscribe({
+    this.service.get(`user/tasks`).subscribe({
       next: (resp: any) => {
         this.boardTasks = resp.data;
         this.filterList()
@@ -132,7 +132,7 @@ export class MyTaskComponent {
 
   filterList() {
     this.filteredData = this.boardTasks.map((phase: any) => {
-      let tasks = [...phase.taskList];
+      let tasks = [...this.boardTasks];
 
       // 🔍 Search filter
       if (this.searchText.trim()) {
@@ -151,14 +151,13 @@ export class MyTaskComponent {
       }
 
       // ✅ Completed / Incompleted filter
-      if (this.taskVisibility == 'hide') {
-        // Hide completed → show only incomplete
-        tasks = tasks.filter(task => task.status == 0);
-      } else if (this.taskVisibility == 'show') {
-        // If you want ONLY completed, use:
-        tasks = tasks.filter(task => task.status == 1);
-      } else {
-
+      if (this.taskVisibility === 'show') {
+        // Show only completed
+        tasks = tasks.filter(task => task.status === 'Completed');
+      }
+      else if (this.taskVisibility === 'hide') {
+        // Show only pending
+        tasks = tasks.filter(task => task.status === 'Pending');
       }
 
       if (this.isRevelent == 'yes') {
@@ -202,20 +201,19 @@ export class MyTaskComponent {
       const formURlData = new URLSearchParams();
       formURlData.append('title', title);
       formURlData.append('description', this.Form.value.description);
-      formURlData.append('team_id', '0');
-      formURlData.append('user_id', this.userId);
+      formURlData.append('assign_to', this.userId);
       formURlData.append('phase_id', this.Form.value.phaseId);
       formURlData.append('start_date', this.Form.value.startDate);
       formURlData.append('due_date', this.Form.value.endDate);
       formURlData.append('priority', this.Form.value.priority);
       formURlData.append('estimated_hours', this.Form.value.estimatedHours);
       formURlData.append('estimated_minutes', this.Form.value.estimatedMinutes);
-      // formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
-      formURlData.append('is_private', '0');
+      formURlData.append('is_private', this.Form.value.isPrivate ? '1' : '0');
+      // formURlData.append('is_private', '0');
       formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
-      this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({
+      this.service.post(this.taskId ? `user/tasks/${this.taskId}` : 'user/tasks', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);

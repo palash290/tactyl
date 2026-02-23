@@ -15,6 +15,7 @@ export class TeamRequestsComponent {
   allRequests: any;
   id: any;
   loading: boolean = false;
+  erroeMsg: any;
   @ViewChild('closeModalAccept') closeModalAccept!: ElementRef;
   @ViewChild('closeModalReject') closeModalReject!: ElementRef;
 
@@ -31,7 +32,9 @@ export class TeamRequestsComponent {
         // this.filterTable();
       },
       error: (error) => {
+        debugger
         console.log(error.message);
+        this.erroeMsg = error.message;
       }
     });
   }

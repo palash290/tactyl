@@ -44,8 +44,8 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="ct_no_recod_found_bg" *ngIf="allRequests.length == 0">
-                        <p class="text-center mb-0 ct_fs_20">No request found</p>
+                    <div class="ct_no_recod_found_bg" *ngIf="allRequests?.length == 0 || erroeMsg">
+                        <p class="text-center mb-0 ct_fs_20">{{erroeMsg || 'No request found'}}</p>
                     </div>
                 </div>
             </div>

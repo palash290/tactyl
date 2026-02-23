@@ -23,7 +23,7 @@ export class BoardsComponent {
   p: any = 1;
   boardId: any;
   selectedBoardId: any = '';
-  userType: any;
+  // userType: any;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
@@ -31,7 +31,7 @@ export class BoardsComponent {
 
 
   ngOnInit() {
-    this.userType = localStorage.getItem('userType');
+    // this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getBoards();
   }
@@ -45,12 +45,12 @@ export class BoardsComponent {
   }
 
   fetchBoardDetails(id: any) {
-    this.service.get(`user/fetchBoardDeailsByBoardId?id=${id}`).subscribe({
+    this.service.get(`user/boards/${id}`).subscribe({
       next: (resp: any) => {
         this.boardId = id;
         this.Form.patchValue({
           title: resp.data.board_name,
-          description: resp.data.description || '',
+          description: resp.data.board_description || '',
           colour: resp.data.board_color
         });
       },
@@ -70,7 +70,7 @@ export class BoardsComponent {
   }
 
   getBoards() {
-    this.service.get(`user/fetchBoardsByIndividualUserId`).subscribe({
+    this.service.get(`user/boards`).subscribe({
       next: (resp: any) => {
         this.boardList = resp.data;
         this.filterTable();
@@ -107,11 +107,11 @@ export class BoardsComponent {
       this.loading = true;
       const formURlData: any = new URLSearchParams();
       formURlData.append('board_name', title);
-      formURlData.append('description', this.Form.value.description);
+      formURlData.append('board_description', this.Form.value.description);
       formURlData.append('board_color', this.Form.value.colour || '#000000');
-      formURlData.append('team_id', 0);
+      // formURlData.append('team_id', 0);
 
-      this.service.post(this.boardId ? `user/editBoardById?id=${this.boardId}` : 'user/createBoard', formURlData.toString()).subscribe({
+      this.service.post(this.boardId ? `user/boards/${this.boardId}` : 'user/boards', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -143,14 +143,14 @@ export class BoardsComponent {
   isPhaseExists: boolean = false;
 
   getId(item: any) {
-    this.id = item.id;
-    this.isPhaseExists = item.isPhaseExists;
+    this.id = item.board_id;
+    this.isPhaseExists = item.total_phases > 0 ? true : false;
 
-    this.service.get(`user/fetchBoardsByIndividualUserId`).subscribe({
+    this.service.get(`user/boards`).subscribe({
       next: (resp: any) => {
 
         this.reassignBoardList = resp.data.filter(
-          (board: any) => board.id !== this.id
+          (board: any) => board.board_id !== this.id
         );
 
         this.filterTable();
@@ -167,14 +167,22 @@ export class BoardsComponent {
       this.toastr.warning('Please select board first.');
       return
     }
-    this.service.get(`user/deleteBoardByBoardId?id=${this.id}&team_id=${0}&aasignBoardId=${this.selectedBoardId}&isPhaseExists=${this.isPhaseExists ? 1 : 0}`).subscribe({
+    this.loading = true;
+    const formURlData = new URLSearchParams();
+    if (this.selectedBoardId) {
+      formURlData.append('assign_board_id', this.selectedBoardId);
+    }
+
+    this.service.post(`user/delete-boards/${this.id}`, formURlData.toString()).subscribe({
       next: (resp: any) => {
+        this.loading = false;
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
         this.getBoards();
         // this.service.triggerRefresh();
       },
       error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });

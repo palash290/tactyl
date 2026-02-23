@@ -16,6 +16,8 @@
                 Dashboard
             </a>
         </li>
+
+        @if(current_plan?.plan_name !== 'Bronze'){
         <li>
             <a routerLink="/team/teams" [ngClass]="{ 'active': isActive('/team/teams')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,6 +35,8 @@
                 Teams
             </a>
         </li>
+        }
+
         <!-- <li>
             <a routerLink="/team/users" [ngClass]="{ 'active': isActive('/team/users')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +104,7 @@
             </a>
         </li>
 
-           <li>
+        <li>
             <a routerLink="/team/team-requests" [ngClass]="{ 'active': isActive('/invited/team-requests')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -127,7 +131,7 @@
                 Notes
             </a>
         </li> -->
-        
+
         <!-- <li>
             <a routerLink="/team/reports" [ngClass]="{ 'active': isActive('/team/reports')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
