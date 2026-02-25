@@ -93,7 +93,7 @@
         <div class="row ct_mt_20">
 
             <div class="col-xl-4 col-lg-6 mb-4" *ngFor="let phase of filteredData">
-                <!-- Phase Header -->
+                
                 <div class="ct_task_design_card">
                     <div class="ct_task_design_header" style="border-color: #0066CCB2;">
                         <h4 class="mb-0 ct_fs_22 ct_ff_Matter_Medium">
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Drop zone -->
+                
                 <div class="ct_task_design_body ct_custom_scroll" cdkDropList [id]="'phase-' + phase.id"
                     [cdkDropListData]="phase.taskList" [cdkDropListConnectedTo]="connectedDropLists"
                     (cdkDropListDropped)="drop($event, phase)">
@@ -112,7 +112,7 @@
                     <p *ngIf="!phase.taskList.length" class="text-muted ct_fs_14 text-center ct_fw_600">
                         Drop tasks here
                     </p>
-                    <!-- Draggable Task -->
+                    
                     <div *ngFor="let task of phase.taskList" cdkDrag class="ct_task_design_inner_card"
                         (click)="openTask(task)">
                         <div>
@@ -159,6 +159,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-12">
                 <div class="ct_no_recod_found_bg" *ngIf="filteredData.length == 0">
                     <p class="text-center mb-0 ct_fs_20">No task found</p>

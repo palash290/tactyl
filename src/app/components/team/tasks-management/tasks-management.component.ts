@@ -41,7 +41,10 @@ export class TasksManagementComponent {
   constructor(private service: CommonService, private toastr: NzMessageService, private modalService: ModalService) { }
 
   ngOnInit() {
-    this.current_plan = localStorage.getItem('current_plan');
+    // this.current_plan = localStorage.getItem('current_plan');
+    const storedPlan = localStorage.getItem('current_plan');
+
+    this.current_plan = storedPlan ? JSON.parse(storedPlan) : null;
     this.user_id = localStorage.getItem('userId');
     //this.userType = localStorage.getItem('userType');
     this.initForm();
