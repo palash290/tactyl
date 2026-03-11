@@ -37,53 +37,78 @@ export class LogInComponent {
 
   login() {
 
-    // if (!this.type) {
-    //   console.warn("Type missing, redirecting to default...");
-    //   return;
-    // }
-
-    // this.router.navigate(['/pricing-plan']);
-
-    // this.router.navigate(['/free-trial']);
-    // return
-
     this.Form.markAllAsTouched();
 
-    if (this.Form.valid) {
-      this.loading = true;
-      const formURlData = new URLSearchParams();
-      formURlData.set('email', this.Form.value.email);
-      formURlData.set('password', this.Form.value.password);
+    if (this.Form.invalid) return;
 
-      this.service.post('public/login', formURlData.toString()).subscribe({
-        next: (resp: any) => {
-          if (resp.success == true) {
-            this.service.setToken(resp.data.token);
-            localStorage.setItem('free_trial', resp.data.user.free_trial);
-            if (resp.data.user.free_trial == 'Inactivated') {
-              this.router.navigate(['/free-trial']);
-            } else {
-              this.router.navigateByUrl('/team/dashboard');
-            }
-            this.loading = false;
-          } else {
-            this.toastr.warning(resp.message);
-            this.loading = false;
-          }
-        },
-        error: (error) => {
-          this.loading = false;
+    this.loading = true;
 
-          const msg =
-            error.error?.message ||
-            error.error?.error ||
-            error.message ||
-            "Something went wrong!";
+    const formURlData = new URLSearchParams();
+    formURlData.set('email', this.Form.value.email);
+    formURlData.set('password', this.Form.value.password);
 
-          this.toastr.error(msg);
+    this.service.post('public/login', formURlData.toString()).subscribe({
+
+      next: (resp: any) => {
+
+        this.loading = false;
+
+        if (!resp.success) {
+          this.toastr.warning(resp.message);
+          return;
         }
-      });
-    }
+
+        const user = resp.data?.user;
+        const plan = user?.current_plan?.plan_name;
+
+        this.service.setToken(resp.data.token);
+        localStorage.setItem('free_trial', user?.free_trial || '');
+        localStorage.setItem('user_id', user?.user_id);
+
+        // 🔹 Free trial inactive
+        if (user?.free_trial === 'Inactivated') {
+          this.router.navigate(['/free-trial']);
+          return;
+        }
+
+        // 🔹 No plan
+        if (!user?.current_plan) {
+          this.router.navigate(['/pricing-plan'], {
+            queryParams: { user_id: user?.user_id }
+          });
+          return;
+        }
+
+        // 🔹 Plan routing
+        if (plan === 'Free Trial' || plan === 'Gold') {
+          this.router.navigateByUrl('/team/dashboard');
+        }
+        else if (plan === 'Bronze') {
+          this.router.navigateByUrl('/individual/dashboard');
+        }
+        else {
+          this.router.navigate(['/pricing-plan'], {
+            queryParams: { user_id: user?.user_id }
+          });
+        }
+
+      },
+
+      error: (error) => {
+
+        this.loading = false;
+
+        const msg =
+          error?.error?.message ||
+          error?.error?.error ||
+          error?.message ||
+          "Something went wrong!";
+
+        this.toastr.error(msg);
+      }
+
+    });
+
   }
 
   togglePasswordVisibility() {

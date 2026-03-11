@@ -17,7 +17,7 @@ export class MyTaskDetailsComponent {
   taskId: any;
   Form!: FormGroup;
   notesForm!: FormGroup;
-  loading: boolean = true;
+  loading: boolean = false;
   userId: any;
   phaseList: any;
   minDate: any;
@@ -42,34 +42,6 @@ export class MyTaskDetailsComponent {
     this.dateValidation();
     this.getPhaes();
     this.getNotes();
-  }
-
-  getTaskDetails() {
-    this.loading = true;
-    this.service.get(`user/fetchIndividualTaskByThereId?id=${this.taskId}`).subscribe({
-      next: (resp: any) => {
-        this.taskDetails = resp.data;
-        this.actualTime = `${resp.data.estimated_hours} hr ${resp.data.estimated_minutes} min`;
-        this.Form.patchValue({
-          title: resp.data.title,
-          description: resp.data.description || '',
-          phaseId: resp.data.phase_id,
-          priority: resp.data.priority,
-          startDate: resp.data.start_date,
-          endDate: resp.data.due_date,
-          //isPrivate: item.is_private,
-          isGoalRevelant: resp.data.goal_relevant,
-          estimatedMinutes: resp.data.estimated_minutes,
-          estimatedHours: resp.data.estimated_hours,
-          is_urgent: resp.data.is_urgent,
-        });
-        this.loading = false;
-      },
-      error: (error) => {
-        this.loading = false;
-        console.log(error.message);
-      }
-    });
   }
 
   initForm() {
@@ -107,8 +79,7 @@ export class MyTaskDetailsComponent {
       isGoalRevelant: new FormControl(false),
       is_urgent: new FormControl(false),
       // memberId: new FormControl('', Validators.required),
-      phaseId: new FormControl('', Validators.required),
-
+      phaseId: new FormControl('', Validators.required)
     },
       {
         validators: this.dateRangeValidator as any   // <-- FIX
@@ -116,8 +87,36 @@ export class MyTaskDetailsComponent {
     );
   }
 
+  getTaskDetails() {
+    // this.loading = true;
+    this.service.get(`user/tasks/${this.taskId}`).subscribe({
+      next: (resp: any) => {
+        this.loading = false;
+        this.taskDetails = resp.data;
+        this.actualTime = `${resp.data.estimated_hours} hr ${resp.data.estimated_minutes} min`;
+        this.Form.patchValue({
+          title: resp.data.title,
+          description: resp.data.description || '',
+          phaseId: resp.data.phase_id,
+          priority: resp.data.priority,
+          startDate: this.toDateOnly(resp.data.start_date),
+          endDate: this.toDateOnly(resp.data.due_date),
+          //isPrivate: item.is_private,
+          isGoalRevelant: resp.data.goal_relevant,
+          estimatedMinutes: resp.data.estimated_minutes,
+          estimatedHours: resp.data.estimated_hours,
+          is_urgent: resp.data.is_urgent,
+        });
+      },
+      error: (error) => {
+        this.loading = false;
+        console.log(error.message);
+      }
+    });
+  }
+
   getNotes() {
-    this.service.get(`user/fetchNotesByTaskId?task_id=${this.taskId}`).subscribe({
+    this.service.get(`user/notes?task_id=${this.taskId}`).subscribe({
       next: (resp: any) => {
         this.noteList = resp.data;
       },
@@ -164,7 +163,7 @@ export class MyTaskDetailsComponent {
   }
 
   getPhaes() {
-    this.service.get(`user/fetchIndividualUserPhasesByUserId`).subscribe({
+    this.service.get(`user/phases`).subscribe({
       next: (resp: any) => {
         this.phaseList = resp.data;
         // this.filterTable();
@@ -189,8 +188,8 @@ export class MyTaskDetailsComponent {
       const formURlData = new URLSearchParams();
       formURlData.append('title', title);
       formURlData.append('description', this.Form.value.description);
-      formURlData.append('team_id', '0');
-      formURlData.append('user_id', this.userId);
+      // formURlData.append('team_id', '0');
+      formURlData.append('assign_to', this.userId);
       formURlData.append('phase_id', this.Form.value.phaseId);
       formURlData.append('start_date', this.Form.value.startDate);
       formURlData.append('due_date', this.Form.value.endDate);
@@ -202,7 +201,7 @@ export class MyTaskDetailsComponent {
       formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
 
-      this.service.post(this.taskId ? `user/editTaskById?id=${this.taskId}` : 'user/createTask', formURlData.toString()).subscribe({
+      this.service.post(`user/tasks/${this.taskId}`, formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.getTaskDetails();
@@ -243,7 +242,7 @@ export class MyTaskDetailsComponent {
       formURlData.append('description', this.notesForm.value.description);
       formURlData.append('task_id', this.taskId);
 
-      this.service.post('user/createNotes', formURlData.toString()).subscribe({
+      this.service.post('user/notes', formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
@@ -285,7 +284,7 @@ export class MyTaskDetailsComponent {
     formURlData.set('actual_minutes', actualMinutes);
     formURlData.set('task_id', this.taskId);
 
-    this.service.post('user/changeTaskStatus', formURlData.toString()).subscribe({
+    this.service.post('user/task-complete', formURlData.toString()).subscribe({
       next: (resp: any) => {
         this.loading = false;
         this.closeModalComplete.nativeElement.click();
@@ -301,6 +300,11 @@ export class MyTaskDetailsComponent {
         );
       },
     });
+  }
+
+  private toDateOnly(value: string): string {
+    if (!value) return '';
+    return value.split('T')[0]; // YYYY-MM-DD
   }
 
 

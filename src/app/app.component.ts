@@ -11,7 +11,7 @@ import { FcmService } from './services/fcm.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'setup';
+  title = 'tac';
   showLoader = false;
   private subscription!: Subscription;
   constructor(private router: Router, private loaderService: LoaderService, private fcmService: FcmService) {

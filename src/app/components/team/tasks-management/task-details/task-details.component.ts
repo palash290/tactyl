@@ -181,40 +181,6 @@ export class TaskDetailsComponent {
     }
   }
 
-  private formatDateTime(value: string): string {
-    if (!value) return '';
-
-    const date = new Date(value);
-
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    const hh = String(date.getHours()).padStart(2, '0');
-    const min = String(date.getMinutes()).padStart(2, '0');
-    const ss = '00';
-
-    return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
-  }
-
-  dateValidation() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0');
-    const day = today.getDate().toString().padStart(2, '0');
-    this.minDate = `${year}-${month}-${day}`;
-  }
-
-  dateRangeValidator(group: FormGroup) {
-    const from = group.get('startDate')?.value;
-    const to = group.get('endDate')?.value;
-
-    if (from && to && to < from) {
-      return { dateInvalid: true };
-    }
-
-    return null;
-  }
-
   getTaskDetails(taskId: any) {
     this.loading = true;
     this.service.get(`user/tasks/${taskId}`).subscribe({
@@ -244,12 +210,6 @@ export class TaskDetailsComponent {
       }
     });
   }
-
-  private toDateOnly(value: string): string {
-    if (!value) return '';
-    return value.split('T')[0]; // YYYY-MM-DD
-  }
-
 
   getNotes() {
     this.service.get(`user/notes?task_id=${this.taskId}`).subscribe({
@@ -320,10 +280,6 @@ export class TaskDetailsComponent {
     });
   }
 
-  backClicked() {
-    this.location.back();
-  }
-
   submitTask() {
     if (this.completeForm.invalid) {
       this.completeForm.markAllAsTouched();
@@ -357,6 +313,48 @@ export class TaskDetailsComponent {
     });
   }
 
+  backClicked() {
+    this.location.back();
+  }
+
+  private formatDateTime(value: string): string {
+    if (!value) return '';
+
+    const date = new Date(value);
+
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const hh = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+    const ss = '00';
+
+    return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+  }
+
+  dateValidation() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    this.minDate = `${year}-${month}-${day}`;
+  }
+
+  dateRangeValidator(group: FormGroup) {
+    const from = group.get('startDate')?.value;
+    const to = group.get('endDate')?.value;
+
+    if (from && to && to < from) {
+      return { dateInvalid: true };
+    }
+
+    return null;
+  }
+
+  private toDateOnly(value: string): string {
+    if (!value) return '';
+    return value.split('T')[0]; // YYYY-MM-DD
+  }
 
 
 }

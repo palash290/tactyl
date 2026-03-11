@@ -71,8 +71,8 @@
                         </div>
 
                         <div class="ct_w_100_575">
-                            <select class="form-control ct_input ct_grey_select ct_w_100_575"
-                                [(ngModel)]="isRevelent" (change)="filterList()">
+                            <select class="form-control ct_input ct_grey_select ct_w_100_575" [(ngModel)]="isRevelent"
+                                (change)="filterList()">
                                 <option value="" disabled>Goal Relevant</option>
                                 <option value="">All</option>
                                 <option value="yes">Yes</option>
@@ -92,7 +92,7 @@
 
         <div class="row ct_mt_20">
 
-            <div class="col-xl-4 col-lg-6 mb-4" *ngFor="let phase of filteredData">
+            <!-- <div class="col-xl-4 col-lg-6 mb-4" *ngFor="let phase of filteredData">
                 
                 <div class="ct_task_design_card">
                     <div class="ct_task_design_header" style="border-color: #0066CCB2;">
@@ -158,13 +158,109 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-md-12">
+                <div class="table-responsive ">
+                    <table class="table ct_custom_table">
+                        <thead>
+                            <th>S.No</th>
+                            <th>Task Title</th>
+                            <th *ngIf="current_plan.plan_name !== 'Bronze'">Team</th>
+                            <th *ngIf="current_plan.plan_name !== 'Bronze'">Assignee</th>
+                            <th>Priority</th>
+                            <th>Phase</th>
+                            <!-- <th>Task Score</th> -->
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of filteredData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                                <td>{{(p - 1) * 10 + i + 1}}</td>
+                                <td>
+                                    <span class="ct_overlay_text d-inline-block">{{item.title}}</span>
+                                </td>
+                                <td *ngIf="current_plan.plan_name !== 'Bronze'">{{item.team.team_name}}</td>
+                                <td *ngIf="current_plan.plan_name !== 'Bronze'">{{item.assigned_by.full_name}}</td>
+                                <td>
+                                    @if(item.priority == 'P1'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #FEE2E2; color: #991B1B;">P1</span>
+                                    }
+
+                                    @if(item.priority == 'P2'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #FFEDD5; color: #9A3412;">P2</span>
+                                    }
+
+                                    @if(item.priority == 'P3'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #DCFCE7; color: #166534;">P3</span>
+                                    }
+
+                                    @if(item.priority == 'P4'){
+                                    <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
+                                        style="background-color: #2222220A; color: #222222;">P4</span>
+                                    }
+                                </td>
+                                <td>
+                                    {{item.phase.phase_name}}
+                                </td>
+                                <td>{{item.created_at | date:'dd-MMM-yyyy'}}</td>
+                                <!-- <td>82</td> -->
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <a [routerLink]="['/individual/task-details']"
+                                            [queryParams]="{ taskId: item.task_id, teamId: item.team_id, boardId: item.board_id }">
+                                            <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
+                                        </a>
+
+                                        @if(current_plan == 'null'){
+                                        @if(userId == item.user_id){
+                                        <a href="javascript:void(0)">
+                                            <img src="img/edit_green_icon.png" class="ct_icon_24" alt="">
+                                        </a>
+                                        <a href="javascript:void(0)">
+                                            <img src="img/Delete_icon.svg" class="ct_icon_24" alt="">
+                                        </a>
+                                        }
+
+                                        }@else {
+                                        @if(userId == item.user_id){
+                                        <a href="javascript:void(0)" data-bs-target="#ct_add_create_modal"
+                                            data-bs-toggle="modal" (click)="fetchPhaseDetails(item)">
+                                            <img src="img/edit_green_icon.png" class="ct_icon_24" alt="">
+                                        </a>
+                                        <a href="javascript:void(0)" data-bs-target="#ct_delete_modal"
+                                            data-bs-toggle="modal" (click)="getId(item.id)">
+                                            <img src="img/Delete_icon.svg" class="ct_icon_24" alt="">
+                                        </a>
+                                        }
+
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-md-12">
+                        <div class="ct_no_recod_found_bg" *ngIf="filteredData?.length == 0">
+                            <p class="text-center mb-0 ct_fs_20">No tasks found</p>
+                        </div>
+                    </div>
+                </div>
+                <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
+                    (pageChange)="p = $event"></pagination-controls>
+            </div>
+
+            <!-- <div class="col-md-12">
                 <div class="ct_no_recod_found_bg" *ngIf="filteredData.length == 0">
                     <p class="text-center mb-0 ct_fs_20">No task found</p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

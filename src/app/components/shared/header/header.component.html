@@ -64,12 +64,12 @@
                 <i class="fa-solid fa-angle-down ms-auto"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                @if(current_plan == 'Bronze'){
-                <li><a class="dropdown-item" routerLink="/team/edit-profile">Edit Profile</a></li>
-                <li><a class="dropdown-item" routerLink="/team/change-password">Change Password</a></li>
-                } @else {
+                @if(current_plan?.plan_name == 'Bronze'){
                 <li><a class="dropdown-item" routerLink="/individual/edit-profile">Edit Profile</a></li>
                 <li><a class="dropdown-item" routerLink="/individual/change-password">Change Password</a></li>
+                } @else {
+                <li><a class="dropdown-item" routerLink="/team/edit-profile">Edit Profile</a></li>
+                <li><a class="dropdown-item" routerLink="/team/change-password">Change Password</a></li>
                 }
 
                 <!-- @if(userType == 'individual'){

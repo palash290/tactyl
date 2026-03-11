@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonService } from '../../../services/common.service';
 import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-my-task',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DragDropModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DragDropModule, NgxPaginationModule, RouterLink],
   templateUrl: './my-task.component.html',
   styleUrl: './my-task.component.css'
 })
@@ -19,11 +20,14 @@ export class MyTaskComponent {
   minDate: any;
   phaseList: any;
   boardTasks: any;
+  taskList: any;
   taskId: any;
   userId: any;
   userType: any;
   taskVisibility: any = ' ';
   isRevelent: any = '';
+  p: any = 1;
+  current_plan: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
   constructor(private service: CommonService, private toastr: NzMessageService, private router: Router,
@@ -31,13 +35,16 @@ export class MyTaskComponent {
   ) { }
 
   ngOnInit() {
+    const storedPlan = localStorage.getItem('current_plan');
+
+    this.current_plan = storedPlan ? JSON.parse(storedPlan) : null;
     this.userType = localStorage.getItem('userType');
     this.userId = localStorage.getItem('userId');
     this.taskVisibility = this.route.snapshot.queryParamMap.get('status') || ' ';
     this.initForm();
     this.dateValidation();
     this.getPhaes();
-    this.getTasks();
+    this.getAllTasks();
   }
 
   initForm() {
@@ -73,6 +80,30 @@ export class MyTaskComponent {
     );
   }
 
+  fetchPhaseDetails(item: any) {
+    this.taskId = item.task_id;
+    this.Form.patchValue({
+      title: item.title,
+      description: item.description || '',
+      // selectedTeamId: item.team_id,
+      memberId: item.assigned_to.user_id,
+      phaseId: item.phase_id,
+      priority: item.priority,
+      startDate: this.toDateOnly(item.start_date),
+      endDate: this.toDateOnly(item.due_date),
+      isPrivate: item.is_private,
+      isGoalRevelant: item.goal_relevant,
+      estimatedMinutes: item.estimated_minutes,
+      estimatedHours: item.estimated_hours,
+      is_urgent: item.is_urgent,
+    });
+  }
+
+  private toDateOnly(value: string): string {
+    if (!value) return '';
+    return value.split('T')[0]; // YYYY-MM-DD
+  }
+
   getPriorityStyle(priority: string) {
     switch (priority) {
       case 'P1':
@@ -88,7 +119,6 @@ export class MyTaskComponent {
     }
   }
 
-
   dateRangeValidator(group: FormGroup) {
     const from = group.get('startDate')?.value;
     const to = group.get('endDate')?.value;
@@ -99,7 +129,6 @@ export class MyTaskComponent {
 
     return null;
   }
-
 
   getPhaes() {
     this.service.get(`user/phases`).subscribe({
@@ -113,14 +142,53 @@ export class MyTaskComponent {
     });
   }
 
-  getTasks() {
-    this.service.get(`user/tasks`).subscribe({
+  // getTasks() {
+  //   this.service.get(`user/tasks`).subscribe({
+  //     next: (resp: any) => {
+  //       this.boardTasks = resp.data;
+  //       this.filterList()
+  //     },
+  //     error: (error) => {
+  //       console.log(error.message);
+  //     }
+  //   });
+  // }
+
+  getAllTasks() {
+    let params = new URLSearchParams();
+
+    // if (this.selectedPriority) {
+    //   params.append('priority', this.selectedPriority);
+    // }
+
+    // if (this.selectedRecent) {
+    //   params.append('order', this.selectedRecent);
+    // }
+
+    // if (this.searchText?.trim()) {
+    //   params.append('search', this.searchText.trim());
+    // }
+
+    // if (this.selectedTeamId) {
+    //   params.append('team_id', this.selectedTeamId);
+    // }
+
+    // params.append('is_private', this.showPrivateTask ? '1' : '0');
+    // if (this.taskVisibility == 'private') {
+    //   params.append('is_private', '1');
+    // } else {
+    //   params.append('is_private', '0');
+    // }
+
+
+    this.service.get(`user/tasks?${params.toString()}`).subscribe({
       next: (resp: any) => {
-        this.boardTasks = resp.data;
-        this.filterList()
+        this.taskList = resp.data;
+        this.filterList();
       },
       error: (error) => {
         console.log(error.message);
+        this.taskList = [];
       }
     });
   }
@@ -130,52 +198,46 @@ export class MyTaskComponent {
   selectedPriority = '';
   sortOrder = 'desc';
 
-  filterList() {
-    this.filteredData = this.boardTasks.map((phase: any) => {
-      let tasks = [...this.boardTasks];
+filterList() {
 
-      // 🔍 Search filter
-      if (this.searchText.trim()) {
-        const keyword = this.searchText.toLowerCase();
-        tasks = tasks.filter(task =>
-          task.title?.toLowerCase().includes(keyword) ||
-          task.description?.toLowerCase().includes(keyword)
-        );
-      }
+  let tasks = [...this.taskList];
 
-      // 🎯 Priority filter
-      if (this.selectedPriority) {
-        tasks = tasks.filter(
-          task => task.priority === this.selectedPriority
-        );
-      }
+  // 🔍 Search filter
+  if (this.searchText.trim()) {
+    const keyword = this.searchText.toLowerCase();
 
-      // ✅ Completed / Incompleted filter
-      if (this.taskVisibility === 'show') {
-        // Show only completed
-        tasks = tasks.filter(task => task.status === 'Completed');
-      }
-      else if (this.taskVisibility === 'hide') {
-        // Show only pending
-        tasks = tasks.filter(task => task.status === 'Pending');
-      }
-
-      if (this.isRevelent == 'yes') {
-        tasks = tasks.filter(task => task.goal_relevant == 1);
-      } else if (this.isRevelent == 'no') {
-        tasks = tasks.filter(task => task.goal_relevant == 0);
-      } else {
-
-      }
-
-      return {
-        ...phase,
-        taskList: tasks,
-        taskCount: tasks.length,
-        isTaskExists: tasks.length > 0
-      };
-    });
+    tasks = tasks.filter(task =>
+      task.title?.toLowerCase().includes(keyword) ||
+      task.description?.toLowerCase().includes(keyword)
+    );
   }
+
+  // 🎯 Priority filter
+  if (this.selectedPriority) {
+    tasks = tasks.filter(task =>
+      task.priority === this.selectedPriority
+    );
+  }
+
+  // ✅ Completed / Pending filter
+  if (this.taskVisibility === 'show') {
+    tasks = tasks.filter(task => task.status === 'Completed');
+  }
+  else if (this.taskVisibility === 'hide') {
+    tasks = tasks.filter(task => task.status === 'Pending');
+  }
+
+  // ⭐ Relevant filter
+  if (this.isRevelent === 'yes') {
+    tasks = tasks.filter(task => task.goal_relevant == 1);
+  }
+  else if (this.isRevelent === 'no') {
+    tasks = tasks.filter(task => task.goal_relevant == 0);
+  }
+
+  this.filteredData = tasks;
+
+}
 
 
   dateValidation() {
@@ -219,13 +281,13 @@ export class MyTaskComponent {
             this.toastr.success(resp.message);
             this.loading = false;
             this.closeModalAdd.nativeElement.click();
-            this.getTasks();
+            this.getAllTasks();
             this.taskId = null;
             this.reset();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;
-            this.getTasks();
+            this.getAllTasks();
           }
         },
         error: (error) => {
@@ -257,88 +319,94 @@ export class MyTaskComponent {
     });
   }
 
+  id: any;
+
+  getId(id: any) {
+    this.id = id;
+  }
+
   get connectedDropLists(): string[] {
     return this.boardTasks.map((p: any) => `phase-${p.id}`);
   }
 
-  drop(event: CdkDragDrop<any[]>, targetPhase: any) {
+  // drop(event: CdkDragDrop<any[]>, targetPhase: any) {
 
-    // 1️⃣ Reorder inside same phase
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      return;
-    }
+  //   // 1️⃣ Reorder inside same phase
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     );
+  //     return;
+  //   }
 
-    const previousList = event.previousContainer.data;
-    const currentList = event.container.data;
+  //   const previousList = event.previousContainer.data;
+  //   const currentList = event.container.data;
 
-    const movedTask = previousList[event.previousIndex];
+  //   const movedTask = previousList[event.previousIndex];
 
-    transferArrayItem(
-      previousList,
-      currentList,
-      event.previousIndex,
-      event.currentIndex
-    );
+  //   transferArrayItem(
+  //     previousList,
+  //     currentList,
+  //     event.previousIndex,
+  //     event.currentIndex
+  //   );
 
-    movedTask.phase_id = targetPhase.id;
+  //   movedTask.phase_id = targetPhase.id;
 
-    this.updateTaskPhase(
-      movedTask.id,
-      targetPhase.id,
-      previousList,
-      currentList,
-      event
-    );
-  }
+  //   this.updateTaskPhase(
+  //     movedTask.id,
+  //     targetPhase.id,
+  //     previousList,
+  //     currentList,
+  //     event
+  //   );
+  // }
 
-  updateTaskPhase(
-    taskId: number,
-    phaseId: number,
-    previousList: any[],
-    currentList: any[],
-    event: CdkDragDrop<any[]>
-  ) {
-    const formURlData = new URLSearchParams();
-    formURlData.append('task_id', String(taskId));
-    formURlData.append('phase_id', String(phaseId));
+  // updateTaskPhase(
+  //   taskId: number,
+  //   phaseId: number,
+  //   previousList: any[],
+  //   currentList: any[],
+  //   event: CdkDragDrop<any[]>
+  // ) {
+  //   const formURlData = new URLSearchParams();
+  //   formURlData.append('task_id', String(taskId));
+  //   formURlData.append('phase_id', String(phaseId));
 
-    this.service.post('user/changePhasesTaskByDragAndDrop', formURlData.toString())
-      .subscribe({
-        next: (resp: any) => {
-          if (!resp.success) {
-            this.rollback(event, previousList, currentList);
-            this.toastr.warning(resp.message);
+  //   this.service.post('user/changePhasesTaskByDragAndDrop', formURlData.toString())
+  //     .subscribe({
+  //       next: (resp: any) => {
+  //         if (!resp.success) {
+  //           this.rollback(event, previousList, currentList);
+  //           this.toastr.warning(resp.message);
 
-          } else {
-            //this.toastr.success(resp.message);
-            this.getTasks();
-          }
-        },
-        error: () => {
-          this.rollback(event, previousList, currentList);
-          this.toastr.error('Something went wrong');
-        }
-      });
-  }
+  //         } else {
+  //           //this.toastr.success(resp.message);
+  //           this.getTasks();
+  //         }
+  //       },
+  //       error: () => {
+  //         this.rollback(event, previousList, currentList);
+  //         this.toastr.error('Something went wrong');
+  //       }
+  //     });
+  // }
 
-  rollback(
-    event: CdkDragDrop<any[]>,
-    previousList: any[],
-    currentList: any[]
-  ) {
-    transferArrayItem(
-      currentList,
-      previousList,
-      event.currentIndex,
-      event.previousIndex
-    );
-    //this.updateTaskCounts();
-  }
+  // rollback(
+  //   event: CdkDragDrop<any[]>,
+  //   previousList: any[],
+  //   currentList: any[]
+  // ) {
+  //   transferArrayItem(
+  //     currentList,
+  //     previousList,
+  //     event.currentIndex,
+  //     event.previousIndex
+  //   );
+  //   //this.updateTaskCounts();
+  // }
 
 
   openTask(task: any) {

@@ -7,7 +7,7 @@
     </div>
 
     <div class="d-flex align-items-center gap-3">
-        @if(taskDetails?.status){
+        @if(taskDetails?.status == 'Completed'){
         <div>
             <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Completed</span>
         </div>
@@ -21,7 +21,7 @@
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
-        @if(taskDetails?.status){
+        @if(taskDetails?.status == 'Completed'){
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
@@ -82,7 +82,7 @@
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Phase</p>
                                     <span class="ct_custom_badge ct_white_nowrap px-3 ct_ff_Matter_SemiBold"
-                                        style="background-color: #EFF6FF; color: #1D4ED8;">{{taskDetails?.phase_name}}</span>
+                                        style="background-color: #EFF6FF; color: #1D4ED8;">{{taskDetails?.phase?.phase_name}}</span>
                                 </div>
 
                                 <div>
@@ -97,7 +97,7 @@
                                                 stroke-linecap="round" />
                                         </svg>
 
-                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date}}</p>
+                                        <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.due_date | date:'dd-MMM-yyyy'}}</p>
                                     </div>
                                 </div>
 
@@ -112,7 +112,7 @@
                                     }
                                 </div>
 
-                                <div>
+                                <!-- <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assigned By</p>
                                     <div class="ct_d_align_center gap-2">
                                         <svg width="14" height="24" viewBox="0 0 14 24" fill="none"
@@ -131,9 +131,9 @@
                                         </svg>
                                         <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.AssignedBy.name}}</p>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                @if(taskDetails?.status){
+                                @if(taskDetails?.status == 'Completed'){
                                 <div>
                                     <p class="ct_fs_18 ct_ff_Matter_Medium mb-2">Actual Time</p>
                                     <div class="ct_d_align_center gap-2">
@@ -218,7 +218,7 @@
                                 </div>
                                 <div>
                                     <a [routerLink]="['/individual/view-notes']"
-                                        [queryParams]="{ noteId: item.id, taskId: taskId }"
+                                        [queryParams]="{ noteId: item.note_id, taskId: taskId }"
                                         class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>
                                 </div>
@@ -352,7 +352,7 @@
                             <div class="form-group ct_mb_22">
                                 <select class="form-control ct_input" formControlName="phaseId">
                                     <option value="" disabled>Select Phase</option>
-                                    <option *ngFor="let member of phaseList" [value]="member.id">
+                                    <option *ngFor="let member of phaseList" [value]="member.phase_id">
                                         {{ member.phase_name }}
                                     </option>
                                 </select>
