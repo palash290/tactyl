@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ModalService } from '../../../../../../services/modal.service';
 import { SubscriptionModalComponent } from '../../../../../shared/subscription-modal/subscription-modal.component';
+import { PlanService } from '../../../../../../services/plan.service';
 
 @Component({
   selector: 'app-phases',
@@ -30,16 +31,20 @@ export class PhasesComponent {
   phaseId: any;
   //userType: any;
   is_admin: any;
-  current_plan: any;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private modalService: ModalService, private toastr: NzMessageService, private route: ActivatedRoute) { }
+  constructor(
+    private service: CommonService,
+    private modalService: ModalService,
+    private toastr: NzMessageService,
+    private route: ActivatedRoute,
+    public planService: PlanService
+  ) { }
 
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
-    this.current_plan = localStorage.getItem('current_plan');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     //this.userType = localStorage.getItem('userType');

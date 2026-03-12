@@ -12,7 +12,7 @@
         </div> -->
     </div>
 
-    @if(current_plan == 'null'){
+    @if(planService.needsGoldUpgrade()){
     @if(is_admin == '1'){
     <div class="ct_w_100_767">
         <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="openSubs()">
@@ -91,7 +91,7 @@
                             <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
                         </a>
 
-                        @if(current_plan == 'null'){
+                        @if(planService.needsGoldUpgrade()){
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
                         </a>

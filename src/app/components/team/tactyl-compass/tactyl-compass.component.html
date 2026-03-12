@@ -181,7 +181,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(current_plan == null){
+                                    @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -323,7 +323,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(current_plan == null){
+                                    @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -464,7 +464,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(current_plan == 'null'){
+                                    @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -605,7 +605,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(current_plan == null){
+                                    @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"

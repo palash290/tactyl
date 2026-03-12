@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalService } from '../../../../../../services/modal.service';
 import { SubscriptionModalComponent } from '../../../../../shared/subscription-modal/subscription-modal.component';
+import { PlanService } from '../../../../../../services/plan.service';
 
 @Component({
   selector: 'app-members',
@@ -32,17 +33,21 @@ export class MembersComponent {
   is_admin: any;
   userId: any;
   p: any = 1;
-  current_plan: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalInv') closeModalInv!: ElementRef;
 
-  constructor(private service: CommonService, private modalService: ModalService, private toastr: NzMessageService, private route: ActivatedRoute) { }
+  constructor(
+    private service: CommonService,
+    private modalService: ModalService,
+    private toastr: NzMessageService,
+    private route: ActivatedRoute,
+    public planService: PlanService
+  ) { }
 
 
   ngOnInit() {
-    this.current_plan = localStorage.getItem('current_plan');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     // this.userType = localStorage.getItem('userType');

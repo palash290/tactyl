@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
 import { ModalService } from '../../../services/modal.service';
+import { PlanService } from '../../../services/plan.service';
 declare var bootstrap: any;
 
 @Component({
@@ -30,19 +31,22 @@ export class TeamsManagementComponent {
   filteredTeamData: any[] = [];
   p: any = 1;
   userEmail: any;
-  current_plan: any;
   //userType: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
 
 
-  constructor(private service: CommonService, private modalService: ModalService, private fb: FormBuilder, private toastr: NzMessageService) { }
+  constructor(
+    private service: CommonService,
+    private modalService: ModalService,
+    private fb: FormBuilder,
+    private toastr: NzMessageService,
+    public planService: PlanService
+  ) { }
 
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('teamEmail');
-
-    this.current_plan = localStorage.getItem('current_plan');
     //this.userType = localStorage.getItem('userType');
     this.getUsers();
     this.getAllTeams();

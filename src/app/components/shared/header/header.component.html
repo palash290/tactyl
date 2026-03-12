@@ -59,12 +59,41 @@
                         <!-- <p class="mb-0 ct_fw_500">Alice Johnson</p> -->
                         <small class="ct_text_2c2c2d ct_fs_18 ct_ff_Matter_Medium">Welcome,
                             {{userData?.full_name}}</small>
+                        @if(isBronze){
+                        <div class="d-flex align-items-center gap-2">
+                            <small class="ct_text_787885 ct_fs_12">
+                                Bronze Plan
+                                @if(trialDaysRemaining !== null){
+                                • {{trialDaysRemaining}} days left
+                                }
+                            </small>
+                            <a class="ct_text_purple ct_fs_12 ct_ff_Matter_Medium"
+                                routerLink="/pricing-plan">Upgrade</a>
+                        </div>
+                        } @else if (isTrial){
+                        <div class="d-flex align-items-center gap-2">
+                            <small class="ct_text_787885 ct_fs_12">
+                                Trial: {{trialDaysRemaining ?? 0}} days left
+                            </small>
+                            <a class="ct_text_purple ct_fs_12 ct_ff_Matter_Medium" routerLink="/pricing-plan">Purchase
+                                plan</a>
+                        </div>
+                        } @else if (isGold){
+                        <div class="d-flex align-items-center gap-2">
+                            <small class="ct_text_787885 ct_fs_12">
+                                Gold Plan
+                                @if(trialDaysRemaining !== null){
+                                • {{trialDaysRemaining}} days left
+                                }
+                            </small>
+                        </div>
+                        }
                     </div>
                 </div>
                 <i class="fa-solid fa-angle-down ms-auto"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                @if(current_plan?.plan_name == 'Bronze'){
+                @if(planService.isBronze()){
                 <li><a class="dropdown-item" routerLink="/individual/edit-profile">Edit Profile</a></li>
                 <li><a class="dropdown-item" routerLink="/individual/change-password">Change Password</a></li>
                 } @else {

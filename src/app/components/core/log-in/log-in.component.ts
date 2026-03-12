@@ -7,6 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { QuillModule } from 'ngx-quill';
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { CommonService } from '../../../services/common.service';
+import { PlanService } from '../../../services/plan.service';
 @Component({
   selector: 'app-log-in',
   imports: [ReactiveFormsModule, CommonModule, FormsModule, RouterLink],
@@ -19,7 +20,15 @@ export class LogInComponent {
   loading: boolean = false;
   isPasswordVisible: boolean = false;
 
-  constructor(private service: CommonService, private router: Router, private fb: FormBuilder, public validationErrorService: ValidationErrorService, private toastr: NzMessageService, private route: ActivatedRoute) {
+  constructor(
+    private service: CommonService,
+    private router: Router,
+    private fb: FormBuilder,
+    public validationErrorService: ValidationErrorService,
+    private toastr: NzMessageService,
+    private route: ActivatedRoute,
+    private planService: PlanService
+  ) {
     this.Form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -62,8 +71,9 @@ export class LogInComponent {
         const plan = user?.current_plan?.plan_name;
 
         this.service.setToken(resp.data.token);
-        localStorage.setItem('free_trial', user?.free_trial || '');
         localStorage.setItem('user_id', user?.user_id);
+        this.planService.setFreeTrialStatus(user?.free_trial || null);
+        this.planService.setCurrentPlan(user?.current_plan || null);
 
         // 🔹 Free trial inactive
         if (user?.free_trial === 'Inactivated') {

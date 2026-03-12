@@ -7,6 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
 import { ModalService } from '../../../services/modal.service';
+import { PlanService } from '../../../services/plan.service';
 
 @Component({
   selector: 'app-tasks-management',
@@ -31,20 +32,20 @@ export class TasksManagementComponent {
   selectedTeamId: string = '';
   searchText: string = '';
   taskVisibility: 'all' | 'private' = 'all';
-  current_plan: any;
   user_id: any;
   //userType: any;
   //showPrivateTask: boolean = false;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService, private modalService: ModalService) { }
+  constructor(
+    private service: CommonService,
+    private toastr: NzMessageService,
+    private modalService: ModalService,
+    public planService: PlanService
+  ) { }
 
   ngOnInit() {
-    // this.current_plan = localStorage.getItem('current_plan');
-    const storedPlan = localStorage.getItem('current_plan');
-
-    this.current_plan = storedPlan ? JSON.parse(storedPlan) : null;
     this.user_id = localStorage.getItem('userId');
     //this.userType = localStorage.getItem('userType');
     this.initForm();

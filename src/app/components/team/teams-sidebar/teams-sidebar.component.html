@@ -17,7 +17,7 @@
             </a>
         </li>
 
-        @if(current_plan?.plan_name !== 'Bronze'){
+        @if(planService.hasTeamAccess()){
         <li>
             <a routerLink="/team/teams" [ngClass]="{ 'active': isActive('/team/teams')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

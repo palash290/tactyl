@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        @if(current_plan == 'null'){
+        @if(planService.needsGoldUpgrade()){
         @if(is_admin == '1'){
         <div class="text-end">
             <button class="ct_purple_btn  ct_w_100_767 ms-auto" (click)="openSubs()">
@@ -69,7 +69,7 @@
                             </span>
                         </td>
                         <td *ngIf="is_admin == '1'">
-                            @if(current_plan == 'null'){
+                            @if(planService.needsGoldUpgrade()){
                             <div class="d-flex align-items-center gap-3">
                                 <a href="javascript:void(0)" (click)="openSubs()">
                                     <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" />

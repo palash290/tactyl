@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { CommonModule } from '@angular/common';
+import { PlanService } from '../../../services/plan.service';
 
 @Component({
   selector: 'app-header',
@@ -14,21 +15,40 @@ export class HeaderComponent {
   userData: any;
   notifications: any;
   unread_count: any;
-  current_plan: any;
-
-  constructor(private router: Router, private apiService: CommonService) { }
+  constructor(
+    private router: Router,
+    private apiService: CommonService,
+    public planService: PlanService
+  ) { }
 
   @ViewChild('closeModal') closeModal!: ElementRef;
 
   userType: any;
 
   ngOnInit() {
-    this.current_plan = localStorage.getItem('current_plan');
     this.apiService.refreshSidebar$.subscribe(() => {
       this.getProfile();
     });
     this.userType = localStorage.getItem('userType');
     this.getNotifications();
+  }
+
+  get isBronze(): boolean {
+    return this.planService.isBronze();
+  }
+
+  get isTrial(): boolean {
+    return this.planService.isTrial();
+  }
+
+  get isGold(): boolean {
+    return this.planService.isGold();
+  }
+
+  get trialDaysRemaining(): number | null {
+    const plan = this.planService.currentPlan;
+    if (plan?.number_of_days === undefined || plan?.number_of_days === null) return null;
+    return Number(plan.number_of_days);
   }
 
   logout() {
@@ -43,7 +63,10 @@ export class HeaderComponent {
         this.userData = resp.data;
         localStorage.setItem('teamEmail', resp.data.email);
         localStorage.setItem('userId', resp.data.user_id);
-        localStorage.setItem('current_plan', JSON.stringify(resp.data.current_plan));
+        this.planService.setCurrentPlan(resp.data.current_plan || null);
+        if (resp.data?.free_trial) {
+          this.planService.setFreeTrialStatus(resp.data.free_trial);
+        }
       },
       error: (error) => {
         console.log(error.message);

@@ -10,7 +10,7 @@
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button> -->
     <!-- } -->
-    @if(current_plan == 'null'){
+    @if(planService.needsGoldUpgrade()){
     <button class="ct_purple_btn ct_w_100_575" (click)="openSubs()">
         <img src="/img/plus-circle.svg" alt="" class="me-2" />Create Team
     </button>
@@ -103,7 +103,7 @@
                                                 </h5>
                                                 <p class="ct_fs_12 ct_text_787885 mb-0 ct_overlay_text"
                                                     style="width: 140px;">
-                                                    {{member?.Designation}}</p>
+                                                    {{member?.designation}}</p>
                                             </div>
                                         </div>
                                     </li>
@@ -115,6 +115,7 @@
                         </div>
                     </div>
                     <div class=" text-center mt-auto">
+                        
                         <!-- @if(userType == 'team'){
                         <a [routerLink]="['/team/team-overview']"
                             [queryParams]="{ teamId: item.id, teamName: item.team_name }"

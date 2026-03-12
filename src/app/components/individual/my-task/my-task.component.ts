@@ -6,10 +6,13 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonService } from '../../../services/common.service';
 import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PlanService } from '../../../services/plan.service';
+import { ModalService } from '../../../services/modal.service';
+import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
 
 @Component({
   selector: 'app-my-task',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DragDropModule, NgxPaginationModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DragDropModule, NgxPaginationModule, RouterLink, SubscriptionModalComponent],
   templateUrl: './my-task.component.html',
   styleUrl: './my-task.component.css'
 })
@@ -27,17 +30,18 @@ export class MyTaskComponent {
   taskVisibility: any = ' ';
   isRevelent: any = '';
   p: any = 1;
-  current_plan: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService, private router: Router,
-    private route: ActivatedRoute
+  constructor(
+    private service: CommonService,
+    private toastr: NzMessageService,
+    private router: Router,
+    private route: ActivatedRoute,
+    public planService: PlanService,
+    private modalService: ModalService
   ) { }
 
   ngOnInit() {
-    const storedPlan = localStorage.getItem('current_plan');
-
-    this.current_plan = storedPlan ? JSON.parse(storedPlan) : null;
     this.userType = localStorage.getItem('userType');
     this.userId = localStorage.getItem('userId');
     this.taskVisibility = this.route.snapshot.queryParamMap.get('status') || ' ';
@@ -45,6 +49,10 @@ export class MyTaskComponent {
     this.dateValidation();
     this.getPhaes();
     this.getAllTasks();
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   initForm() {

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PlanService } from '../../../services/plan.service';
 
 @Component({
   selector: 'app-pricing-plan',
@@ -15,7 +16,12 @@ export class PricingPlanComponent {
   user_id: any;
   loading: boolean = false;
 
-  constructor(private service: CommonService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private service: CommonService,
+    private router: Router,
+    private route: ActivatedRoute,
+    public planService: PlanService
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

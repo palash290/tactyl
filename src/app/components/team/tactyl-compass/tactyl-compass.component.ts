@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { RouterLink } from '@angular/router';
 import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
 import { ModalService } from '../../../services/modal.service';
+import { PlanService } from '../../../services/plan.service';
 
 @Component({
   selector: 'app-tactyl-compass',
@@ -36,13 +37,16 @@ export class TactylCompassComponent {
   phases: any[] = [];
   completeForm!: FormGroup;
   userType: any;
-  current_plan: any;
   @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService, private modalService: ModalService) { }
+  constructor(
+    private service: CommonService,
+    private toastr: NzMessageService,
+    private modalService: ModalService,
+    public planService: PlanService
+  ) { }
 
   ngOnInit() {
-    this.current_plan = localStorage.getItem('current_plan');
     this.userType = localStorage.getItem('userType');
     const numberOnlyValidator = [
       Validators.required,

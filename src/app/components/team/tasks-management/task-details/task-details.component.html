@@ -6,7 +6,7 @@
     </div>
 
     <div class="d-flex align-items-center gap-3">
-        @if(current_plan == 'null'){
+        @if(planService.needsGoldUpgrade()){
         @if(taskDetails?.status == 'Completed'){
         <div>
             <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Completed</span>
@@ -32,7 +32,7 @@
         }
         }
 
-        @if(current_plan !== 'null' && taskDetails?.user_id == user_id){
+        @if(!planService.needsGoldUpgrade() && taskDetails?.user_id == user_id){
         <!-- @if(userType == 'team'){ -->
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
@@ -210,7 +210,7 @@
                 <div class="ct_white_bg_2 mt-5">
                     <div class="ct_d_align_center justify-content-between gap-3 ct_mb_30">
                         <h4 class="mb-0 ct_fs_26 ct_ff_Matter_SemiBold">Notes</h4>
-                        @if(current_plan == 'null'){
+                        @if(planService.needsGoldUpgrade()){
                         <button class="ct_purple_btn ct_w_100_575" (click)="openSubs()">
                             <img src="/img/plus-circle.svg" alt="" class="me-2">Add Note
                         </button>
@@ -233,7 +233,7 @@
                                 </div>
                                 <div>
                                     <!-- @if (userType == 'team') { -->
-                                    @if(current_plan == 'null'){
+                                    @if(planService.needsGoldUpgrade()){
                                     <a (click)="openSubs()"
                                         class="ct_outline_btn ct_outline_btn_purple ct_h_35 px-3">View
                                         Details</a>

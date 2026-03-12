@@ -81,10 +81,16 @@
                         </div>
                     </div>
 
+                    @if(!planService.hasIndividualAccess()){
+                    <button class="ct_purple_btn ct_w_100_1199 ct_h_60" (click)="openSubs()">
+                        <img src="/img/plus-circle.svg" alt="" class="me-2">Create Task
+                    </button>
+                    } @else {
                     <button class="ct_purple_btn ct_w_100_1199 ct_h_60" data-bs-target="#ct_add_create_modal"
                         data-bs-toggle="modal">
                         <img src="/img/plus-circle.svg" alt="" class="me-2">Create Task
                     </button>
+                    }
 
                 </div>
             </div>
@@ -166,8 +172,8 @@
                         <thead>
                             <th>S.No</th>
                             <th>Task Title</th>
-                            <th *ngIf="current_plan.plan_name !== 'Bronze'">Team</th>
-                            <th *ngIf="current_plan.plan_name !== 'Bronze'">Assignee</th>
+                            <th *ngIf="planService.hasTeamAccess()">Team</th>
+                            <th *ngIf="planService.hasTeamAccess()">Assignee</th>
                             <th>Priority</th>
                             <th>Phase</th>
                             <!-- <th>Task Score</th> -->
@@ -181,8 +187,8 @@
                                 <td>
                                     <span class="ct_overlay_text d-inline-block">{{item.title}}</span>
                                 </td>
-                                <td *ngIf="current_plan.plan_name !== 'Bronze'">{{item.team.team_name}}</td>
-                                <td *ngIf="current_plan.plan_name !== 'Bronze'">{{item.assigned_by.full_name}}</td>
+                                <td *ngIf="planService.hasTeamAccess()">{{item.team.team_name}}</td>
+                                <td *ngIf="planService.hasTeamAccess()">{{item.assigned_by.full_name}}</td>
                                 <td>
                                     @if(item.priority == 'P1'){
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"
@@ -217,7 +223,7 @@
                                             <img src="img/eye_purple_icon.png" class="ct_icon_24" alt="">
                                         </a>
 
-                                        @if(current_plan == 'null'){
+                                        @if(!planService.hasIndividualAccess()){
                                         @if(userId == item.user_id){
                                         <a href="javascript:void(0)">
                                             <img src="img/edit_green_icon.png" class="ct_icon_24" alt="">
@@ -562,3 +568,5 @@
         <div class="pfile" style="--i: 5;"></div>
     </div>
 </div>
+
+<app-subscription-modal></app-subscription-modal>

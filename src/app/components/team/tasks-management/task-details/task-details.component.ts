@@ -7,6 +7,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalService } from '../../../../services/modal.service';
 import { SubscriptionModalComponent } from '../../../shared/subscription-modal/subscription-modal.component';
+import { PlanService } from '../../../../services/plan.service';
 
 @Component({
   selector: 'app-task-details',
@@ -32,16 +33,21 @@ export class TaskDetailsComponent {
   taskName: any;
   actualTime: any;
   user_id: any;
-  current_plan: any;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
   @ViewChild('closeModalAddNotes') closeModalAddNotes!: ElementRef;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalComplete') closeModalComplete!: ElementRef;
 
-  constructor(private location: Location, private modalService: ModalService, private service: CommonService, private route: ActivatedRoute, private toastr: NzMessageService) { }
+  constructor(
+    private location: Location,
+    private modalService: ModalService,
+    private service: CommonService,
+    private route: ActivatedRoute,
+    private toastr: NzMessageService,
+    public planService: PlanService
+  ) { }
 
   ngOnInit() {
-    this.current_plan = localStorage.getItem('current_plan');
     this.user_id = localStorage.getItem('userId');
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');

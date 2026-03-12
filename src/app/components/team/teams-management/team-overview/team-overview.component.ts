@@ -8,6 +8,7 @@ import { MembersComponent } from './settings/members/members.component';
 import { PhasesComponent } from './settings/phases/phases.component';
 import { CommonService } from '../../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { PlanService } from '../../../../services/plan.service';
 @Component({
   selector: 'app-team-overview',
   imports: [CommonModule, FormsModule, OverviewComponent, BoardComponent, MembersComponent,
@@ -23,7 +24,6 @@ export class TeamOverviewComponent {
   loading: boolean = false;
   userEmail: any;
   //userType: any;
-  current_plan: any;
   is_admin: any;
   dashboardData: any;
   activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
@@ -32,11 +32,17 @@ export class TeamOverviewComponent {
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private location: Location, private service: CommonService, private route: ActivatedRoute, private router: Router, private toastr: NzMessageService) { }
+  constructor(
+    private location: Location,
+    private service: CommonService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastr: NzMessageService,
+    public planService: PlanService
+  ) { }
 
   ngOnInit() {
     //this.userType = localStorage.getItem('userType');
-    this.current_plan = localStorage.getItem('current_plan');
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.route.queryParams.subscribe(params => {

@@ -63,6 +63,14 @@ export const routes: Routes = [
             loadComponent: () => import('./components/shared/pricing-plan/pricing-plan.component').then(m => m.PricingPlanComponent)
       },
       {
+            path: 'payment-success',
+            loadComponent: () => import('./components/shared/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
+      },
+      {
+            path: 'payment-cancel',
+            loadComponent: () => import('./components/shared/payment-cancel/payment-cancel.component').then(m => m.PaymentCancelComponent)
+      },
+      {
             path: 'free-trial',
             loadComponent: () => import('./components/shared/trial-page/trial-page.component').then(m => m.TrialPageComponent)
       },
