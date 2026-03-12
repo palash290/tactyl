@@ -22,11 +22,18 @@ export class PlanService {
   private planSubject = new BehaviorSubject<CurrentPlan | null>(this.readPlan());
   plan$ = this.planSubject.asObservable();
 
+  private lastPlanSubject = new BehaviorSubject<CurrentPlan | null>(this.readLastPlan());
+  lastPlan$ = this.lastPlanSubject.asObservable();
+
   private freeTrialSubject = new BehaviorSubject<string | null>(this.readFreeTrial());
   freeTrial$ = this.freeTrialSubject.asObservable();
 
   get currentPlan(): CurrentPlan | null {
     return this.planSubject.value;
+  }
+
+  get lastPlan(): CurrentPlan | null {
+    return this.lastPlanSubject.value;
   }
 
   get freeTrialStatus(): string | null {
@@ -42,6 +49,15 @@ export class PlanService {
     this.planSubject.next(plan);
   }
 
+  setLastPlan(plan: CurrentPlan | null): void {
+    if (plan) {
+      localStorage.setItem('last_plan', JSON.stringify(plan));
+    } else {
+      localStorage.setItem('last_plan', 'null');
+    }
+    this.lastPlanSubject.next(plan);
+  }
+
   setFreeTrialStatus(status: string | null): void {
     if (status === null || status === undefined || status === '') {
       localStorage.removeItem('free_trial');
@@ -54,6 +70,7 @@ export class PlanService {
 
   refreshFromStorage(): void {
     this.planSubject.next(this.readPlan());
+    this.lastPlanSubject.next(this.readLastPlan());
     this.freeTrialSubject.next(this.readFreeTrial());
   }
 
@@ -102,7 +119,17 @@ export class PlanService {
   }
 
   hasGoldAccess(): boolean {
-    return this.isGold() || this.isTrialActive();
+    if (this.currentPlan) {
+      return this.isGold() || this.isTrialActive();
+    }
+    const lastPlan = this.lastPlan?.plan_name;
+    return lastPlan === 'Gold' || lastPlan === 'Free Trial';
+  }
+
+  hasActiveGoldAccess(): boolean {
+    if (!this.currentPlan) return false;
+    if (this.isTrialActive()) return true;
+    return this.isGold() && this.isPlanActive();
   }
 
   hasTeamAccess(): boolean {
@@ -110,15 +137,29 @@ export class PlanService {
   }
 
   hasIndividualAccess(): boolean {
-    return this.hasGoldAccess() || this.isBronze();
+    if (this.currentPlan) {
+      return this.hasGoldAccess() || this.isBronze();
+    }
+    const lastPlan = this.lastPlan?.plan_name;
+    return lastPlan === 'Bronze' || lastPlan === 'Gold' || lastPlan === 'Free Trial';
   }
 
   needsGoldUpgrade(): boolean {
-    return !this.hasGoldAccess();
+    return !this.hasActiveGoldAccess();
   }
 
   private readPlan(): CurrentPlan | null {
     const raw = localStorage.getItem('current_plan');
+    if (!raw || raw === 'null' || raw === 'undefined') return null;
+    try {
+      return JSON.parse(raw) as CurrentPlan;
+    } catch {
+      return null;
+    }
+  }
+
+  private readLastPlan(): CurrentPlan | null {
+    const raw = localStorage.getItem('last_plan');
     if (!raw || raw === 'null' || raw === 'undefined') return null;
     try {
       return JSON.parse(raw) as CurrentPlan;

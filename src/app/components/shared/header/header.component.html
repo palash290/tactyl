@@ -2,6 +2,15 @@
     <div class="d-flex align-items-center gap-2">
         <i class="fa-solid fa-bars me-3 ct_fs_18 ct_menu_bar"></i>
     </div>
+    @if(needsPlanPurchase){
+    <div class="ct_header_cta">
+        <a class="ct_header_cta_btn" routerLink="/pricing-plan">
+            <span class="ct_header_cta_badge">Upgrade</span>
+            <span class="ct_header_cta_text">Purchase Plan</span>
+            <!-- <i class="fa-solid fa-arrow-right"></i> -->
+        </a>
+    </div>
+    }
     <div class="d-flex align-items-center gap-3">
         <div class="ct_border_right_1 dropdown">
             <a href="javascript:void(0)" class="ct_notification_icon" id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -44,7 +53,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="ct_no_recod_found_bg" *ngIf="notifications?.length == 0">
-                            <p class="text-center mb-0 ct_fs_20">Notifications Not Found</p>
+                            <p class="text-center mb-0 ct_fs_20">No notifications found</p>
                         </div>
                     </div>
                 </div>
@@ -71,10 +80,11 @@
                                 routerLink="/pricing-plan">Upgrade</a>
                         </div>
                         } @else if (isTrial){
-                        <div class="d-flex align-items-center gap-2">
-                            <small class="ct_text_787885 ct_fs_12">
-                                Trial: {{trialDaysRemaining ?? 0}} days left
-                            </small>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <div class="">
+                                <span class=""></span>
+                                <span>{{trialDaysRemaining ?? 0}}-Day Free Trial</span>
+                            </div>
                             <a class="ct_text_purple ct_fs_12 ct_ff_Matter_Medium" routerLink="/pricing-plan">Purchase
                                 plan</a>
                         </div>
@@ -115,7 +125,7 @@
                 } -->
 
                 <li><a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
-                        data-bs-target="#ct_logout_modal_post">Log Out</a></li>
+                        data-bs-target="#ct_logout_modal_post">Log out</a></li>
             </ul>
         </div>
     </div>
@@ -136,10 +146,10 @@
                     <figure>
                         <figcaption>
                             <h4 class="ct_fs_28 ct_ff_Matter_Medium">
-                                You are about to LogOut
+                                You are about to log out
                             </h4>
                             <p class="mb-0 ct_fs_18 ct_text_929292">
-                                Are you sure you want to logout ?
+                                Are you sure you want to log out?
                             </p>
                         </figcaption>
                     </figure>
@@ -150,7 +160,7 @@
                         </button>
                         <a (click)="logout()"
                             class="ct_border_radius_10 ct_h_40 ct_black_btn ct_light_red_btn w-100 ct_ff_Matter_Medium text-center">Yes,
-                            Log Out</a>
+                            Log out</a>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 <div class="ct_inner_header_bg ct_mt_30 ct_px_30 ct_d_align_center justify-content-between gap-3 ct_flex_col_575">
     <div>
-        <h4 class="ct_fs_35 mb-0 ct_ff_Matter_Medium">Team Request</h4>
+        <h4 class="ct_fs_35 mb-0 ct_ff_Matter_Medium">Team Requests</h4>
     </div>
 </div>
 <div class="ct_px_30 ct_mt_30 pb-4">
@@ -13,6 +13,9 @@
                         class="ct_Members_info_sort ct_light_blue_bg ct_py_26_px_38 gap-3 ct_d_align_center ct_mb_18 ct_light_grey_bg">
                         <div>
                             <h5 class="ct_fs_18 mb-1 ct_ff_Matter_Medium ">{{item.team_name}}</h5>
+                            @if(item.team_owner_name){
+                            <p class="mb-0 ct_fs_14 ct_text_787885">Team Admin: {{item.team_owner_name}}</p>
+                            }
                             <!-- <p class="ct_fs_12 ct_text_787885 mb-0 ">testgmail.com</p> -->
                             <div class="ct_d_align_center gap-2 ct_mt_15 ">
                                 <img src="/img/calander_icon.svg">
@@ -45,7 +48,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="ct_no_recod_found_bg" *ngIf="allRequests?.length == 0 || erroeMsg">
-                        <p class="text-center mb-0 ct_fs_20">{{erroeMsg || 'No request found'}}</p>
+                        <p class="text-center mb-0 ct_fs_20">{{erroeMsg || 'No requests found'}}</p>
                     </div>
                 </div>
             </div>
@@ -66,10 +69,10 @@
             <div class="modal-body p-0">
                 <div>
                     <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
-                        Accept Invetation
+                        Accept Invitation
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you want to accept this invetation.
+                        Are you sure you want to accept this invitation?
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
@@ -99,10 +102,10 @@
             <div class="modal-body p-0">
                 <div>
                     <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
-                        Reject Invetation
+                        Reject Invitation
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you want to reject this invetation.
+                        Are you sure you want to reject this invitation?
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">

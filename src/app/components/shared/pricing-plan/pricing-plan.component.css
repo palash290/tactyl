@@ -3,6 +3,31 @@
   border-bottom: 1px solid rgba(148, 163, 184, 0.25);
 }
 
+.ct_pricing_header_row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ct_back_btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: #ffffff;
+  color: #0f172a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ct_back_btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+}
+
 .ct_pricing_main_bg {
   min-height: 100vh;
   background: radial-gradient(1200px 600px at 10% -10%, #f5f3ff 0%, #ffffff 55%);
@@ -52,6 +77,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
+}
+
+.ct_pricing_grid_single {
+  grid-template-columns: minmax(260px, 620px);
+  justify-content: center;
 }
 
 .ct_plan_card {
@@ -170,6 +200,21 @@
   background: #ffffff;
   color: #7f4eec;
   border: 1px solid rgba(127, 78, 236, 0.4);
+}
+
+.ct_pricing_continue {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.ct_plan_note {
+  color: #64748b;
+  font-size: 13px;
+  margin: 0;
 }
 
 @media (max-width: 640px) {

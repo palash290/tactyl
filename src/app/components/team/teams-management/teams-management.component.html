@@ -28,7 +28,7 @@
                 <div class="ct_search_box_bg ct_flex_col_575">
                     <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
                         <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                            placeholder="Search teams by name…" [(ngModel)]="searchTeamText" (input)="filterTeamList()"
+                            placeholder="Search teams by name..." [(ngModel)]="searchTeamText" (input)="filterTeamList()"
                             [ngModelOptions]="{standalone: true}" />
                         <img src="/img/search_icon.svg" class="ct_input_icon_left" />
                     </div>
@@ -138,7 +138,7 @@
             </div>
             <div class="col-md-12">
                 <div class="ct_no_recod_found_bg" *ngIf="filteredTeamData.length == 0">
-                    <p class="text-center mb-0 ct_fs_20">No team found</p>
+                    <p class="text-center mb-0 ct_fs_20">No teams found</p>
                 </div>
             </div>
         </div>
@@ -220,7 +220,7 @@
                                         </div>
                                     </div>
                                     <div *ngIf="filteredData.length == 0">
-                                        <span class="text-center">No member found</span>
+                                        <span class="text-center">No members found</span>
                                     </div>
                                 </div>
                             </div>

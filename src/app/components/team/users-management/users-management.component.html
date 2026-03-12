@@ -16,7 +16,7 @@
                 <div class="ct_search_box_bg  ct_flex_col_575">
                     <div class="form-group ct_search_input position-relative ct_flex_1 ct_w_100_575">
                         <input type="text" class="form-control ct_input ct_input_ps_50 ct_h_48"
-                            placeholder="Search users by name or email id…" [(ngModel)]="searchText"
+                            placeholder="Search users by name or email..." [(ngModel)]="searchText"
                             (input)="filterTable()" [ngModelOptions]="{standalone: true}" />
                         <img src="img/search_icon.svg" class="ct_input_icon_left" />
                     </div>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="ct_no_recod_found_bg" *ngIf="filteredData.length == 0">
-                        <p class="text-center mb-0 ct_fs_20">No team found</p>
+                        <p class="text-center mb-0 ct_fs_20">No users found</p>
                     </div>
                 </div>
                 <pagination-controls class="ct_pagination_div" *ngIf="!(filteredData?.length == 0)"
@@ -110,8 +110,8 @@
             <div class="modal-body p-0 ct_mt_20">
                 <form action="">
                     <div class="form-group ct_mb_15">
-                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Email Id</label>
-                        <input type="email" class="form-control ct_input" placeholder="Email id" />
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Email</label>
+                        <input type="email" class="form-control ct_input" placeholder="Email" />
                     </div>
                     <div class="form-group ct_mb_15">
                         <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Role</label>
@@ -120,7 +120,7 @@
                         </select>
                     </div>
                     <div class="form-group ct_mb_15">
-                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Team (s)</label>
+                        <label class="ct_fs_18 ct_ff_Matter_Medium mb-2">Assign Team(s)</label>
                         <div class="ct_outline_bg">
                             <div class="d-flex align-items-center gap-3 flex-wrap ct_para_scroll ct_custom_scroll">
                                 <div class="d-flex align-items-center gap-2">

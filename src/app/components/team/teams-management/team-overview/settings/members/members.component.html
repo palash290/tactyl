@@ -40,6 +40,7 @@
             <th>Profile</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Plan</th>
             <th>Designation</th>
             <th>Status</th>
             <th>Action</th>
@@ -52,6 +53,7 @@
                 </td>
                 <td>{{item.full_name}}</td>
                 <td>{{item.email}}</td>
+                <td>{{item.current_plan ? item.current_plan.plan_name : 'No Active Plan'}}</td>
                 <td>{{item.designation ? item.designation : '-'}}</td>
                 <td>
 
@@ -196,7 +198,7 @@
                                 </div>
                             </div>
                             <div *ngIf="filteredAllData?.length == 0">
-                                <span class="text-center">No member found</span>
+                                <span class="text-center">No members found</span>
                             </div>
                         </div>
                     </div>
@@ -258,7 +260,7 @@
                         Remove Member
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you want to remove this member.
+                        Are you sure you want to remove this member?
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
@@ -291,7 +293,7 @@
                         Re-Invite Member
                     </h1>
                     <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
-                        Are you sure you want to re-invite this member.
+                        Are you sure you want to re-invite this member?
                     </p>
                 </div>
                 <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">

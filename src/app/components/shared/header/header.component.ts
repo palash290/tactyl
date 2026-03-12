@@ -45,10 +45,32 @@ export class HeaderComponent {
     return this.planService.isGold();
   }
 
+  get needsPlanPurchase(): boolean {
+    return !this.planService.currentPlan && !!this.planService.lastPlan;
+  }
+
   get trialDaysRemaining(): number | null {
     const plan = this.planService.currentPlan;
-    if (plan?.number_of_days === undefined || plan?.number_of_days === null) return null;
-    return Number(plan.number_of_days);
+    if (!plan) return null;
+
+    const endFromApi = plan.end_time ? Date.parse(plan.end_time) : NaN;
+    let endTime = Number.isNaN(endFromApi) ? null : endFromApi;
+
+    if (!endTime && plan.start_time && plan.number_of_days !== undefined && plan.number_of_days !== null) {
+      const startTime = Date.parse(plan.start_time);
+      if (!Number.isNaN(startTime)) {
+        const days = Number(plan.number_of_days);
+        if (!Number.isNaN(days)) {
+          endTime = startTime + days * 24 * 60 * 60 * 1000;
+        }
+      }
+    }
+
+    if (!endTime) return null;
+
+    const msLeft = endTime - Date.now();
+    if (msLeft <= 0) return 0;
+    return Math.ceil(msLeft / (24 * 60 * 60 * 1000));
   }
 
   logout() {

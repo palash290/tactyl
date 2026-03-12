@@ -30,6 +30,56 @@ export class PricingPlanComponent {
     this.getPlans();
   }
 
+  goBack(): void {
+    window.history.back();
+  }
+
+  hasRestrictedView(): boolean {
+    return !this.planService.currentPlan && !!this.planService.lastPlan?.plan_name;
+  }
+
+  isTrialExpiredView(): boolean {
+    return !this.planService.currentPlan && this.planService.lastPlan?.plan_name === 'Free Trial';
+  }
+
+  showBackButton(): boolean {
+    return this.isTrialExpiredView();
+  }
+
+  get visiblePlanCount(): number {
+    let count = 0;
+    if (this.canViewBronze()) count++;
+    if (this.canViewGold()) count++;
+    return count;
+  }
+
+  canViewBronze(): boolean {
+    if (!this.hasRestrictedView()) return true;
+    const lastPlan = this.planService.lastPlan?.plan_name;
+    return lastPlan === 'Bronze' || lastPlan === 'Free Trial';
+  }
+
+  canViewGold(): boolean {
+    if (!this.hasRestrictedView()) return true;
+    const lastPlan = this.planService.lastPlan?.plan_name;
+    return lastPlan === 'Gold' || lastPlan === 'Free Trial';
+  }
+
+  continueWithoutPlan(): void {
+    const lastPlan = this.planService.lastPlan?.plan_name;
+    if (lastPlan === 'Bronze') {
+      this.router.navigateByUrl('/individual/dashboard');
+      return;
+    }
+    if (lastPlan === 'Gold' || lastPlan === 'Free Trial') {
+      this.router.navigateByUrl('/team/dashboard');
+      return;
+    }
+    this.router.navigate(['/pricing-plan'], {
+      queryParams: { user_id: this.user_id }
+    });
+  }
+
   getPlans() {
     this.service.get('public/plans').subscribe({
       next: (resp: any) => {

@@ -3,7 +3,12 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-12">
-          <div class="ct_logo">
+          <div class="ct_pricing_header_row">
+            @if(showBackButton()){
+            <button class="ct_back_btn" (click)="goBack()" aria-label="Go back">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            }
             <img src="img/logo.svg" alt="Company Logo">
           </div>
         </div>
@@ -17,9 +22,9 @@
       <h1>Choose a plan that fits your work</h1>
     </div>
 
-    <div class="ct_pricing_grid">
+    <div class="ct_pricing_grid" [ngClass]="{ 'ct_pricing_grid_single': visiblePlanCount === 1 }">
 
-      @if(!planService.isBronze()){
+      @if(canViewBronze()){
       <div class="ct_plan_card">
         <div class="ct_plan_header">
           <span class="ct_plan_badge ct_badge_bronze">Bronze</span>
@@ -40,6 +45,7 @@
       </div>
       }
 
+      @if(canViewGold()){
       <div class="ct_plan_card ct_plan_highlight">
         <div class="ct_plan_header">
           <span class="ct_plan_badge ct_badge_gold">Gold</span>
@@ -59,7 +65,17 @@
           <li>Unified team and personal dashboard</li>
         </ul>
       </div>
+      }
     </div>
+
+    @if(hasRestrictedView()){
+    <div class="ct_pricing_continue">
+      <button (click)="continueWithoutPlan()" class="ct_pricing_btn ct_pricing_btn_outline">
+        Continue without any plan
+      </button>
+      <p class="ct_plan_note">You will only have view access based on your last plan.</p>
+    </div>
+    }
   </div>
 </div>
 
