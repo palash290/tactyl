@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { PlanService } from '../../../services/plan.service';
 
 @Component({
   selector: 'app-individual-sidebar',
@@ -12,7 +13,7 @@ export class IndividualSidebarComponent {
 
   // userType: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public planService: PlanService) { }
 
   ngOnInit() {
     // this.userType = localStorage.getItem('userType');

@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorService } from '../../../services/validation-error.service';
 import { CommonModule } from '@angular/common';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { QuillModule } from 'ngx-quill';
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { CommonService } from '../../../services/common.service';
-import { CurrentPlan, PlanService } from '../../../services/plan.service';
+import { PlanService } from '../../../services/plan.service';
 @Component({
   selector: 'app-log-in',
   imports: [ReactiveFormsModule, CommonModule, FormsModule, RouterLink],
@@ -69,14 +67,12 @@ export class LogInComponent {
 
         const user = resp.data?.user;
         const plan = user?.current_plan?.plan_name;
-        const hasCurrentPlan = !!user?.current_plan;
-
         this.service.setToken(resp.data.token);
         localStorage.setItem('user_id', user?.user_id);
         this.planService.setFreeTrialStatus(user?.free_trial || null);
         this.planService.setCurrentPlan(user?.current_plan || null);
         this.planService.setLastPlan(
-          hasCurrentPlan ? null : this.getLatestPlan(user?.plans_datails)
+          this.planService.getLastPlanFromDetails(user?.plans_datails, user?.current_plan || null)
         );
 
         // 🔹 Free trial inactive
@@ -127,19 +123,6 @@ export class LogInComponent {
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
-  }
-
-  private getLatestPlan(plans: any[] | null | undefined): CurrentPlan | null {
-    if (!plans || plans.length === 0) return null;
-    return plans.reduce((latest, plan) => {
-      return this.planSortValue(plan) > this.planSortValue(latest) ? plan : latest;
-    }, plans[0]) as CurrentPlan;
-  }
-
-  private planSortValue(plan: any): number {
-    const ts = plan?.purchased_at || plan?.end_time || plan?.start_time;
-    const value = ts ? Date.parse(ts) : 0;
-    return Number.isNaN(value) ? 0 : value;
   }
 
 }

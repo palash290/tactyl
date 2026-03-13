@@ -39,8 +39,8 @@
         </li>
         <!-- }  -->
 
-        <!-- @if(userType == 'invited'){ -->
-        <!-- <li>
+        @if(planService.hasTeamAccess()){
+        <li>
             <a routerLink="/individual/my-teams" [ngClass]="{ 'active': isActive('/individual/my-teams')}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_367_1864)">
@@ -56,8 +56,8 @@
                 </svg>
                 My Teams
             </a>
-        </li> -->
-        <!-- } -->
+        </li>
+        }
 
 
         <!-- @if(userType == 'invited'){ -->

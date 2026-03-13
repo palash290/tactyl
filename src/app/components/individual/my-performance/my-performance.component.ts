@@ -26,7 +26,7 @@ export class MyPerformanceComponent {
   }
 
   getTeams() {
-    this.service.get('user/myPerformanceByIndividualUserId').subscribe({
+    this.service.get('user/performance').subscribe({
       next: (resp: any) => {
         this.performanceData = resp.data.team_performance;
         this.performance_insights0 = resp.data.performance_insights[0];
@@ -47,7 +47,6 @@ export class MyPerformanceComponent {
         const remainingRates = this.graph_data.map(
           (m: any) => 100 - Number(m.completion_rate)
         );
-
 
 
         this.chartOptions1 = {

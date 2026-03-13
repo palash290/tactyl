@@ -133,7 +133,13 @@ export class PlanService {
   }
 
   hasTeamAccess(): boolean {
-    return this.hasGoldAccess();
+    if (this.hasGoldAccess()) return true;
+    if (this.currentPlan?.plan_name === 'Bronze') {
+      const lastPlan = this.lastPlan?.plan_name;
+      if (lastPlan === 'Gold' || lastPlan === 'Free Trial') return true;
+      return !!this.freeTrialStatus;
+    }
+    return false;
   }
 
   hasIndividualAccess(): boolean {
@@ -146,6 +152,31 @@ export class PlanService {
 
   needsGoldUpgrade(): boolean {
     return !this.hasActiveGoldAccess();
+  }
+
+  getLastPlanFromDetails(
+    plans: CurrentPlan[] | null | undefined,
+    currentPlan: CurrentPlan | null
+  ): CurrentPlan | null {
+    if (!plans || plans.length === 0) return null;
+
+    let candidates = plans;
+    if (currentPlan?.user_plan_id) {
+      candidates = candidates.filter(plan => plan.user_plan_id !== currentPlan.user_plan_id);
+    }
+
+    if (currentPlan?.plan_name === 'Bronze') {
+      const preferred = candidates.filter(
+        plan => plan.plan_name === 'Gold' || plan.plan_name === 'Free Trial'
+      );
+      if (preferred.length > 0) candidates = preferred;
+    }
+
+    return (
+      candidates
+        .slice()
+        .sort((a, b) => this.getPlanSortValue(b) - this.getPlanSortValue(a))[0] || null
+    );
   }
 
   private readPlan(): CurrentPlan | null {
@@ -172,5 +203,11 @@ export class PlanService {
     const raw = localStorage.getItem('free_trial');
     if (!raw) return null;
     return raw;
+  }
+
+  private getPlanSortValue(plan: CurrentPlan): number {
+    const ts = plan?.purchased_at || plan?.end_time || plan?.start_time;
+    const value = ts ? Date.parse(ts) : 0;
+    return Number.isNaN(value) ? 0 : value;
   }
 }

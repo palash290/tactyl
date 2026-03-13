@@ -86,6 +86,11 @@ export class HeaderComponent {
         localStorage.setItem('teamEmail', resp.data.email);
         localStorage.setItem('userId', resp.data.user_id);
         this.planService.setCurrentPlan(resp.data.current_plan || null);
+        if (resp.data?.plans_datails?.length) {
+          this.planService.setLastPlan(
+            this.planService.getLastPlanFromDetails(resp.data?.plans_datails, resp.data?.current_plan || null)
+          );
+        }
         if (resp.data?.free_trial) {
           this.planService.setFreeTrialStatus(resp.data.free_trial);
         }

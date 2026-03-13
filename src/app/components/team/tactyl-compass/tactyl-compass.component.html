@@ -119,10 +119,10 @@
                                         }
                                     </h4>
                                     <div class="ct_d_align_center gap-2">
-                                        <img [src]="task.assignee_profile_image ? task.assignee_profile_image : 'img/no_pro.png'"
+                                        <img [src]="task.assigned_to.profile_image ? task.assigned_to.profile_image : 'img/no_pro.png'"
                                             class="ct_img_w_24 ct_flex_shrink_0">
                                         <p class="mb-0 ct_fs_14 ct_text_clr_4B5563">
-                                            {{ task.assignee_name }}
+                                            {{ task.assigned_to.full_name }}
                                         </p>
                                     </div>
                                 </div>
