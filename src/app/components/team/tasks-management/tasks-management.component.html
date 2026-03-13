@@ -58,21 +58,15 @@
             </div>
         </div>
 
-        <div class="dropdown ct_right_dropdown ct_cursor_pointer">
-            <i class="fa-solid fa-ellipsis-vertical" id="dropdownMenuButton" id="dropdownMenuButton1"
-                data-bs-toggle="dropdown" aria-expanded="false"></i>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                @if(planService.needsGoldUpgrade()){
-                <li (click)="openSubs()">
-                    <a class="dropdown-item">Export As CSV</a>
-                </li>
-                } @else {
-                <li (click)="exportToCSV()">
-                    <a class="dropdown-item">Export As CSV</a>
-                </li>
-                }
-            </ul>
-        </div>
+        @if(planService.needsGoldUpgrade()){
+        <button class="ct_outline_btn ct_h_40 ct_white_nowrap" (click)="openSubs()">
+            Export as CSV
+        </button>
+        } @else {
+        <button class="ct_outline_btn ct_h_40 ct_white_nowrap" (click)="exportToCSV()">
+            Export as CSV
+        </button>
+        }
         <!-- } -->
     </div>
 </div>
