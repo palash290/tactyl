@@ -26,29 +26,29 @@
         }
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
-            <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Delete_icon.svg" alt="" title="Delete" class="ct_img_25" />
         </div>
         @if(taskDetails?.status == 'Completed'){
         @if(taskDetails?.team_id != null){
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
             (click)="openSubs()">
-            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Edit _icon.svg" alt="" title="Edit" class="ct_img_25" />
         </div>
         } @else {
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff">
-            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Edit _icon.svg" alt="" title="Edit" class="ct_img_25" />
         </div>
         }
         } @else {
         @if(taskDetails?.team_id != null){
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
             (click)="openSubs()">
-            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Edit _icon.svg" alt="" title="Edit" class="ct_img_25" />
         </div>
         } @else {
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
             data-bs-target="#ct_add_create_modal" data-bs-toggle="modal">
-            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Edit _icon.svg" alt="" title="Edit" class="ct_img_25" />
         </div>
         }
         }

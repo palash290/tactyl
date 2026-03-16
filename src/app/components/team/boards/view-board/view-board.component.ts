@@ -329,7 +329,7 @@ export class ViewBoardComponent {
     // formURlData.append('task_id', String(taskId));
     formURlData.append('phase_id', String(phaseId));
 
-    this.service.patch(`user/tasks/${taskId}`, formURlData.toString())
+    this.service.post(`user/tasks/${taskId}`, formURlData.toString())
       .subscribe({
         next: (resp: any) => {
           if (!resp.success) {

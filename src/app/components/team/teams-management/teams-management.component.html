@@ -128,10 +128,17 @@
                             Details</a>
                         } -->
 
+                        @if(planService.needsGoldUpgrade()){
+                        <a [routerLink]="['/individual/team-overview']"
+                            [queryParams]="{ teamId: item.team_id, teamName: item.team_name, is_admin: item.is_admin }"
+                            class="ct_purple_link ct_ff_Matter_Medium">View
+                            Details</a>
+                        } @else {
                         <a [routerLink]="['/team/team-overview']"
                             [queryParams]="{ teamId: item.team_id, teamName: item.team_name, is_admin: item.is_admin }"
                             class="ct_purple_link ct_ff_Matter_Medium">View
                             Details</a>
+                        }
 
                     </div>
                 </div>

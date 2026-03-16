@@ -80,43 +80,43 @@
                         <!-- @if (userType == 'team') {
                         <a [routerLink]="['/team/view-team-member']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
-                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" title="View" />
                         </a>
                         } @else {
                         <a [routerLink]="['/invited/view-team-member']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
-                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" title="View" />
                         </a>
                         } -->
                         <a [routerLink]="['/team/view-team-member']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
-                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" />
+                            <img src="/img/eye_purple_icon.png" class="ct_icon_24" alt="" title="View" />
                         </a>
 
                         @if(planService.needsGoldUpgrade()){
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
-                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                         </a>
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
-                            <img src="/img/permission.svg" class="ct_icon_24" alt="" />
+                            <img src="/img/permission.svg" class="ct_icon_24" alt="" title="Permission" />
                         </a>
                         @if(item.status == 'Rejected'){
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
-                            <img src="/img/re_invite.png" class="ct_icon_24" alt="" />
+                            <img src="/img/re_invite.png" class="ct_icon_24" alt="" title="Re-invite" />
                         </a>
                         }
                         } @else {
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="getId(item.user_id)"
                             data-bs-target="#ct_delete_member" data-bs-toggle="modal">
-                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                            <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                         </a>
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" routerLink="/team/user-permissions">
-                            <img src="/img/permission.svg" class="ct_icon_24" alt="" />
+                            <img src="/img/permission.svg" class="ct_icon_24" alt="" title="Permission" />
                         </a>
                         @if(item.status == 'Rejected'){
                         <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="getId(item.user_id)"
                             data-bs-target="#ct_reinvite_member" data-bs-toggle="modal">
-                            <img src="/img/re_invite.png" class="ct_icon_24" alt="" />
+                            <img src="/img/re_invite.png" class="ct_icon_24" alt="" title="Re-invite" />
                         </a>
                         }
                         }

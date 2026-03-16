@@ -52,6 +52,7 @@ export const individualRoutes: Routes = [
                         path: 'team-overview',
                         loadComponent: () =>
                               import('../team/teams-management/team-overview/team-overview.component').then(m => m.TeamOverviewComponent),
+                        data: { source: 'individual' }
                   },
 
                   {

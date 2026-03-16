@@ -36,16 +36,16 @@
         <!-- @if(userType == 'team'){ -->
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
-            <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Delete_icon.svg" alt="" title="Delete" class="ct_img_25" />
         </div>
         <!-- @if(taskDetails?.status){ -->
         <!-- <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff">
-            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Edit _icon.svg" alt="" title="Edit" class="ct_img_25" />
         </div> -->
         <!-- }@else { -->
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
             data-bs-target="#ct_edit_task_modal" data-bs-toggle="modal">
-            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+            <img src="/img/Edit _icon.svg" alt="" title="Edit" class="ct_img_25" />
         </div>
         <!-- } -->
 
@@ -195,7 +195,7 @@
                         <p class="ct_fs_18 ct_ff_Matter_SemiBold mb-2">Assigned To</p>
                         <div class="ct_d_align_center justify-content-between gap-3 flex-wrap">
                             <div class="ct_d_align_center gap-2">
-                                <img [src]="taskDetails?.profile_image ? taskDetails?.profile_image : '/img/no_pro.png'"
+                                <img [src]="taskDetails?.assigned_to.profile_image ? taskDetails?.assigned_to.profile_image : '/img/no_pro.png'"
                                     class="ct_img_w_24" />
                                 <p class="mb-0 ct_fs_14 ct_text_clr_6E6F76">{{taskDetails?.assigned_to?.full_name}}</p>
                             </div>

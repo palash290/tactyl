@@ -45,12 +45,12 @@
                             <div class="d-flex align-items-center gap-3">
                                 <a href="javascript:void(0)" data-bs-target="#ct_add_phase_modal" data-bs-toggle="modal"
                                     (click)="fetchBoardDetails(item)">
-                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" />
+                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" title="Edit" />
                                 </a>
 
                                 <a href="javascript:void(0)" (click)="getId(item)" data-bs-target="#ct_delete_phase"
                                     data-bs-toggle="modal">
-                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                                 </a>
                             </div>
                         </td>
@@ -72,23 +72,23 @@
                             @if(planService.needsGoldUpgrade()){
                             <div class="d-flex align-items-center gap-3">
                                 <a href="javascript:void(0)" (click)="openSubs()">
-                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" />
+                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" title="Edit" />
                                 </a>
 
                                 <a href="javascript:void(0)" (click)="openSubs()">
-                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                                 </a>
                             </div>
                             } @else {
                             <div class="d-flex align-items-center gap-3">
                                 <a href="javascript:void(0)" data-bs-target="#ct_add_phase_modal" data-bs-toggle="modal"
                                     (click)="fetchBoardDetails(item)">
-                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" />
+                                    <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" title="Edit" />
                                 </a>
 
                                 <a href="javascript:void(0)" (click)="getId(item)" data-bs-target="#ct_delete_phase"
                                     data-bs-toggle="modal">
-                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" />
+                                    <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                                 </a>
                             </div>
                             }

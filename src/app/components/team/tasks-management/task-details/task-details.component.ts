@@ -162,7 +162,7 @@ export class TaskDetailsComponent {
       formURlData.append('is_urgent', this.Form.value.is_urgent ? '1' : '0');
       formURlData.append('goal_relevant', this.Form.value.isGoalRevelant ? '1' : '0');
 
-      this.service.patch(`user/tasks/${this.taskId}`, formURlData.toString()).subscribe({
+      this.service.post(`user/tasks/${this.taskId}`, formURlData.toString()).subscribe({
         next: (resp: any) => {
           if (resp.success == true) {
             this.getTaskDetails(this.taskId);
