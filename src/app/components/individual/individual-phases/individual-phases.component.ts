@@ -4,10 +4,12 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonService } from '../../../services/common.service';
+import { ModalService } from '../../../services/modal.service';
+import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
 
 @Component({
   selector: 'app-individual-phases',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './individual-phases.component.html',
   styleUrl: './individual-phases.component.css'
 })
@@ -27,7 +29,7 @@ export class IndividualPhasesComponent {
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private modalService: ModalService) { }
 
 
   ngOnInit() {
@@ -43,6 +45,10 @@ export class IndividualPhasesComponent {
       boardId: new FormControl('', Validators.required),
       description: new FormControl(''),
     });
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   fetchBoardDetails(item: any) {

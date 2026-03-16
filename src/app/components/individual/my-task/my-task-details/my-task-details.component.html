@@ -12,17 +12,37 @@
             <span class="ct_outline_badge" style="border-color: #008000; color: #008000;">Completed</span>
         </div>
         } @else {
+        @if(taskDetails?.team_id != null){
+        <span class="ct_outline_badge ct_cursor_pointer" style="border-color: #008000; color: #008000;"
+            (click)="openSubs()">
+            Mark As Done
+        </span>
+        } @else {
         <span class="ct_outline_badge ct_cursor_pointer" style="border-color: #008000; color: #008000;"
             data-bs-target="#ct_complete_modal" data-bs-toggle="modal">
             Mark As Done
         </span>
+        }
         }
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" class="ct_img_25" />
         </div>
         @if(taskDetails?.status == 'Completed'){
+        @if(taskDetails?.team_id != null){
+        <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
+            (click)="openSubs()">
+            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+        </div>
+        } @else {
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff">
+            <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
+        </div>
+        }
+        } @else {
+        @if(taskDetails?.team_id != null){
+        <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
+            (click)="openSubs()">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
         } @else {
@@ -30,6 +50,7 @@
             data-bs-target="#ct_add_create_modal" data-bs-toggle="modal">
             <img src="/img/Edit _icon.svg" alt="" class="ct_img_25" />
         </div>
+        }
         }
 
     </div>
@@ -732,3 +753,5 @@
         <div class="pfile" style="--i: 5;"></div>
     </div>
 </div>
+
+<app-subscription-modal></app-subscription-modal>

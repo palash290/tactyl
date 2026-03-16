@@ -181,7 +181,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(planService.needsGoldUpgrade()){
+                                    <!-- @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -193,12 +193,18 @@
                                         Mark As Done
                                     </span>
                                     }
-                                    } @else {
+                                    } @else { -->
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
+                                    } @else {
+                                    @if(task.team_id != null){
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
                                     } @else {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;"
@@ -207,7 +213,9 @@
                                         Mark As Done
                                     </span>
                                     }
+
                                     }
+                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>
@@ -323,7 +331,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(planService.needsGoldUpgrade()){
+                                    <!-- @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -335,12 +343,18 @@
                                         Mark As Done
                                     </span>
                                     }
-                                    } @else {
+                                    } @else { -->
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
+                                    } @else {
+                                    @if(task.team_id != null){
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
                                     } @else {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;"
@@ -350,6 +364,7 @@
                                     </span>
                                     }
                                     }
+                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>
@@ -464,7 +479,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(planService.needsGoldUpgrade()){
+                                    <!-- @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -476,12 +491,18 @@
                                         Mark As Done
                                     </span>
                                     }
-                                    } @else {
+                                    } @else { -->
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
+                                    } @else {
+                                    @if(task.team_id != null){
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
                                     } @else {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;"
@@ -491,6 +512,7 @@
                                     </span>
                                     }
                                     }
+                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>
@@ -605,7 +627,7 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    @if(planService.needsGoldUpgrade()){
+                                    <!-- @if(planService.needsGoldUpgrade()){
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
@@ -617,12 +639,18 @@
                                         Mark As Done
                                     </span>
                                     }
-                                    } @else {
+                                    } @else { -->
                                     @if(task?.status == 'Completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
+                                    } @else {
+                                    @if(task.team_id != null){
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;" (click)="openSubs()">
+                                        Mark As Done
+                                    </span>
                                     } @else {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;"
@@ -632,6 +660,7 @@
                                     </span>
                                     }
                                     }
+                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>

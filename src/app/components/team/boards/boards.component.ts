@@ -5,10 +5,12 @@ import { RouterLink } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonService } from '../../../services/common.service';
+import { ModalService } from '../../../services/modal.service';
+import { SubscriptionModalComponent } from '../../shared/subscription-modal/subscription-modal.component';
 
 @Component({
   selector: 'app-boards',
-  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './boards.component.html',
   styleUrl: './boards.component.css'
 })
@@ -27,13 +29,21 @@ export class BoardsComponent {
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private service: CommonService, private toastr: NzMessageService) { }
+  constructor(
+    private service: CommonService,
+    private toastr: NzMessageService,
+    private modalService: ModalService
+  ) { }
 
 
   ngOnInit() {
     // this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getBoards();
+  }
+
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
   }
 
   initForm() {

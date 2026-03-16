@@ -5,10 +5,12 @@ import { CommonService } from '../../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalService } from '../../../../services/modal.service';
+import { SubscriptionModalComponent } from '../../../shared/subscription-modal/subscription-modal.component';
 
 @Component({
   selector: 'app-task-details',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxPaginationModule, SubscriptionModalComponent],
   templateUrl: './my-task-details.component.html',
   styleUrl: './my-task-details.component.css'
 })
@@ -31,7 +33,14 @@ export class MyTaskDetailsComponent {
   @ViewChild('closeModalAddNotes') closeModalAddNotes!: ElementRef;
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
 
-  constructor(private service: CommonService, private location: Location, private route: ActivatedRoute, private toastr: NzMessageService, private router: Router) { }
+  constructor(
+    private service: CommonService,
+    private location: Location,
+    private route: ActivatedRoute,
+    private toastr: NzMessageService,
+    private router: Router,
+    private modalService: ModalService
+  ) { }
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
@@ -130,6 +139,10 @@ export class MyTaskDetailsComponent {
     this.location.back();
   }
 
+  openSubs(): void {
+    this.modalService.openSubscribeModal();
+  }
+
   dateValidation() {
     const today = new Date();
     const year = today.getFullYear();
@@ -150,7 +163,7 @@ export class MyTaskDetailsComponent {
   }
 
   deleteTask() {
-    this.service.get(`user/deleteTaskByThereId?id=${this.taskId}`).subscribe({
+    this.service.delete(`user/deleteTaskByThereId?id=${this.taskId}`).subscribe({
       next: (resp: any) => {
         this.closeModalDelete.nativeElement.click();
         this.toastr.success(resp.message);
@@ -165,7 +178,8 @@ export class MyTaskDetailsComponent {
   getPhaes() {
     this.service.get(`user/phases`).subscribe({
       next: (resp: any) => {
-        this.phaseList = resp.data;
+        const phases = Array.isArray(resp.data) ? resp.data : [];
+        this.phaseList = phases.filter((phase: any) => phase.team_id == null);
         // this.filterTable();
       },
       error: (error) => {

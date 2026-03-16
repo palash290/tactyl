@@ -97,7 +97,6 @@ export const routes: Routes = [
       //       path: 'main',
       //       loadComponent: () => import('./components/main/main.component').then(m => m.MainComponent),
       //       children: [
-
       //       ]
       // }
 ];

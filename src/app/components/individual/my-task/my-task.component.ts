@@ -141,7 +141,8 @@ export class MyTaskComponent {
   getPhaes() {
     this.service.get(`user/phases`).subscribe({
       next: (resp: any) => {
-        this.phaseList = resp.data;
+        const phases = Array.isArray(resp.data) ? resp.data : [];
+        this.phaseList = phases.filter((phase: any) => phase.team_id == null);
         // this.filterTable();
       },
       error: (error) => {
@@ -206,46 +207,46 @@ export class MyTaskComponent {
   selectedPriority = '';
   sortOrder = 'desc';
 
-filterList() {
+  filterList() {
 
-  let tasks = [...this.taskList];
+    let tasks = [...this.taskList];
 
-  // 🔍 Search filter
-  if (this.searchText.trim()) {
-    const keyword = this.searchText.toLowerCase();
+    // 🔍 Search filter
+    if (this.searchText.trim()) {
+      const keyword = this.searchText.toLowerCase();
 
-    tasks = tasks.filter(task =>
-      task.title?.toLowerCase().includes(keyword) ||
-      task.description?.toLowerCase().includes(keyword)
-    );
+      tasks = tasks.filter(task =>
+        task.title?.toLowerCase().includes(keyword) ||
+        task.description?.toLowerCase().includes(keyword)
+      );
+    }
+
+    // 🎯 Priority filter
+    if (this.selectedPriority) {
+      tasks = tasks.filter(task =>
+        task.priority === this.selectedPriority
+      );
+    }
+
+    // ✅ Completed / Pending filter
+    if (this.taskVisibility === 'show') {
+      tasks = tasks.filter(task => task.status === 'Completed');
+    }
+    else if (this.taskVisibility === 'hide') {
+      tasks = tasks.filter(task => task.status === 'Pending');
+    }
+
+    // ⭐ Relevant filter
+    if (this.isRevelent === 'yes') {
+      tasks = tasks.filter(task => task.goal_relevant == 1);
+    }
+    else if (this.isRevelent === 'no') {
+      tasks = tasks.filter(task => task.goal_relevant == 0);
+    }
+
+    this.filteredData = tasks;
+
   }
-
-  // 🎯 Priority filter
-  if (this.selectedPriority) {
-    tasks = tasks.filter(task =>
-      task.priority === this.selectedPriority
-    );
-  }
-
-  // ✅ Completed / Pending filter
-  if (this.taskVisibility === 'show') {
-    tasks = tasks.filter(task => task.status === 'Completed');
-  }
-  else if (this.taskVisibility === 'hide') {
-    tasks = tasks.filter(task => task.status === 'Pending');
-  }
-
-  // ⭐ Relevant filter
-  if (this.isRevelent === 'yes') {
-    tasks = tasks.filter(task => task.goal_relevant == 1);
-  }
-  else if (this.isRevelent === 'no') {
-    tasks = tasks.filter(task => task.goal_relevant == 0);
-  }
-
-  this.filteredData = tasks;
-
-}
 
 
   dateValidation() {
@@ -335,6 +336,21 @@ filterList() {
 
   get connectedDropLists(): string[] {
     return this.boardTasks.map((p: any) => `phase-${p.id}`);
+  }
+
+  @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
+
+  deleteTask() {
+    this.service.delete(`user/deleteTaskByThereId?id=${this.id}`).subscribe({
+      next: (resp: any) => {
+        this.closeModalDelete.nativeElement.click();
+        this.toastr.success(resp.message);
+        this.router.navigateByUrl('/individual/my-task');
+      },
+      error: error => {
+        console.log(error.message);
+      }
+    });
   }
 
   // drop(event: CdkDragDrop<any[]>, targetPhase: any) {
