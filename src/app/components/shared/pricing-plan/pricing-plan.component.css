@@ -263,8 +263,7 @@
   font-size: 14px;
 }
 
-.ct_plan_list li::before {
-  content: '�';
+.ct_plan_check {
   color: #7f4eec;
   margin-right: 8px;
 }
