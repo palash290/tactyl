@@ -28,11 +28,10 @@ export class TeamRequestsComponent {
   getAllRequests() {
     this.service.get('user/invitations').subscribe({
       next: (resp: any) => {
-        this.allRequests = resp.data;
+        this.allRequests = resp.data.reverse();
         // this.filterTable();
       },
       error: (error) => {
-        debugger
         console.log(error.message);
         this.erroeMsg = error.message;
       }

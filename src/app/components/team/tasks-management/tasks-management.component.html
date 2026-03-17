@@ -131,6 +131,7 @@
                             <th>Task Title</th>
                             <th *ngIf="planService.hasTeamAccess()">Team</th>
                             <th *ngIf="planService.hasTeamAccess()">Assignee</th>
+                            <!-- <th *ngIf="planService.hasTeamAccess()">Assign To</th> -->
                             <th>Priority</th>
                             <th>Phase</th>
                             <!-- <th>Task Score</th> -->
@@ -146,6 +147,7 @@
                                 </td>
                                 <td *ngIf="planService.hasTeamAccess()">{{item.team.team_name}}</td>
                                 <td *ngIf="planService.hasTeamAccess()">{{item.assigned_by.full_name}}</td>
+                                <!-- <td *ngIf="planService.hasTeamAccess()">{{item.assigned_to.full_name}}</td> -->
                                 <td>
                                     @if(item.priority == 'P1'){
                                     <span class="ct_custom_badge ct_ff_Matter_Medium ct_fs_16 ct_border_radius_20"

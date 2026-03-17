@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-team-performance',
-  imports: [NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule],
   templateUrl: './team-performance.component.html',
   styleUrl: './team-performance.component.css'
 })
@@ -16,6 +17,7 @@ export class TeamPerformanceComponent {
   performance_insights1: any;
   performance_insights2: any;
   graph_data: any;
+  hasGraphData = false;
 
   constructor(private service: CommonService) { }
 
@@ -30,7 +32,7 @@ export class TeamPerformanceComponent {
         this.performance_insights0 = resp.data.performance_insights[0];
         this.performance_insights1 = resp.data.performance_insights[1];
         this.performance_insights2 = resp.data.performance_insights[2];
-        this.graph_data = resp.data.graph_data;
+        this.graph_data = resp.data.graph_data ?? [];
 
         // 🚫 Remove teams with no task data
         const filteredGraphData = this.graph_data.filter(
@@ -43,8 +45,11 @@ export class TeamPerformanceComponent {
         // If no valid data → hide chart completely
         if (!filteredGraphData.length) {
           this.chartOptions1 = null;
+          this.hasGraphData = false;
           return;
         }
+        this.hasGraphData = true;
+        this.graph_data = filteredGraphData;
 
         const teamNames = filteredGraphData.map((t: any) => t.team_name);
         const completionRates = filteredGraphData.map((t: any) => t.completion_rate);

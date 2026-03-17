@@ -351,9 +351,9 @@ export class TasksManagementComponent {
       index + 1,
       `"${item.title || ''}"`,
       `"${item.team_name || ''}"`,
-      `"${item.name || ''}"`,
+      `"${item.assigned_by.full_name || ''}"`,
       item.priority || '',
-      `"${item.phase_name || ''}"`,
+      `"${item.phase.phase_name || ''}"`,
       this.formatDate(item.created_at)
     ]);
 

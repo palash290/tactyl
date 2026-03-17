@@ -201,7 +201,7 @@ export class TaskDetailsComponent {
           priority: resp.data.priority,
           startDate: this.toDateOnly(resp.data.start_date),
           endDate: this.toDateOnly(resp.data.due_date),
-          memberId: resp.data.user_id,
+          memberId: resp.data.assigned_to.user_id,
           isGoalRevelant: resp.data.goal_relevant,
           is_urgent: resp.data.is_urgent,
           estimatedMinutes: resp.data.estimated_minutes,

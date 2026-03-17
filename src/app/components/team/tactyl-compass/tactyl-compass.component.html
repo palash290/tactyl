@@ -96,7 +96,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="ct_mt_40">
+                    <div class="ct_mt_40 ct_para_scroll">
                         <div class="ct_compass_white_card mb-3" style="border-color: #FEE2E2;"
                             *ngFor="let task of doNow">
                             <div class="ct_d_align_center justify-content-between gap-3">
@@ -181,26 +181,24 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    <!-- @if(planService.needsGoldUpgrade()){
-                                    @if(task?.status == 'Completed'){
+                                    @if(task?.status?.toLowerCase() === 'completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
-                                    } @else {
+                                    } @else if (planService.isGold() || planService.isTrialActive()) {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    } @else if (!planService.currentPlan) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
                                     </span>
-                                    }
-                                    } @else { -->
-                                    @if(task?.status == 'Completed'){
-                                    <div>
-                                        <span class="ct_outline_badge"
-                                            style="border-color: #008000; color: #008000;">Completed</span>
-                                    </div>
-                                    } @else {
-                                    @if(task.team_id != null){
+                                    } @else if (planService.isBronze() && task.team_id != null) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
@@ -213,9 +211,6 @@
                                         Mark As Done
                                     </span>
                                     }
-
-                                    }
-                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>
@@ -247,8 +242,8 @@
                             </p>
                         </div>
                     </div>
-                    <div class="ct_mt_40">
-                        <div class="ct_compass_white_card mb-3" style="border-color: #DBEAFE;"
+                    <div class="ct_mt_40 ct_para_scroll">
+                        <div class="ct_compass_white_card mb-3 " style="border-color: #DBEAFE;"
                             *ngFor="let task of doNext">
                             <div class="ct_d_align_center justify-content-between gap-3">
                                 <!-- @if(userType == 'team'){ -->
@@ -331,26 +326,24 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    <!-- @if(planService.needsGoldUpgrade()){
-                                    @if(task?.status == 'Completed'){
+                                    @if(task?.status?.toLowerCase() === 'completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
-                                    } @else {
+                                    } @else if (planService.isGold() || planService.isTrialActive()) {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    } @else if (!planService.currentPlan) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
                                     </span>
-                                    }
-                                    } @else { -->
-                                    @if(task?.status == 'Completed'){
-                                    <div>
-                                        <span class="ct_outline_badge"
-                                            style="border-color: #008000; color: #008000;">Completed</span>
-                                    </div>
-                                    } @else {
-                                    @if(task.team_id != null){
+                                    } @else if (planService.isBronze() && task.team_id != null) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
@@ -363,8 +356,6 @@
                                         Mark As Done
                                     </span>
                                     }
-                                    }
-                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>
@@ -395,7 +386,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="ct_mt_40">
+                    <div class="ct_mt_40 ct_para_scroll">
                         <div class="ct_compass_white_card mb-3" style="border-color: #FEF3C7;"
                             *ngFor="let task of doLater">
                             <div class="ct_d_align_center justify-content-between gap-3">
@@ -479,26 +470,24 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    <!-- @if(planService.needsGoldUpgrade()){
-                                    @if(task?.status == 'Completed'){
+                                    @if(task?.status?.toLowerCase() === 'completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
-                                    } @else {
+                                    } @else if (planService.isGold() || planService.isTrialActive()) {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    } @else if (!planService.currentPlan) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
                                     </span>
-                                    }
-                                    } @else { -->
-                                    @if(task?.status == 'Completed'){
-                                    <div>
-                                        <span class="ct_outline_badge"
-                                            style="border-color: #008000; color: #008000;">Completed</span>
-                                    </div>
-                                    } @else {
-                                    @if(task.team_id != null){
+                                    } @else if (planService.isBronze() && task.team_id != null) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
@@ -511,8 +500,6 @@
                                         Mark As Done
                                     </span>
                                     }
-                                    }
-                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>
@@ -543,7 +530,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="ct_mt_40">
+                    <div class="ct_mt_40 ct_para_scroll">
                         <div class="ct_compass_white_card mb-3" style="border-color: #E5E7EB;"
                             *ngFor="let task of doLast">
                             <div class="ct_d_align_center justify-content-between gap-3">
@@ -627,26 +614,24 @@
                                 </div>
                                 } -->
                                 <div class="text-end">
-                                    <!-- @if(planService.needsGoldUpgrade()){
-                                    @if(task?.status == 'Completed'){
+                                    @if(task?.status?.toLowerCase() === 'completed'){
                                     <div>
                                         <span class="ct_outline_badge"
                                             style="border-color: #008000; color: #008000;">Completed</span>
                                     </div>
-                                    } @else {
+                                    } @else if (planService.isGold() || planService.isTrialActive()) {
+                                    <span class="ct_outline_badge ct_cursor_pointer"
+                                        style="border-color: #008000; color: #008000;"
+                                        data-bs-target="#ct_complete_modal" data-bs-toggle="modal"
+                                        (click)="getTaskDet(task)">
+                                        Mark As Done
+                                    </span>
+                                    } @else if (!planService.currentPlan) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
                                     </span>
-                                    }
-                                    } @else { -->
-                                    @if(task?.status == 'Completed'){
-                                    <div>
-                                        <span class="ct_outline_badge"
-                                            style="border-color: #008000; color: #008000;">Completed</span>
-                                    </div>
-                                    } @else {
-                                    @if(task.team_id != null){
+                                    } @else if (planService.isBronze() && task.team_id != null) {
                                     <span class="ct_outline_badge ct_cursor_pointer"
                                         style="border-color: #008000; color: #008000;" (click)="openSubs()">
                                         Mark As Done
@@ -659,8 +644,6 @@
                                         Mark As Done
                                     </span>
                                     }
-                                    }
-                                    <!-- } -->
                                     <p class="ct_fs_15 ct_text_clr_4B5563 mb-0 mt-1 ct_white_nowrap">
                                         Action Score: {{ task.action_score }}
                                     </p>

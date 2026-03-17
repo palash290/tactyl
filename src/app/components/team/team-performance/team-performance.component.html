@@ -84,12 +84,15 @@
                     <div class="ct_d_align_center justify-content-between gap-3 ct_flex_col_575 ">
                         <h4 class="ct_fs_22 ct_ff_Matter_SemiBold mb-0">Overall Team Score</h4>
                     </div>
-                    <div id="chart">
-                        <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
-                            [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
-                            [markers]="chartOptions1.markers" [colors]="chartOptions1.colors"
-                            [title]="chartOptions1.title"></apx-chart>
+                    <div id="chart" *ngIf="hasGraphData; else noGraphData">
+                        <apx-chart [series]="chartOptions1?.series" [chart]="chartOptions1?.chart"
+                            [xaxis]="chartOptions1?.xaxis" [stroke]="chartOptions1?.stroke"
+                            [markers]="chartOptions1?.markers" [colors]="chartOptions1?.colors"
+                            [title]="chartOptions1?.title"></apx-chart>
                     </div>
+                    <ng-template #noGraphData>
+                        <div class="ct_text_929292 ct_py_25">No data found</div>
+                    </ng-template>
                 </div>
                 <div class="ct_light_blue_bg_2 ct_mt_40 h-auto">
                     <div>
