@@ -81,7 +81,7 @@
                 </li>
             </ul> -->
             <ul class="ct_recent_activity_list ct_para_scroll ct_custom_scroll ct_pe_36">
-                @if (dashboardData.recent_tasks?.length > 0) {
+                @if (dashboardData?.recent_tasks?.length > 0) {
                 <li *ngFor="let item of dashboardData?.recent_tasks">
                     <div class="d-flex align-items-center gap-3">
                         <img [src]="item.assigned_by.profile_image ? item.assigned_by.profile_image : '/img/no_pro.png'"

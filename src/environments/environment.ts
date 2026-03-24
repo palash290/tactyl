@@ -6,7 +6,7 @@ export const environment = {
       production: true,
       // baseUrl: 'https://tactyl-dev.online/api/auth/',
       baseUrl: 'https://tactyl.online/api/auth/',
-      // baseUrl: 'http://192.168.1.39:4006/api/',
+      // baseUrl: 'http://192.168.1.14:4006/api/',
 
       // Your web app's Firebase configuration
       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
