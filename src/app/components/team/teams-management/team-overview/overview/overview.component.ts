@@ -15,19 +15,35 @@ export class OverviewComponent {
   teamId: any;
   userType: any;
   activeLogs: any;
+  userId: any;
+  team_admin_id: any;
 
   constructor(private service: CommonService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.userId = localStorage.getItem('user_id');
     this.userType = localStorage.getItem('userType');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.getTeamDashboard();
+    this.getTeamPermissionsForUsers();
+  }
+
+  getTeamPermissionsForUsers() {
+    this.service.get(`user/team/user-permissions?team_id=${this.teamId}&user_id=${this.userId}`).subscribe({
+      next: (resp: any) => {
+
+      },
+      error: (error) => {
+        console.log(error.message);
+      }
+    });
   }
 
   getTeamDashboard() {
     this.service.get(`user/teams/${this.teamId}/dashboard`).subscribe({
       next: (resp: any) => {
         this.dashboardData = resp.data;
+        this.team_admin_id = resp.data.team_admin_id;
         // this.getLogs();
       },
       error: (error) => {

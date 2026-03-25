@@ -30,7 +30,7 @@
     </div>
     }
     }
-
+    
 </div>
 
 <div class="table-responsive ct_mt_20">
@@ -110,7 +110,9 @@
                             data-bs-target="#ct_delete_member" data-bs-toggle="modal">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                         </a>
-                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" routerLink="/team/user-permissions">
+                        <a *ngIf="is_admin == '1' && !(item.user_id == userId || item.status == 'Pending')"
+                            href="javascript:void(0)" [routerLink]="['/team/user-permissions']"
+                            [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/permission.svg" class="ct_icon_24" alt="" title="Permission" />
                         </a>
                         @if(item.status == 'Rejected'){

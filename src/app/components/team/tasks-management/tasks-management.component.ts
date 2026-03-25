@@ -46,7 +46,7 @@ export class TasksManagementComponent {
   ) { }
 
   ngOnInit() {
-    this.user_id = localStorage.getItem('userId');
+    this.user_id = localStorage.getItem('user_id');
     //this.userType = localStorage.getItem('userType');
     this.initForm();
     this.getTeams();

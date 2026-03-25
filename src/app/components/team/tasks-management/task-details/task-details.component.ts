@@ -48,7 +48,7 @@ export class TaskDetailsComponent {
   ) { }
 
   ngOnInit() {
-    this.user_id = localStorage.getItem('userId');
+    this.user_id = localStorage.getItem('user_id');
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.boardId = this.route.snapshot.queryParamMap.get('boardId');

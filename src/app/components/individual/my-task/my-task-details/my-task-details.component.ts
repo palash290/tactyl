@@ -44,7 +44,7 @@ export class MyTaskDetailsComponent {
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
-    this.userId = localStorage.getItem('userId');
+    this.userId = localStorage.getItem('user_id');
     this.taskId = this.route.snapshot.queryParamMap.get('taskId');
     this.getTaskDetails();
     this.initForm();

@@ -84,7 +84,7 @@ export class HeaderComponent {
       next: (resp: any) => {
         this.userData = resp.data;
         localStorage.setItem('teamEmail', resp.data.email);
-        localStorage.setItem('userId', resp.data.user_id);
+        localStorage.setItem('user_id', resp.data.user_id);
         this.planService.setCurrentPlan(resp.data.current_plan || null);
         if (resp.data?.plans_datails?.length) {
           this.planService.setLastPlan(

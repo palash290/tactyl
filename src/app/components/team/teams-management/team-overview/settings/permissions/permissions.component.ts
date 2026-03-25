@@ -29,7 +29,7 @@ export class PermissionsComponent {
   ngOnInit() {
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.userId = this.route.snapshot.queryParamMap.get('memberId');
-    this.getTeamPermissions1();
+    this.getTeamPermissionsForUsers();
   }
 
   getTeamPermissions() {
@@ -44,7 +44,7 @@ export class PermissionsComponent {
     });
   }
 
-  getTeamPermissions1() {
+  getTeamPermissionsForUsers() {
     this.service.get(`user/team/user-permissions?team_id=${this.teamId}&user_id=${this.userId}`).subscribe({
       next: (resp: any) => {
         const list = Array.isArray(resp?.data) ? resp.data : [];

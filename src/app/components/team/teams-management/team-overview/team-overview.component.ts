@@ -25,6 +25,7 @@ export class TeamOverviewComponent {
   userEmail: any;
   //userType: any;
   is_admin: any;
+  userId: any;
   dashboardData: any;
   activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
   activeSettingsTab: 'users' | 'permissions' | 'phases' = 'users';
@@ -43,12 +44,25 @@ export class TeamOverviewComponent {
 
   ngOnInit() {
     //this.userType = localStorage.getItem('userType');
+    this.userId = localStorage.getItem('user_id');
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.route.queryParams.subscribe(params => {
       this.teamName = params['teamName'];
     });
     this.initForm();
+    // this.getTeamPermissionsForUsers();
+  }
+
+  getTeamPermissionsForUsers() {
+    this.service.get(`user/team/user-permissions?team_id=${this.teamId}&user_id=${this.userId}`).subscribe({
+      next: (resp: any) => {
+
+      },
+      error: (error) => {
+        console.log(error.message);
+      }
+    });
   }
 
   initForm() {

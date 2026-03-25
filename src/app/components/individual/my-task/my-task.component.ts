@@ -43,7 +43,7 @@ export class MyTaskComponent {
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
-    this.userId = localStorage.getItem('userId');
+    this.userId = localStorage.getItem('user_id');
     this.taskVisibility = this.route.snapshot.queryParamMap.get('status') || ' ';
     this.initForm();
     this.dateValidation();
