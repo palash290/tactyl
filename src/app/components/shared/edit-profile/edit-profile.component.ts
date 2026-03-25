@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -22,7 +23,7 @@ export class EditProfileComponent {
   selectedFile!: File;
   userType: any;
 
-  constructor(private service: CommonService, private toastr: NzMessageService) { }
+  constructor(private service: CommonService, private toastr: NzMessageService, private router: Router) { }
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
@@ -116,6 +117,24 @@ export class EditProfileComponent {
       };
       reader.readAsDataURL(this.selectedFile);
     }
+  }
+
+  @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
+
+  deleteAccount() {
+    this.loading = true;
+    this.service.delete(`user/delete-phases`).subscribe({
+      next: (resp: any) => {
+        this.closeModalDelete.nativeElement.click();
+        this.toastr.success(resp.message);
+        this.router.navigate(['/']);
+        this.loading = false;
+      },
+      error: error => {
+        this.loading = false;
+        console.log(error.message);
+      }
+    });
   }
 
 

@@ -20,42 +20,61 @@ export class TeamDashboardComponent {
 
   ngOnInit() {
     this.getDashboard();
-    this.chartOptions1 = {
-      chart: {
-        type: 'line',
-        height: 350,
-        toolbar: { show: false }
-      },
-
-      series: [
-        {
-          name: 'Performance',
-          data: [10, 25, 15, 40, 35, 50, 45]
-        }
-      ],
-
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
-      },
-
-      stroke: {
-        width: 3,
-        curve: 'smooth'
-      },
-
-      markers: {
-        size: 4
-      },
-
-      colors: ['#4f46e5'],
-      title: { align: 'left' }
-    };
   }
 
   getDashboard() {
     this.service.get(`user/dashboard`).subscribe({
       next: (resp: any) => {
         this.dashboardData = resp.data;
+
+        const performance = this.dashboardData?.performance_chart;
+        const teamPerf = Array.isArray(performance?.team_performance) ? performance.team_performance : [];
+        const individualPerf = Array.isArray(performance?.individual_performance) ? performance.individual_performance : [];
+
+        const categoriesSet = new Set<string>();
+        teamPerf.forEach((item: any) => categoriesSet.add(item?.month || ''));
+        individualPerf.forEach((item: any) => categoriesSet.add(item?.month || ''));
+        const categories = Array.from(categoriesSet).filter(Boolean);
+
+        const teamSeries = categories.map((month) => {
+          const match = teamPerf.find((item: any) => item?.month === month);
+          return Number(match?.completion_rate ?? 0);
+        });
+
+        const individualSeries = categories.map((month) => {
+          const match = individualPerf.find((item: any) => item?.month === month);
+          return Number(match?.completion_rate ?? 0);
+        });
+
+        this.chartOptions1 = {
+          chart: {
+            type: 'line',
+            height: 350,
+            toolbar: { show: false }
+          },
+          series: [
+            {
+              name: 'Team Performance',
+              data: teamSeries
+            },
+            {
+              name: 'Individual Performance',
+              data: individualSeries
+            }
+          ],
+          xaxis: {
+            categories
+          },
+          stroke: {
+            width: 3,
+            curve: 'smooth'
+          },
+          markers: {
+            size: 4
+          },
+          colors: ['#4f46e5', '#10b981'],
+          title: { align: 'left' }
+        };
 
         const total = this.dashboardData.total_tasks || 0;
         const completed = this.dashboardData.completed_tasks || 0;

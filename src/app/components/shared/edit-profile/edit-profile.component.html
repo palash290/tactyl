@@ -22,9 +22,15 @@
                                             </div>
                                         </label>
                                     </div>
-                                    <div>
-                                        <h5 class="ct_fs_20 ct_ff_Matter_Medium mb-0">{{first_name}}</h5>
-                                        <p class="mb-0 ct_text_clr_4B5563 ct_fs_15">{{userEmail}}</p>
+                                    <div class="d-flex align-items-center justify-content-between w-100 gap-3">
+                                        <div>
+                                            <h5 class="ct_fs_20 ct_ff_Matter_Medium mb-0">{{first_name}}</h5>
+                                            <p class="mb-0 ct_text_clr_4B5563 ct_fs_15">{{userEmail}}</p>
+                                        </div>
+                                        <button type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                                            data-bs-target="#ct_delete_account" data-bs-toggle="modal">
+                                            Delete Account
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -90,6 +96,39 @@
                             <button class="ct_purple_btn ct_ff_Matter_Medium" (click)="onSubmit()">Save Changes</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete  Modal S -->
+<div class="modal fade ct_custom_modal" id="ct_delete_account" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-0 border-0">
+                <button type="button" class="btn-close ct_close_modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div>
+                    <h1 class="modal-title ct_fs_28 ct_ff_Matter_SemiBold mb-2" id="exampleModalLabel">
+                        Delete Account
+                    </h1>
+                    <p class="mb-0 ct_fs_18 ct_text_clr_4B5563 ct_text_op_08">
+                        Are you sure you want to delete youre acount?
+                    </p>
+                </div>
+                <div class="modal-footer border-0 p-0 ct_mt_30 justify-content-start">
+                    <button #closeModalDelete type="button" class="ct_outline_btn ct_ff_Matter_Medium"
+                        data-bs-dismiss="modal">
+                        No
+                    </button>
+                    <button (click)="deleteAccount()" type="button" class="ct_purple_btn ct_ff_Matter_Medium">
+                        Yes
+                    </button>
                 </div>
             </div>
         </div>
