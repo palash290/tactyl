@@ -36,7 +36,8 @@ export class PermissionsComponent {
     this.service.get(`public/team-permissions`).subscribe({
       next: (resp: any) => {
         const list = Array.isArray(resp) ? resp : resp?.data;
-        this.permissions = Array.isArray(list) ? list : [];
+        this.permissions = (Array.isArray(list) ? list : [])
+        .filter((item: any) => item.permission_id !== 4);
       },
       error: (error) => {
         console.log(error.message);

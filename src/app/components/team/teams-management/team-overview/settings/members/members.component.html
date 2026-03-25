@@ -97,7 +97,7 @@
                         <a *ngIf="teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="openSubs()">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                         </a>
-                        <a *ngIf="teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="openSubs()">
+                        <a *ngIf="is_admin == '1' && teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="openSubs()">
                             <img src="/img/permission.svg" class="ct_icon_24" alt="" title="Permission" />
                         </a>
                         @if(item.status == 'Rejected'){
@@ -110,7 +110,7 @@
                             data-bs-target="#ct_delete_member" data-bs-toggle="modal">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                         </a>
-                        <a *ngIf="teamPermissions.canInviteMembers && !(item.user_id == userId || item.status == 'Pending')"
+                        <a *ngIf="is_admin == '1' && teamPermissions.canInviteMembers && !(item.user_id == userId || item.status == 'Pending')"
                             href="javascript:void(0)" [routerLink]="['/team/user-permissions']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/permission.svg" class="ct_icon_24" alt="" title="Permission" />

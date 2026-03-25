@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        @if(planService.needsGoldUpgrade()){
+        @if(planService.needsGoldUpgrade() && !planService.isBronze()){
         <button class="ct_outline_btn ct_h_40 ct_white_nowrap" (click)="openSubs()">
             Export as CSV
         </button>
