@@ -6,16 +6,20 @@
         </h4>
     </div>
     @if(!planService.needsGoldUpgrade()){
-    @if(is_admin == '1'){
+    @if(teamPermissions.canDeleteTeam || teamPermissions.canEditTeam){
     <div class="d-flex align-items-center gap-3">
+        @if(teamPermissions.canDeleteTeam){
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #fff0f0"
             data-bs-target="#ct_delete_modal" data-bs-toggle="modal">
             <img src="/img/Delete_icon.svg" alt="" title="Delete" />
         </div>
+        }
+        @if(teamPermissions.canEditTeam){
         <div class="ct_icon_53 ct_border_radius_10 ct_cursor_pointer" style="background-color: #e8ecff"
             data-bs-target="#ct_edit_team_modal" data-bs-toggle="modal">
             <img src="/img/Edit _icon.svg" alt="" title="Edit" />
         </div>
+        }
     </div>
     }
     }

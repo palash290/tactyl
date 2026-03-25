@@ -30,6 +30,7 @@ export class BoardComponent {
   selectedBoardId: any = '';
   //userType: any;
   is_admin: any;
+  teamPermissions = this.buildDefaultPermissions(false);
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
@@ -44,9 +45,11 @@ export class BoardComponent {
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
+    // this.showMessage()
     this.teamId = this.route.snapshot.queryParamMap.get('teamId');
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     //this.userType = localStorage.getItem('userType');
+    this.loadPermissions();
     this.initForm();
     this.getBoards();
     // this.service.refresh$
@@ -212,6 +215,70 @@ export class BoardComponent {
       }
     });
   }
+
+  private loadPermissions(): void {
+    if (!this.teamId) return;
+    const raw = localStorage.getItem(this.getPermissionsStorageKey());
+    if (!raw) {
+      this.teamPermissions = this.is_admin == '1'
+        ? this.buildDefaultPermissions(true)
+        : this.buildDefaultPermissions(false);
+      return;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      this.teamPermissions = {
+        ...this.buildDefaultPermissions(false),
+        ...parsed
+      };
+    } catch {
+      this.teamPermissions = this.is_admin == '1'
+        ? this.buildDefaultPermissions(true)
+        : this.buildDefaultPermissions(false);
+    }
+  }
+
+  private buildDefaultPermissions(value: boolean) {
+    return {
+      canEditTeam: value,
+      canDeleteTeam: value,
+      canInviteMembers: value,
+      canAddBoard: value,
+      canEditBoard: value,
+      canDeleteBoard: value,
+      canAddPhase: value,
+      canEditPhase: value,
+      canDeletePhase: value,
+      canAddTask: value,
+      canEditTask: value,
+      canDeleteTask: value
+    };
+  }
+
+  private getPermissionsStorageKey(): string {
+    return `team_permissions_${this.teamId}`;
+  }
+
+//   close(){
+//     this.toastr.remove();
+//   }
+
+// showMessage() {
+//   const messageId: any = this.toastr.create(
+//     'info',
+//     'Click me to close',
+//     { nzDuration: 0 }
+//   );
+
+//   setTimeout(() => {
+//     const el = document.querySelector('.ant-message-notice');
+//     if (el) {
+//       el.addEventListener('click', () => {
+//         this.toastr.remove(messageId); // ✅ correct way
+//       });
+//     }
+//   });
+// }
 
 
 }

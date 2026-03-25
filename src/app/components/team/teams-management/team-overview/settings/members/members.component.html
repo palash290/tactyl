@@ -13,7 +13,7 @@
     </div>
 
     @if(planService.needsGoldUpgrade()){
-    @if(is_admin == '1'){
+    @if(teamPermissions.canInviteMembers){
     <div class="ct_w_100_767">
         <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="openSubs()">
             <img src="/img/plus-circle.svg" alt="" class="me-2" />Invite Members
@@ -21,7 +21,7 @@
     </div>
     }
     } @else {
-    @if(is_admin == '1'){
+    @if(teamPermissions.canInviteMembers){
     <div class="ct_w_100_767">
         <button class="ct_purple_btn ct_h_60 ct_w_100_767" (click)="getAllMembers()" data-bs-target="#ct_add_user_modal"
             data-bs-toggle="modal">
@@ -94,29 +94,29 @@
                         </a>
 
                         @if(planService.needsGoldUpgrade()){
-                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
+                        <a *ngIf="teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="openSubs()">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                         </a>
-                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
+                        <a *ngIf="teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="openSubs()">
                             <img src="/img/permission.svg" class="ct_icon_24" alt="" title="Permission" />
                         </a>
                         @if(item.status == 'Rejected'){
-                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="openSubs()">
+                        <a *ngIf="teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="openSubs()">
                             <img src="/img/re_invite.png" class="ct_icon_24" alt="" title="Re-invite" />
                         </a>
                         }
                         } @else {
-                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="getId(item.user_id)"
+                        <a *ngIf="teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="getId(item.user_id)"
                             data-bs-target="#ct_delete_member" data-bs-toggle="modal">
                             <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                         </a>
-                        <a *ngIf="is_admin == '1' && !(item.user_id == userId || item.status == 'Pending')"
+                        <a *ngIf="teamPermissions.canInviteMembers && !(item.user_id == userId || item.status == 'Pending')"
                             href="javascript:void(0)" [routerLink]="['/team/user-permissions']"
                             [queryParams]="{ memberId: item.user_id, teamId: teamId }">
                             <img src="/img/permission.svg" class="ct_icon_24" alt="" title="Permission" />
                         </a>
                         @if(item.status == 'Rejected'){
-                        <a *ngIf="is_admin == '1'" href="javascript:void(0)" (click)="getId(item.user_id)"
+                        <a *ngIf="teamPermissions.canInviteMembers" href="javascript:void(0)" (click)="getId(item.user_id)"
                             data-bs-target="#ct_reinvite_member" data-bs-toggle="modal">
                             <img src="/img/re_invite.png" class="ct_icon_24" alt="" title="Re-invite" />
                         </a>

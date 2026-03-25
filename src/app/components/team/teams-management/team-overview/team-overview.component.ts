@@ -29,6 +29,7 @@ export class TeamOverviewComponent {
   dashboardData: any;
   activeMainTab: 'overview' | 'board' | 'settings' = 'overview';
   activeSettingsTab: 'users' | 'permissions' | 'phases' = 'users';
+  teamPermissions = this.buildDefaultPermissions(false);
 
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
@@ -50,6 +51,7 @@ export class TeamOverviewComponent {
     this.route.queryParams.subscribe(params => {
       this.teamName = params['teamName'];
     });
+    this.loadPermissions();
     this.initForm();
     // this.getTeamPermissionsForUsers();
   }
@@ -135,6 +137,49 @@ export class TeamOverviewComponent {
   set() {
     this.activeMainTab = 'settings';
     this.activeSettingsTab = 'users';
+  }
+
+  private loadPermissions(): void {
+    if (!this.teamId) return;
+    const raw = localStorage.getItem(this.getPermissionsStorageKey());
+    if (!raw) {
+      this.teamPermissions = this.is_admin == '1'
+        ? this.buildDefaultPermissions(true)
+        : this.buildDefaultPermissions(false);
+      return;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      this.teamPermissions = {
+        ...this.buildDefaultPermissions(false),
+        ...parsed
+      };
+    } catch {
+      this.teamPermissions = this.is_admin == '1'
+        ? this.buildDefaultPermissions(true)
+        : this.buildDefaultPermissions(false);
+    }
+  }
+
+  private buildDefaultPermissions(value: boolean) {
+    return {
+      canEditTeam: value,
+      canDeleteTeam: value,
+      canInviteMembers: value,
+      canAddBoard: value,
+      canEditBoard: value,
+      canDeleteBoard: value,
+      canAddPhase: value,
+      canEditPhase: value,
+      canDeletePhase: value,
+      canAddTask: value,
+      canEditTask: value,
+      canDeleteTask: value
+    };
+  }
+
+  private getPermissionsStorageKey(): string {
+    return `team_permissions_${this.teamId}`;
   }
 
 }

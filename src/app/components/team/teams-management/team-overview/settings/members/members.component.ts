@@ -33,6 +33,7 @@ export class MembersComponent {
   is_admin: any;
   userId: any;
   p: any = 1;
+  teamPermissions = this.buildDefaultPermissions(false);
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   @ViewChild('closeModalDelete') closeModalDelete!: ElementRef;
@@ -52,6 +53,7 @@ export class MembersComponent {
     this.is_admin = this.route.snapshot.queryParamMap.get('is_admin');
     // this.userType = localStorage.getItem('userType');
     this.userEmail = localStorage.getItem('teamEmail');
+    this.loadPermissions();
     this.getTeamMembers();
     // this.getAllMembers();
   }
@@ -272,5 +274,47 @@ export class MembersComponent {
     });
   }
 
+  private loadPermissions(): void {
+    if (!this.teamId) return;
+    const raw = localStorage.getItem(this.getPermissionsStorageKey());
+    if (!raw) {
+      this.teamPermissions = this.is_admin == '1'
+        ? this.buildDefaultPermissions(true)
+        : this.buildDefaultPermissions(false);
+      return;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      this.teamPermissions = {
+        ...this.buildDefaultPermissions(false),
+        ...parsed
+      };
+    } catch {
+      this.teamPermissions = this.is_admin == '1'
+        ? this.buildDefaultPermissions(true)
+        : this.buildDefaultPermissions(false);
+    }
+  }
+
+  private buildDefaultPermissions(value: boolean) {
+    return {
+      canEditTeam: value,
+      canDeleteTeam: value,
+      canInviteMembers: value,
+      canAddBoard: value,
+      canEditBoard: value,
+      canDeleteBoard: value,
+      canAddPhase: value,
+      canEditPhase: value,
+      canDeletePhase: value,
+      canAddTask: value,
+      canEditTask: value,
+      canDeleteTask: value
+    };
+  }
+
+  private getPermissionsStorageKey(): string {
+    return `team_permissions_${this.teamId}`;
+  }
 
 }

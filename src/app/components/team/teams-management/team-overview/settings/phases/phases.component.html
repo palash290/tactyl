@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         @if(planService.needsGoldUpgrade()){
-        @if(is_admin == '1'){
+        @if(teamPermissions.canAddPhase){
         <div class="text-end">
             <button class="ct_purple_btn  ct_w_100_767 ms-auto" (click)="openSubs()">
                 <img src="/img/plus-circle.svg" alt="" class="me-2">Create Phase
@@ -9,7 +9,7 @@
         </div>
         }
         } @else {
-        @if(is_admin == '1'){
+        @if(teamPermissions.canAddPhase){
         <div class="text-end">
             <button class="ct_purple_btn  ct_w_100_767 ms-auto" data-bs-target="#ct_add_phase_modal"
                 data-bs-toggle="modal" (click)="reset()">
@@ -27,7 +27,7 @@
                     <th>Phase Name</th>
                     <th>Total Tasks</th>
                     <th>Description</th>
-                    <th *ngIf="is_admin == '1'">Actions</th>
+                    <th *ngIf="teamPermissions.canEditPhase || teamPermissions.canDeletePhase">Actions</th>
                 </thead>
                 <!-- <tbody cdkDropList (cdkDropListDropped)="drop($event)">
                     <tr
@@ -68,25 +68,25 @@
                             <span class="ct_overlay_text d-inline-block">{{item?.description ? item?.description : '-'}}
                             </span>
                         </td>
-                        <td *ngIf="is_admin == '1'">
+                        <td *ngIf="teamPermissions.canEditPhase || teamPermissions.canDeletePhase">
                             @if(planService.needsGoldUpgrade()){
                             <div class="d-flex align-items-center gap-3">
-                                <a href="javascript:void(0)" (click)="openSubs()">
+                                <a *ngIf="teamPermissions.canEditPhase" href="javascript:void(0)" (click)="openSubs()">
                                     <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" title="Edit" />
                                 </a>
 
-                                <a href="javascript:void(0)" (click)="openSubs()">
+                                <a *ngIf="teamPermissions.canDeletePhase" href="javascript:void(0)" (click)="openSubs()">
                                     <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                                 </a>
                             </div>
                             } @else {
                             <div class="d-flex align-items-center gap-3">
-                                <a href="javascript:void(0)" data-bs-target="#ct_add_phase_modal" data-bs-toggle="modal"
+                                <a *ngIf="teamPermissions.canEditPhase" href="javascript:void(0)" data-bs-target="#ct_add_phase_modal" data-bs-toggle="modal"
                                     (click)="fetchBoardDetails(item)">
                                     <img src="/img/edit_green_icon.png" class="ct_icon_24" alt="" title="Edit" />
                                 </a>
 
-                                <a href="javascript:void(0)" (click)="getId(item)" data-bs-target="#ct_delete_phase"
+                                <a *ngIf="teamPermissions.canDeletePhase" href="javascript:void(0)" (click)="getId(item)" data-bs-target="#ct_delete_phase"
                                     data-bs-toggle="modal">
                                     <img src="/img/Delete_icon.svg" class="ct_icon_24" alt="" title="Delete" />
                                 </a>

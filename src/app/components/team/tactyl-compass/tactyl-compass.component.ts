@@ -79,7 +79,7 @@ export class TactylCompassComponent {
 
   getDetails() {
     this.loading = true;
-    this.service.get(`user/tasks`).subscribe({
+    this.service.get(`user/tasks-compass`).subscribe({
       next: (resp: any) => {
         this.list = resp.data || [];
         this.filteredList = [...this.list];
