@@ -40,7 +40,7 @@
                         <!-- @if(userType == 'team'){ -->
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedTeam"
-                                (change)="applyFilters()">
+                                (change)="onTeamChange()">
                                 <option value="">All Teams</option>
                                 <option *ngFor="let team of teams" [value]="team.team_id">
                                     {{ team.team_name }}
@@ -52,7 +52,7 @@
                         <!-- @if(userType == 'team' || userType == 'individual'){ -->
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedBoard"
-                                (change)="applyFilters()">
+                                [disabled]="!selectedTeam" (change)="onBoardChange()">
                                 <option value="">All Boards</option>
                                 <option *ngFor="let board_name of boards" [value]="board_name.board_id">
                                     {{ board_name.board_name }}
@@ -64,7 +64,7 @@
                         <!-- @if(userType == 'individual'){ -->
                         <div class="ct_w_100_767">
                             <select class="form-control ct_input ct_grey_select" [(ngModel)]="selectedPhase"
-                                (change)="applyFilters()">
+                                [disabled]="!selectedTeam || !selectedBoard" (change)="applyFilters()">
                                 <option value="">All Phases</option>
                                 <option *ngFor="let phase_name of phases" [value]="phase_name.phase_id">
                                     {{ phase_name.phase_name }}

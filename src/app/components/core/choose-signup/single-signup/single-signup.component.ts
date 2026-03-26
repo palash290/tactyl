@@ -22,7 +22,7 @@ export class SingleSignupComponent {
       name: ['', [Validators.required]],
       // designation: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      new_password: ['', [Validators.required, Validators.minLength(8)]],
+      new_password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator()]],
       confirm_password: ['', Validators.required],
     });
     this.Form.get('confirm_password')?.setValidators([
@@ -117,5 +117,24 @@ export class SingleSignupComponent {
     };
   }
 
+  passwordStrengthValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value || '';
+      if (!value) return null;
+
+      const hasUppercase = /[A-Z]/.test(value);
+      const hasSpecial = /[!@#$%^&*(),.?":{}|<>\[\]\\\/_\-+=;']/.test(value);
+
+      const errors: any = {};
+      if (!hasUppercase) {
+        errors.uppercaseRequired = true;
+      }
+      if (!hasSpecial) {
+        errors.specialRequired = true;
+      }
+
+      return Object.keys(errors).length ? errors : null;
+    };
+  }
 
 }

@@ -89,9 +89,19 @@
                         </div>
 
                         <ng-template #checkMinLength>
-                            <div *ngIf="Form.controls['new_password'].errors?.['minlength'];">
+                            <div *ngIf="Form.controls['new_password'].errors?.['minlength']; else checkUppercase">
                                 New password must be at least 8 characters long.
                             </div>
+                            <ng-template #checkUppercase>
+                                <div *ngIf="Form.controls['new_password'].errors?.['uppercaseRequired']; else checkSpecial">
+                                    Must include at least one uppercase letter.
+                                </div>
+                            </ng-template>
+                            <ng-template #checkSpecial>
+                                <div *ngIf="Form.controls['new_password'].errors?.['specialRequired']">
+                                    Must include at least one special character.
+                                </div>
+                            </ng-template>
                         </ng-template>
                     </div>
                 </div>

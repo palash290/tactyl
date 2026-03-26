@@ -225,6 +225,21 @@ export class TactylCompassComponent {
     this.buildCompass(this.filteredList);
   }
 
+  onTeamChange() {
+    if (!this.selectedTeam) {
+      this.selectedBoard = '';
+      this.selectedPhase = '';
+    }
+    this.applyFilters();
+  }
+
+  onBoardChange() {
+    if (!this.selectedBoard) {
+      this.selectedPhase = '';
+    }
+    this.applyFilters();
+  }
+
   taskName: any;
   actualTime: any;
   taskId: any;
